@@ -7,38 +7,49 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import anthony.brenon.realestatemanager.R
+import anthony.brenon.realestatemanager.databinding.CardItemBinding
+import anthony.brenon.realestatemanager.models.Estate
 
 /**
  * Created by Lycast on 28/07/2022.
  */
-class RecyclerAdapter: RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
+class RecyclerAdapter (private var estates: List<Estate>): RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
 
-    //TODO("add list for recycler")
+    private lateinit var binding: CardItemBinding
+
+    fun updateDataEstates(estateList: List<Estate>) {
+        this.estates = estateList
+        this.notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.card_item, parent, false)
-        return ViewHolder(view)
+        binding = CardItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        val estate: Estate = estates[position]
+        holder.bind(estate)
     }
 
-    override fun getItemCount(): Int {
-        return 0
-    }
+    override fun getItemCount(): Int = estates.size
 
-    inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        private var itemImage: ImageView
+
+    inner class ViewHolder(private val itemBinding: CardItemBinding): RecyclerView.ViewHolder(itemBinding.root) {
+
+        fun bind(estate: Estate) {
+            itemBinding.apply {
+                cardLayoutTextView1.text = estate.type
+                cardLayoutTextView2.text = estate.price.toString()
+            }
+        }
 
         init {
-            itemImage = itemView.findViewById(R.id.card_relative_layout_image_view)
-
             itemView.setOnClickListener {
                 val position: Int = absoluteAdapterPosition
-
                 Toast.makeText(itemView.context, "position is : $position", Toast.LENGTH_SHORT).show()
             }
         }
+
     }
 }
