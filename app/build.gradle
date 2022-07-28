@@ -45,9 +45,10 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
 
     // TESTS
-    androidTestImplementation 'junit:junit:4.13.2'
     testImplementation "androidx.test:core:1.4.0"
     testImplementation "androidx.test:monitor:1.5.0"
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'com.androidx.test:runner:1.0.2'
     androidTestImplementation 'com.androidx.test.espresso:espresso-core:3.0.2'
 }

@@ -1,4 +1,4 @@
-package anthony.brenon.realestatemanager
+package anthony.brenon.realestatemanager.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +15,7 @@ class RecyclerAdapter: RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
 
     //TODO("add list for recycler")
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.card_item, parent, false)
         return ViewHolder(view)
     }

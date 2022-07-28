@@ -1,4 +1,4 @@
-package anthony.brenon.realestatemanager
+package anthony.brenon.realestatemanager.ui
 
 import android.os.Bundle
 import android.widget.TextView
