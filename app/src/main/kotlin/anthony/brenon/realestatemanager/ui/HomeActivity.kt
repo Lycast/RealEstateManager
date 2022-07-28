@@ -32,7 +32,7 @@ class HomeActivity : AppCompatActivity() {
     private fun configureTextViewQuantity() {
         val quantity = Utils.convertDollarToEuro(100)
         textViewQuantity.textSize = 20f
-        // you can't put a int int a text view we need to format that
+        // you can't put a int into a text view we need to format that
         textViewQuantity.text = quantity.toString()
     }
 }
