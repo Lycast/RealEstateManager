@@ -1,6 +1,5 @@
 package anthony.brenon.realestatemanager.models
 
-import java.text.DateFormat
 
 /**
  * Created by Lycast on 28/07/2022.

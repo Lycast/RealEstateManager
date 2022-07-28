@@ -3,10 +3,8 @@ package anthony.brenon.realestatemanager.ui
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.Utils
+import anthony.brenon.realestatemanager.R
+import anthony.brenon.realestatemanager.utils.Utils
 
 class HomeActivity : AppCompatActivity() {
 

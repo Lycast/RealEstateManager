@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager;
+package anthony.brenon.realestatemanager.utils;
 
 import android.content.Context;
 import android.net.wifi.WifiManager;

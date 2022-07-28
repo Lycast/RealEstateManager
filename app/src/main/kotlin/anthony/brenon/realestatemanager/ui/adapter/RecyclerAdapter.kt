@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.openclassrooms.realestatemanager.R
+import anthony.brenon.realestatemanager.R
 
 /**
  * Created by Lycast on 28/07/2022.
