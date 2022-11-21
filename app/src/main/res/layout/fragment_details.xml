@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.navigation.DetailsFragment"
+    android:layout_margin="10dp">
+
+    <TextView
+        android:id="@+id/tv_media"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Media"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <ImageView
+        android:id="@+id/details_activity_img_view"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:scaleType="centerCrop"
+        android:contentDescription="descr 1"
+        app:layout_constraintTop_toBottomOf="@id/tv_media"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@id/details_activity_img_view"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <TextView
+        android:id="@+id/details_activity_tv_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ici est la description du bien"
+        app:layout_constraintTop_toBottomOf="@id/tv_description"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linear_layout_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/details_activity_tv_description"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:id="@+id/details_activity_tv_surface"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="surface"/>
+
+        <TextView
+            android:id="@+id/details_activity_tv_room_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="room number"/>
+
+        <TextView
+            android:id="@+id/details_activity_tv_bathroom_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="bathroom number"/>
+
+        <TextView
+            android:id="@+id/details_activity_tv_bedroom_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="bedroom number"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <TextView
+        android:id="@+id/details_activity_tv_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="location"
+        app:layout_constraintTop_toBottomOf="@id/details_activity_tv_description"
+        app:layout_constraintLeft_toRightOf="@id/linear_layout_left"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

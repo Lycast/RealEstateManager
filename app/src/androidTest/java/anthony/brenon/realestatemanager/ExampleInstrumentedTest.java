@@ -1,4 +1,4 @@
-package realestatemanager;
+package anthony.brenon.realestatemanager;
 
 
 import org.junit.Test;
