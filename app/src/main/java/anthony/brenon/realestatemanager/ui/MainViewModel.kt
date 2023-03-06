@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import anthony.brenon.realestatemanager.models.Estate
 import anthony.brenon.realestatemanager.repository.EstateRepository
 
-class MainViewModel ( private val estateRepository: EstateRepository) : ViewModel() {
+class MainViewModel (private val estateRepository: EstateRepository) : ViewModel() {
 
     var estateSelected = MutableLiveData<Estate>()
 

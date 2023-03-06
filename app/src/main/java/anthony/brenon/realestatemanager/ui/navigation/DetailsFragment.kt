@@ -6,9 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.databinding.FragmentDetailsBinding
-import anthony.brenon.realestatemanager.databinding.FragmentListBinding
 import anthony.brenon.realestatemanager.models.Estate
 import anthony.brenon.realestatemanager.ui.MainViewModel
 
