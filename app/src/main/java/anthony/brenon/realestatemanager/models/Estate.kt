@@ -23,4 +23,5 @@ data class Estate (
     var isSale: Boolean = false,
     var onSaleDate: String = "date on sale",
     var dateOfSale: String = "date of sale",
-    var agentInChargeName: String = "agent in charge") : Parcelable
+    var agentInChargeName: String = "agent in charge"
+) : Parcelable

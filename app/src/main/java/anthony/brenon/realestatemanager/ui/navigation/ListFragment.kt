@@ -11,6 +11,7 @@ import anthony.brenon.realestatemanager.databinding.FragmentListBinding
 import anthony.brenon.realestatemanager.di.EstatesList
 import anthony.brenon.realestatemanager.ui.MainViewModel
 import anthony.brenon.realestatemanager.ui.adapter.RecyclerViewEstate
+import anthony.brenon.realestatemanager.utils.NavigationStates
 
 
 class ListFragment : Fragment() {
@@ -28,9 +29,9 @@ class ListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentListBinding.inflate(inflater, container, false)
-        return binding.root
+        ): View {
+            _binding = FragmentListBinding.inflate(inflater, container, false)
+            return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -38,6 +39,7 @@ class ListFragment : Fragment() {
 
         adapter = RecyclerViewEstate(estates.getEstatesList()){
             viewModel.selectThisEstate(it!!)
+            viewModel.selectDetailsStates(NavigationStates.DISPLAY_DETAILS)
         }
         binding.recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         binding.recyclerView.adapter = adapter

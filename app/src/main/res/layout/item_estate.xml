@@ -9,7 +9,7 @@
     android:layout_margin="1dp"
     app:cardBackgroundColor="#A5B9CD9B"
     app:cardCornerRadius="2dp"
-    app:cardElevation="3dp">
+    app:cardElevation="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/card_layout"
@@ -21,6 +21,7 @@
                     android:id="@+id/card_layout_image_view"
                     android:layout_width="75dp"
                     android:layout_height="75dp"
+                    android:layout_marginStart="2dp"
                     android:src="@drawable/img_estate_test_1"
                     android:scaleType="centerCrop"
                     app:layout_constraintLeft_toLeftOf="parent"

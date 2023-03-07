@@ -7,12 +7,14 @@ import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.databinding.ActivityMainBinding
 import anthony.brenon.realestatemanager.repository.EstateRepository
 import anthony.brenon.realestatemanager.ui.navigation.DetailsFragment
 import anthony.brenon.realestatemanager.ui.navigation.ListFragment
+import anthony.brenon.realestatemanager.utils.NavigationStates
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,11 +35,17 @@ class MainActivity : AppCompatActivity() {
         val factory = MainViewModelFactory(repository)
         viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
 
+        displayFragment(ListFragment())
         initDrawer()
+
+        viewModel.detailsNavigationStates.observe(this) {
+            if (it == NavigationStates.DISPLAY_DETAILS ) displayFragment(DetailsFragment())
+            else if (it == NavigationStates.CLOSE_DETAILS ) displayFragment(ListFragment())
+        }
     }
 
-    private fun displayListFrag(){
-        supportFragmentManager.beginTransaction().replace(R.id.fragment_main, ListFragment()).commitAllowingStateLoss()
+    private fun displayFragment(fragment: Fragment){
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_main, fragment).commitAllowingStateLoss()
     }
 
     private fun initDrawer() {
@@ -66,7 +74,6 @@ class MainActivity : AppCompatActivity() {
         if (actionBarDrawerToggle.onOptionsItemSelected(item)) { return true }
         return when (item.itemId) {
             R.id.item_search -> {
-                displayListFrag()
                 true
             }
             else -> {super.onOptionsItemSelected(item)}

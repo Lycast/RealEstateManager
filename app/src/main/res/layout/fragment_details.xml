@@ -17,14 +17,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"/>
 
-    <ImageView
-        android:id="@+id/details_activity_img_view"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:scaleType="centerCrop"
-        android:contentDescription="descr 1"
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:id="@+id/recyclerView_image"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@id/tv_media"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
 
     <TextView
         android:id="@+id/tv_description"
@@ -33,7 +34,7 @@
         android:text="Description"
         android:textStyle="bold"
         android:textSize="20sp"
-        app:layout_constraintTop_toBottomOf="@id/details_activity_img_view"
+        app:layout_constraintTop_toBottomOf="@id/recyclerView_image"
         app:layout_constraintLeft_toLeftOf="parent"/>
 
     <TextView
@@ -53,40 +54,100 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_margin="10dp">
 
+        <!-- Surface -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/surface"
+            android:textStyle="bold"
+            app:drawableStartCompat="@drawable/ic_surface_18"
+            android:drawablePadding="10dp"/>
+
         <TextView
             android:id="@+id/details_activity_tv_surface"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="surface"/>
+            android:layout_marginStart="28dp"/>
+
+        <!-- Number of rooms -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/number_of_rooms"
+            android:textStyle="bold"
+            app:drawableStartCompat="@drawable/ic_home_18"
+            android:drawablePadding="10dp"/>
 
         <TextView
             android:id="@+id/details_activity_tv_room_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="room number"/>
+            android:layout_marginStart="28dp"/>
+
+        <!-- Number of bathrooms -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/number_of_bathrooms"
+            android:textStyle="bold"
+            app:drawableStartCompat="@drawable/ic_hot_tub_18"
+            android:drawablePadding="10dp"/>
 
         <TextView
             android:id="@+id/details_activity_tv_bathroom_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="bathroom number"/>
+            android:layout_marginStart="28dp"/>
+
+        <!-- Number of bedrooms -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/number_of_bedrooms"
+            android:textStyle="bold"
+            app:drawableStartCompat="@drawable/ic_local_hotel_18"
+            android:drawablePadding="10dp"/>
 
         <TextView
             android:id="@+id/details_activity_tv_bedroom_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="bedroom number"/>
+            android:layout_marginStart="28dp"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <!-- Location -->
+    <TextView
+        android:id="@+id/details_activity_tv_location_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/location"
+        android:textStyle="bold"
+        app:drawableStartCompat="@drawable/ic_location_on_18"
+        android:drawablePadding="10dp"
+        app:layout_constraintTop_toBottomOf="@id/details_activity_tv_description"
+        app:layout_constraintLeft_toRightOf="@id/linear_layout_left"/>
 
     <TextView
         android:id="@+id/details_activity_tv_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="location"
-        app:layout_constraintTop_toBottomOf="@id/details_activity_tv_description"
+        android:layout_marginStart="28dp"
+        app:layout_constraintTop_toBottomOf="@id/details_activity_tv_location_title"
         app:layout_constraintLeft_toRightOf="@id/linear_layout_left"/>
+
+    <ImageView
+        android:id="@+id/img_details_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_close_24"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:contentDescription="@string/desc_close_details" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

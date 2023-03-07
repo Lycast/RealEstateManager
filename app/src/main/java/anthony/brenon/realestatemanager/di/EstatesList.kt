@@ -12,7 +12,7 @@ class EstatesList() {
         return listOf(
             Estate(
                 1202,
-                "Maison",
+                "Type DEMO",
                 145210,
                 95,
                 4,
@@ -37,7 +37,7 @@ class EstatesList() {
 
             Estate(
                 150,
-                "Villa",
+                "Type DEMO",
                 188210,
                 95,
                 4,
@@ -62,7 +62,7 @@ class EstatesList() {
 
             Estate(
                 56841,
-                "Appartement",
+                "Type DEMO",
                 1245000,
                 95,
                 4,
