@@ -1,7 +1,15 @@
 package anthony.brenon.realestatemanager.models
 
-data class Agent (
-    val id : Int = 0,
-    val firstName: String = "first name",
-    val secondName: String = "second name"
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "agent_table")
+class Agent (
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "agent_id")
+    val id : Int,
+    @ColumnInfo(name = "agent_first_name")
+    val firstName: String,
+    @ColumnInfo(name = "agent_second_name")
+    val secondName: String
 )

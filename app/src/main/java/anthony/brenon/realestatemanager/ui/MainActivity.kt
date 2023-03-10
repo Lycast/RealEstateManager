@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.databinding.ActivityMainBinding
+import anthony.brenon.realestatemanager.repository.AgentRepository
 import anthony.brenon.realestatemanager.repository.EstateRepository
 import anthony.brenon.realestatemanager.ui.navigation.DetailsFragment
 import anthony.brenon.realestatemanager.ui.navigation.ListFragment
@@ -31,8 +32,9 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        val repository = EstateRepository()
-        val factory = MainViewModelFactory(repository)
+        val estateRepository = EstateRepository()
+        val agentRepository = AgentRepository()
+        val factory = MainViewModelFactory(estateRepository, agentRepository)
         viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
 
         displayFragment(ListFragment())

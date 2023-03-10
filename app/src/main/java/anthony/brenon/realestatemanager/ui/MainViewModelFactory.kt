@@ -2,12 +2,13 @@ package anthony.brenon.realestatemanager.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import anthony.brenon.realestatemanager.repository.AgentRepository
 import anthony.brenon.realestatemanager.repository.EstateRepository
 
-class MainViewModelFactory(private val repository: EstateRepository) : ViewModelProvider.Factory {
+class MainViewModelFactory(private val estateRepository: EstateRepository, private val agentRepository: AgentRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MainViewModel::class.java))
-            return MainViewModel(repository) as T
+            return MainViewModel(estateRepository, agentRepository) as T
         throw IllegalArgumentException("Class ViewModel not found")
     }
 }
