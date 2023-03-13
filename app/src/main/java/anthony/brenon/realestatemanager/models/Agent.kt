@@ -10,6 +10,6 @@ class Agent (
     val id : Int,
     @ColumnInfo(name = "agent_first_name")
     val firstName: String,
-    @ColumnInfo(name = "agent_second_name")
-    val secondName: String
+    @ColumnInfo(name = "agent_last_name")
+    val lastName: String
 )
