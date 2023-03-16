@@ -3,8 +3,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="disconnect">Disconnect</string>
-    <string name="header_title">Header title</string>
-    <string name="header_text">Header text</string>
+    <string name="first_name">FirstName</string>
+    <string name="last_name">LastName</string>
     <!-- to toggle the open close button of the navigation drawer -->
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>

@@ -1,4 +1,4 @@
-package anthony.brenon.realestatemanager.di
+package anthony.brenon.realestatemanager.database
 
 import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.models.Estate

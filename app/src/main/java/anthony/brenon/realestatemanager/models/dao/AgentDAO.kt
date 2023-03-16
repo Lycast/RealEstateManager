@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AgentDAO {
+
     @Query("SELECT * FROM agent_table ORDER BY word ASC")
     fun getAllAgents(): Flow<List<Agent>>
 
@@ -14,4 +15,7 @@ interface AgentDAO {
 
     @Delete
     suspend fun delete(agent: Agent) : Int
+
+    @Query("DELETE FROM agent_table")
+    suspend fun deleteAll()
 }

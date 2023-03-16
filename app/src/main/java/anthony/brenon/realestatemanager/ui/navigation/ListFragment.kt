@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import anthony.brenon.realestatemanager.databinding.FragmentListBinding
-import anthony.brenon.realestatemanager.di.EstatesList
+import anthony.brenon.realestatemanager.database.EstatesList
 import anthony.brenon.realestatemanager.ui.MainViewModel
 import anthony.brenon.realestatemanager.ui.adapter.RecyclerViewEstate
 import anthony.brenon.realestatemanager.utils.NavigationStates

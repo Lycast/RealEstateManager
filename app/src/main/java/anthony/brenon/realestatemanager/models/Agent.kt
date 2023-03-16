@@ -11,5 +11,7 @@ class Agent (
     @ColumnInfo(name = "agent_first_name")
     val firstName: String,
     @ColumnInfo(name = "agent_last_name")
-    val lastName: String
+    val lastName: String,
+    @ColumnInfo(name = "agent_password")
+    val password: String
 )
