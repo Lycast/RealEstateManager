@@ -2,8 +2,10 @@ package anthony.brenon.realestatemanager.ui
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
@@ -14,9 +16,11 @@ import anthony.brenon.realestatemanager.database.AgentRoomDatabase
 import anthony.brenon.realestatemanager.databinding.ActivityMainBinding
 import anthony.brenon.realestatemanager.repository.AgentRepository
 import anthony.brenon.realestatemanager.repository.EstateRepository
+import anthony.brenon.realestatemanager.ui.dialog.DialogAgentConnect
 import anthony.brenon.realestatemanager.ui.navigation.DetailsFragment
 import anthony.brenon.realestatemanager.ui.navigation.ListFragment
 import anthony.brenon.realestatemanager.utils.NavigationStates
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 
@@ -38,24 +42,11 @@ class MainActivity : AppCompatActivity() {
         // Room implementation
 
         // No need to cancel this scope as it'll be torn down with the process
+
         val applicationScope = CoroutineScope(SupervisorJob())
 
         val agentRoomDatabase by lazy { AgentRoomDatabase.getAgentDatabase(this, applicationScope) }
         val agentRepository by lazy { AgentRepository(agentRoomDatabase.agentDao()) }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -91,6 +82,8 @@ class MainActivity : AppCompatActivity() {
         drawerLayout.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.syncState()
 
+
+
         // to make the Navigation drawer icon always appear on the action bar
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
@@ -105,10 +98,19 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (actionBarDrawerToggle.onOptionsItemSelected(item)) { return true }
         return when (item.itemId) {
-            R.id.item_search -> {
+            R.id.item_login -> {
+                DialogAgentConnect().show(supportFragmentManager,"dialog_login")
+                Snackbar.make(binding.root,"click!!",Snackbar.LENGTH_SHORT)
                 true
             }
-            else -> {super.onOptionsItemSelected(item)}
+            R.id.item_exit -> {
+                finishAndRemoveTask()
+                true
+            }
+            else -> {super.onOptionsItemSelected(item) }
         }
     }
+
+    //todo drawer navigation ?????
+
 }

@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface AgentDAO {
 
-    @Query("SELECT * FROM agent_table ORDER BY word ASC")
+    @Query("SELECT * FROM agent_table")
     fun getAllAgents(): Flow<List<Agent>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)

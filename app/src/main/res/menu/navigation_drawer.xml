@@ -5,10 +5,14 @@
         android:id="@+id/group1"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/item_disconnect"
+            android:id="@+id/item_login"
+            android:icon="@drawable/ic_login_24"
+            android:title="@string/login"/>
+
+        <item
+            android:id="@+id/item_exit"
             android:icon="@drawable/ic_power_settings_new_24"
-            android:title="@string/disconnect"
-            android:checked="true" />
+            android:title="@string/exit"/>
 
     </group>
 

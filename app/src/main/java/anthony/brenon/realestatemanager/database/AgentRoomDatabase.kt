@@ -17,7 +17,7 @@ abstract class AgentRoomDatabase : RoomDatabase() {
 
     private class AgentDatabaseCallback(
         private val scope: CoroutineScope
-    ) : RoomDatabase.Callback() {
+    ) : Callback() {
 
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
@@ -29,7 +29,15 @@ abstract class AgentRoomDatabase : RoomDatabase() {
                     agentDAO.deleteAll()
 
                     // Add admin account agent.
-                    var agent = Agent(0,"admin","account","administrator")
+                    var agent = Agent(0,"admin",null,"administrator")
+                    agentDAO.insert(agent)
+
+                    // Add example account 1.
+                    agent = Agent(0,"Maurice","Leroy","maurice")
+                    agentDAO.insert(agent)
+
+                    // Add example account 2.
+                    agent = Agent(0,"Jack","Broken","jack")
                     agentDAO.insert(agent)
                 }
             }
