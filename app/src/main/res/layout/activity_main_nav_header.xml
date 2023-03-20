@@ -11,11 +11,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="12dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:textAppearance="?attr/textAppearanceHeadline6"
         android:text="@string/disconnected"
         android:textSize="10pt"/>
+
+    <TextView
+        android:id="@+id/email_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:textAppearance="?attr/textAppearanceHeadline6"
+        android:text=""
+        android:textSize="6pt"/>
 
 </LinearLayout>

@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -14,12 +16,14 @@ import androidx.lifecycle.ViewModelProvider
 import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.database.AgentRoomDatabase
 import anthony.brenon.realestatemanager.databinding.ActivityMainBinding
+import anthony.brenon.realestatemanager.databinding.ActivityMainNavHeaderBinding
 import anthony.brenon.realestatemanager.repository.AgentRepository
 import anthony.brenon.realestatemanager.repository.EstateRepository
 import anthony.brenon.realestatemanager.ui.dialog.DialogAgentConnect
 import anthony.brenon.realestatemanager.ui.navigation.DetailsFragment
 import anthony.brenon.realestatemanager.ui.navigation.ListFragment
 import anthony.brenon.realestatemanager.utils.NavigationStates
+import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -71,6 +75,16 @@ class MainActivity : AppCompatActivity() {
         // drawer and back button to close drawer
         drawerLayout = binding.myDrawerLayout
         actionBarDrawerToggle = ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close)
+
+        // binding header
+        val header : View = binding.designNavigationView.getHeaderView(0)
+        viewModel.agentSelected.observe(this) {
+            Log.i("MY_LOG", "observe $it")
+            val name : TextView = header.findViewById(R.id.name_header)
+            val email : TextView = header.findViewById(R.id.email_header)
+            name.text = it.nameAgent
+            email.text = it.emailAgent
+        }
 
         // pass the Open and Close toggle for the drawer layout listener
         // to toggle the button
