@@ -42,15 +42,10 @@ class MainActivity : AppCompatActivity() {
         // Room implementation
 
         // No need to cancel this scope as it'll be torn down with the process
-
         val applicationScope = CoroutineScope(SupervisorJob())
 
         val agentRoomDatabase by lazy { AgentRoomDatabase.getAgentDatabase(this, applicationScope) }
         val agentRepository by lazy { AgentRepository(agentRoomDatabase.agentDao()) }
-
-
-
-
 
         // Room implementation
 
@@ -82,10 +77,17 @@ class MainActivity : AppCompatActivity() {
         drawerLayout.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.syncState()
 
-
-
         // to make the Navigation drawer icon always appear on the action bar
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        // listener drawer menu
+        binding.designNavigationView.setNavigationItemSelectedListener {
+            when(it.itemId) {
+                R.id.item_login -> DialogAgentConnect().show(supportFragmentManager,"dialog_login")
+                R.id.item_exit -> finishAndRemoveTask()
+            }
+            true
+        }
     }
 
     // add menu toolbar
@@ -98,19 +100,8 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (actionBarDrawerToggle.onOptionsItemSelected(item)) { return true }
         return when (item.itemId) {
-            R.id.item_login -> {
-                DialogAgentConnect().show(supportFragmentManager,"dialog_login")
-                Snackbar.make(binding.root,"click!!",Snackbar.LENGTH_SHORT)
-                true
-            }
-            R.id.item_exit -> {
-                finishAndRemoveTask()
-                true
-            }
+            R.id.add -> { return true }
             else -> {super.onOptionsItemSelected(item) }
         }
     }
-
-    //todo drawer navigation ?????
-
 }

@@ -11,9 +11,11 @@ import kotlinx.coroutines.launch
 class MainViewModel(private val estateRepository: EstateRepository, private val agentRepository: AgentRepository) : ViewModel() {
 
     var estateSelected = MutableLiveData<Estate>()
+    var agentSelected = MutableLiveData<Agent>()
     var detailsNavigationStates = MutableLiveData<NavigationStates>()
 
     fun selectThisEstate(estate: Estate) { estateSelected.value = estate }
+    fun selectThisAgent(agent: Agent) { agentSelected.value = agent }
     fun selectDetailsStates(navigationStates: NavigationStates) { detailsNavigationStates.value = navigationStates }
 
 

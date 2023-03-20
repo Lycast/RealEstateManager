@@ -29,15 +29,15 @@ abstract class AgentRoomDatabase : RoomDatabase() {
                     agentDAO.deleteAll()
 
                     // Add admin account agent.
-                    var agent = Agent(0,"admin",null,"administrator")
+                    var agent = Agent(0,"Paul","paul@paul.com")
                     agentDAO.insert(agent)
 
                     // Add example account 1.
-                    agent = Agent(0,"Maurice","Leroy","maurice")
+                    agent = Agent(0,"Maurice","maurice@maurice.com")
                     agentDAO.insert(agent)
 
                     // Add example account 2.
-                    agent = Agent(0,"Jack","Broken","jack")
+                    agent = Agent(0,"Jack","jack@jack.com")
                     agentDAO.insert(agent)
                 }
             }
