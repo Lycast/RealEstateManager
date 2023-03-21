@@ -7,17 +7,20 @@
         <item
             android:id="@+id/item_login"
             android:icon="@drawable/ic_login_24"
-            android:title="@string/login"/>
+            android:title="@string/login"
+            android:checkable="false"/>
 
         <item
             android:id="@+id/item_settings"
             android:icon="@drawable/ic_settings_24"
-            android:title="@string/settings"/>
+            android:title="@string/settings"
+            android:checkable="false"/>
 
         <item
             android:id="@+id/item_exit"
             android:icon="@drawable/ic_power_settings_new_24"
-            android:title="@string/exit"/>
+            android:title="@string/exit"
+            android:checkable="false"/>
 
     </group>
 

@@ -57,7 +57,7 @@ class DetailsFragment : Fragment() {
 
     private fun onClickFabClose() {
         binding.imgDetailsClose.setOnClickListener {
-            viewModel.selectDetailsStates(NavigationStates.CLOSE_DETAILS)
+            viewModel.selectNavigationStates(NavigationStates.CLOSE_DETAILS)
             //requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
         }
     }

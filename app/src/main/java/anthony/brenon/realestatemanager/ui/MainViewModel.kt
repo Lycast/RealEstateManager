@@ -12,24 +12,17 @@ class MainViewModel(private val estateRepository: EstateRepository, private val 
 
     var estateSelected = MutableLiveData<Estate>()
     var agentSelected = MutableLiveData<Agent>()
-    var detailsNavigationStates = MutableLiveData<NavigationStates>()
+    var navigationStates = MutableLiveData<NavigationStates>()
 
     fun selectThisEstate(estate: Estate) { estateSelected.value = estate }
     fun selectThisAgent(agent: Agent) { agentSelected.value = agent }
-    fun selectDetailsStates(navigationStates: NavigationStates) { detailsNavigationStates.value = navigationStates }
-
-
+    fun selectNavigationStates(navigationStates: NavigationStates) { this.navigationStates.value = navigationStates }
 
     // ROOM
-    // Using LiveData and caching what allWords returns has several benefits:
-    // - We can put an observer on the data (instead of polling for changes) and only update the
-    //   the UI when the data actually changes.
     // - Repository is completely separated from the UI through the ViewModel.
     val allAgents: LiveData<List<Agent>> = agentRepository.allAgents.asLiveData()
 
-    /**
-     * Launching a new coroutine to insert the data in a non-blocking way
-     */
+    // Launching a new coroutine to insert the data in a non-blocking way
     fun insert(agent: Agent) = viewModelScope.launch {
         agentRepository.insert(agent)
     }

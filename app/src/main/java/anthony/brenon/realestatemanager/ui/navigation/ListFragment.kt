@@ -39,7 +39,7 @@ class ListFragment : Fragment() {
 
         adapter = RecyclerViewEstate(estates.getEstatesList()){
             viewModel.selectThisEstate(it!!)
-            viewModel.selectDetailsStates(NavigationStates.DISPLAY_DETAILS)
+            viewModel.selectNavigationStates(NavigationStates.DISPLAY_DETAILS)
         }
         binding.recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         binding.recyclerView.adapter = adapter

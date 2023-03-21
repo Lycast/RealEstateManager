@@ -7,7 +7,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
@@ -16,15 +15,13 @@ import androidx.lifecycle.ViewModelProvider
 import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.database.AgentRoomDatabase
 import anthony.brenon.realestatemanager.databinding.ActivityMainBinding
-import anthony.brenon.realestatemanager.databinding.ActivityMainNavHeaderBinding
 import anthony.brenon.realestatemanager.repository.AgentRepository
 import anthony.brenon.realestatemanager.repository.EstateRepository
 import anthony.brenon.realestatemanager.ui.dialog.DialogAgentConnect
+import anthony.brenon.realestatemanager.ui.navigation.AddEstateFragment
 import anthony.brenon.realestatemanager.ui.navigation.DetailsFragment
 import anthony.brenon.realestatemanager.ui.navigation.ListFragment
 import anthony.brenon.realestatemanager.utils.NavigationStates
-import com.google.android.material.navigation.NavigationView
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 
@@ -60,9 +57,12 @@ class MainActivity : AppCompatActivity() {
         displayFragment(ListFragment())
         initDrawer()
 
-        viewModel.detailsNavigationStates.observe(this) {
-            if (it == NavigationStates.DISPLAY_DETAILS ) displayFragment(DetailsFragment())
-            else if (it == NavigationStates.CLOSE_DETAILS ) displayFragment(ListFragment())
+        viewModel.navigationStates.observe(this) {
+            when (it) {
+                NavigationStates.DISPLAY_DETAILS -> displayFragment(DetailsFragment())
+                NavigationStates.CLOSE_DETAILS -> displayFragment(ListFragment())
+                NavigationStates.CLOSE_CREATE -> displayFragment(ListFragment())
+            }
         }
     }
 
@@ -114,7 +114,10 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (actionBarDrawerToggle.onOptionsItemSelected(item)) { return true }
         return when (item.itemId) {
-            R.id.add -> { return true }
+            R.id.item_add -> {
+                displayFragment(AddEstateFragment())
+                return true
+            }
             else -> {super.onOptionsItemSelected(item) }
         }
     }
