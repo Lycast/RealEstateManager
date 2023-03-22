@@ -40,9 +40,9 @@ class DetailsFragment : Fragment() {
 
     private fun populateView(estate: Estate ) {
         binding.apply {
-            initRVImage(estate.photos)
+            //initRVImage(estate.photos)
             detailsActivityTvDescription.text = estate.description
-            detailsActivityTvSurface.text = "${estate.surface} m²"
+            detailsActivityTvSurface.text = "${estate.surface} sq m"
             detailsActivityTvRoomNumber.text = estate.roomsNumber.toString()
             detailsActivityTvLocation.text = estate.address
         }

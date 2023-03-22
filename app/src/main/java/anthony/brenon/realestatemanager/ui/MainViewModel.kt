@@ -12,18 +12,24 @@ class MainViewModel(private val estateRepository: EstateRepository, private val 
 
     var estateSelected = MutableLiveData<Estate>()
     var agentSelected = MutableLiveData<Agent>()
+
     var navigationStates = MutableLiveData<NavigationStates>()
 
     fun selectThisEstate(estate: Estate) { estateSelected.value = estate }
     fun selectThisAgent(agent: Agent) { agentSelected.value = agent }
+
     fun selectNavigationStates(navigationStates: NavigationStates) { this.navigationStates.value = navigationStates }
 
     // ROOM
     // - Repository is completely separated from the UI through the ViewModel.
     val allAgents: LiveData<List<Agent>> = agentRepository.allAgents.asLiveData()
+    val allEstates: LiveData<List<Estate>> = estateRepository.allEstates.asLiveData()
 
     // Launching a new coroutine to insert the data in a non-blocking way
     fun insert(agent: Agent) = viewModelScope.launch {
         agentRepository.insert(agent)
+    }
+    fun insert(estate: Estate) = viewModelScope.launch {
+        estateRepository.insert(estate)
     }
 }

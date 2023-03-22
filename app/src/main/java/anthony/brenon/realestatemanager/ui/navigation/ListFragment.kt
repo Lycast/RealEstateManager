@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import anthony.brenon.realestatemanager.databinding.FragmentListBinding
-import anthony.brenon.realestatemanager.database.EstatesList
 import anthony.brenon.realestatemanager.ui.MainViewModel
 import anthony.brenon.realestatemanager.ui.adapter.RecyclerViewEstate
 import anthony.brenon.realestatemanager.utils.NavigationStates
@@ -23,7 +22,6 @@ class ListFragment : Fragment() {
     private val viewModel by activityViewModels<MainViewModel>()
 
     private lateinit var adapter: RecyclerViewEstate
-    private var estates: EstatesList = EstatesList()
 
 
     override fun onCreateView(
@@ -37,12 +35,22 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = RecyclerViewEstate(estates.getEstatesList()){
+        setRecyclerViewEstates()
+    }
+
+    private fun setRecyclerViewEstates() {
+
+        adapter = RecyclerViewEstate(){
             viewModel.selectThisEstate(it!!)
             viewModel.selectNavigationStates(NavigationStates.DISPLAY_DETAILS)
         }
+
         binding.recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         binding.recyclerView.adapter = adapter
+
+        viewModel.allEstates.observe(requireActivity()) {
+            adapter.setData(it)
+        }
     }
 
     override fun onDestroyView() {

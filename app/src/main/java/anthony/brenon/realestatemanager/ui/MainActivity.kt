@@ -13,7 +13,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import anthony.brenon.realestatemanager.R
-import anthony.brenon.realestatemanager.database.AgentRoomDatabase
+import anthony.brenon.realestatemanager.database.REMRoomDatabase
 import anthony.brenon.realestatemanager.databinding.ActivityMainBinding
 import anthony.brenon.realestatemanager.repository.AgentRepository
 import anthony.brenon.realestatemanager.repository.EstateRepository
@@ -45,12 +45,11 @@ class MainActivity : AppCompatActivity() {
         // No need to cancel this scope as it'll be torn down with the process
         val applicationScope = CoroutineScope(SupervisorJob())
 
-        val agentRoomDatabase by lazy { AgentRoomDatabase.getAgentDatabase(this, applicationScope) }
-        val agentRepository by lazy { AgentRepository(agentRoomDatabase.agentDao()) }
+        val remRoomDatabase by lazy { REMRoomDatabase.getAgentDatabase(this, applicationScope) }
+        val agentRepository by lazy { AgentRepository(remRoomDatabase.agentDao()) }
+        val estateRepository by lazy { EstateRepository(remRoomDatabase.estateDao()) }
 
         // Room implementation
-
-        val estateRepository by lazy { EstateRepository() }
         val factory = MainViewModelFactory(estateRepository, agentRepository)
         viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
 

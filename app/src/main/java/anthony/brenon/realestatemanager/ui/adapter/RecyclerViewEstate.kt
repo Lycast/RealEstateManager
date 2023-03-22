@@ -10,11 +10,16 @@ import anthony.brenon.realestatemanager.models.Estate
  * Created by Lycast on 28/07/2022.
  */
 class RecyclerViewEstate (
-    private var estates: List<Estate>,
-    private val onSelect: (Estate?) -> Unit,
+    private val onSelect: (Estate?) -> Unit
     ): RecyclerView.Adapter<RecyclerViewEstate.ViewHolder>() {
 
     private lateinit var binding: ItemEstateBinding
+    private var estates: List<Estate> = arrayListOf()
+
+    fun setData(estatesList: List<Estate>) {
+        this.estates = estatesList
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         binding = ItemEstateBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -33,7 +38,7 @@ class RecyclerViewEstate (
 
         fun bind(estate: Estate, onSelect: (Estate?) -> Unit) {
             itemBinding.apply {
-                cardLayoutImageView.setImageResource(estate.photos[0])
+                //cardLayoutImageView.setImageResource(estate.photos[0])
                 cardLayoutTextView1.text = estate.type
                 cardLayoutTextView2.text = estate.address
                 cardLayoutTextView3.text = estate.price.toString()

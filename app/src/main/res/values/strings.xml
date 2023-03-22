@@ -21,7 +21,7 @@
     <string name="login">Login</string>
     <string name="logout">Logout</string>
     <string name="exit">Exit</string>
-    <string name="disconnected">Disconnected</string>
+    <string name="not_connected">Not connected</string>
     <string name="connect">Connect</string>
     <string name="create">Create</string>
     <string name="cancel">Cancel</string>
