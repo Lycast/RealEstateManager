@@ -1,10 +1,12 @@
 package anthony.brenon.realestatemanager.ui.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import anthony.brenon.realestatemanager.databinding.ItemEstateBinding
 import anthony.brenon.realestatemanager.models.Estate
+import anthony.brenon.realestatemanager.utils.PictureConverter
 
 /**
  * Created by Lycast on 28/07/2022.
@@ -16,6 +18,7 @@ class RecyclerViewEstate (
     private lateinit var binding: ItemEstateBinding
     private var estates: List<Estate> = arrayListOf()
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setData(estatesList: List<Estate>) {
         this.estates = estatesList
         notifyDataSetChanged()
@@ -38,7 +41,7 @@ class RecyclerViewEstate (
 
         fun bind(estate: Estate, onSelect: (Estate?) -> Unit) {
             itemBinding.apply {
-                //cardLayoutImageView.setImageResource(estate.photos[0])
+                cardLayoutImageView.setImageBitmap(estate.picture)
                 cardLayoutTextView1.text = estate.type
                 cardLayoutTextView2.text = estate.address
                 cardLayoutTextView3.text = estate.price.toString()

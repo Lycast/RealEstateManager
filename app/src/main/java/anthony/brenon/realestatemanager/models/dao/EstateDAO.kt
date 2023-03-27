@@ -18,4 +18,14 @@ interface EstateDAO {
 
     @Query("DELETE FROM estate_table")
     suspend fun deleteAll()
+
+    // Example image room
+//    @Insert(onConflict = OnConflictStrategy.REPLACE)
+//    fun upsertByReplacement(image: List<ImageTest>)
+//    @Query("SELECT * FROM image")
+//    fun getAll(): List<ImageTest>
+//    @Query("SELECT * FROM image WHERE id IN (:arg0)")
+//    fun findByIds(imageTestIds: List<Int>): List<ImageTest>
+//    @Delete
+//    fun delete(imageTest: ImageTest)
 }

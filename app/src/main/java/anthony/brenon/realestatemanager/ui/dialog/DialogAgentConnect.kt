@@ -59,7 +59,6 @@ class DialogAgentConnect : DialogFragment(), AdapterView.OnItemSelectedListener 
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        Log.i("MY_TAG", "agent selected = ${agentsData[position]}")
         agentSelected = agentsData[position]
     }
 

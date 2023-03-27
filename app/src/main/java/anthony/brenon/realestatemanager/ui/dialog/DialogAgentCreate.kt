@@ -14,8 +14,6 @@ class DialogAgentCreate : DialogFragment() {
     private lateinit var dialogBinding: DialogAgentCreateBinding
     val viewModel by activityViewModels<MainViewModel>()
 
-
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         dialogBinding = DialogAgentCreateBinding.inflate(layoutInflater)
         return activity?.let {
@@ -23,6 +21,7 @@ class DialogAgentCreate : DialogFragment() {
             alertDialog.setView(dialogBinding.root)
 
             alertDialog.setPositiveButton(R.string.create) { _, _ ->
+                //todo not yet implemented
                 dismiss()
             }
 

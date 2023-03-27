@@ -1,6 +1,8 @@
 package anthony.brenon.realestatemanager.ui
 
 
+import android.database.CursorWindow
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -15,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.database.REMRoomDatabase
 import anthony.brenon.realestatemanager.databinding.ActivityMainBinding
+import anthony.brenon.realestatemanager.models.Estate
 import anthony.brenon.realestatemanager.repository.AgentRepository
 import anthony.brenon.realestatemanager.repository.EstateRepository
 import anthony.brenon.realestatemanager.ui.dialog.DialogAgentConnect
@@ -24,6 +27,8 @@ import anthony.brenon.realestatemanager.ui.navigation.ListFragment
 import anthony.brenon.realestatemanager.utils.NavigationStates
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
+import java.lang.reflect.Field
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,8 +36,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
 
     // drawer init
-    lateinit var drawerLayout: DrawerLayout
-    lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,12 +62,30 @@ class MainActivity : AppCompatActivity() {
         initDrawer()
 
         viewModel.navigationStates.observe(this) {
-            when (it) {
+            when (it!!) {
                 NavigationStates.DISPLAY_DETAILS -> displayFragment(DetailsFragment())
                 NavigationStates.CLOSE_DETAILS -> displayFragment(ListFragment())
                 NavigationStates.CLOSE_CREATE -> displayFragment(ListFragment())
             }
         }
+
+        try {
+            val field: Field = CursorWindow::class.java.getDeclaredField("sCursorWindowSize")
+            field.setAccessible(true)
+            field.set(null, 100 * 1024 * 1024) //the 100MB is the new size
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        addEstate()
+    }
+    private fun addEstate() {
+            // load bitmap image
+            val imageBitmap = BitmapFactory.decodeResource(resources, R.drawable.img_estate_test_2)
+            val estate = Estate("House",41480000, 750,8,"description too long"
+                ,imageBitmap
+                ,"New York","idk",false,"sale date","date sale","maurice")
+            viewModel.insert(estate)
     }
 
     private fun displayFragment(fragment: Fragment){

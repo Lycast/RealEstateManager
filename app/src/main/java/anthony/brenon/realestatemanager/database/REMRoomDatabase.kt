@@ -1,18 +1,18 @@
 package anthony.brenon.realestatemanager.database
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteDatabase
 import anthony.brenon.realestatemanager.models.Agent
 import anthony.brenon.realestatemanager.models.Estate
 import anthony.brenon.realestatemanager.models.dao.AgentDAO
 import anthony.brenon.realestatemanager.models.dao.EstateDAO
+import anthony.brenon.realestatemanager.utils.PictureConverter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Database(entities = [Agent::class, Estate::class], version = 1, exportSchema = false)
+@TypeConverters(PictureConverter::class)
 abstract class REMRoomDatabase : RoomDatabase() {
 
     abstract fun agentDao() : AgentDAO
@@ -26,49 +26,47 @@ abstract class REMRoomDatabase : RoomDatabase() {
             super.onCreate(db)
             INSTANCE?.let {
 
-                // Agent injection
+                // agent injection
                 scope.launch {
                     val agentDAO = it.agentDao()
 
                     // Delete all content here.
                     agentDAO.deleteAll()
                     // Add example account 1.
-                    var agent = Agent(0,"Paul","paul@paul.com")
+                    var agent = Agent("Paul","paul@paul.com")
                     agentDAO.insert(agent)
                     // Add example account 2.
-                    agent = Agent(0,"Maurice","maurice@maurice.com")
+                    agent = Agent("Maurice","maurice@maurice.com")
                     agentDAO.insert(agent)
                     // Add example account 3.
-                    agent = Agent(0,"Jack","jack@jack.com")
+                    agent = Agent("Jack","jack@jack.com")
                     agentDAO.insert(agent)
                 }
 
-                // Estate injection
-                scope.launch {
-                    val estateDAO = it.estateDao()
-
-                    // Delete all content here.
-                    estateDAO.deleteAll()
-                    // Add example account 1.
-                    var estate = Estate(0,"House",41480000, 750,8,"description too long"
-//                        , listOf(
-//                        R.drawable.img_estate_test_1,
-//                        R.drawable.img_estate_test_2,
-//                        R.drawable.img_estate_test_3)
-                        ,"New York","idk",false,"sale date","date sale","maurice")
-                    estateDAO.insert(estate)
-                    // Add example account 2.
-                    estate = Estate(0,"Flat",17870000, 50,12,"description too long"
-//                        , listOf(
-//                        R.drawable.img_estate_test_1,
-//                        R.drawable.img_estate_test_2,
-//                        R.drawable.img_estate_test_3)
-                        ,"Manhattan","idk",false,"sale date","date sale","paul")
-                    estateDAO.insert(estate)
-                    // Add example account 3.
-                    //estate = Estate(0,"Jack","jack@jack.com")
-                    //estateDAO.insert(estate)
-                }
+//                // estate injection
+//                scope.launch {
+//                    val estateDAO = it.estateDao()
+//                    val resourcesInit = Resources.getSystem()
+//                    val imageBitmap = BitmapFactory.decodeResource(resourcesInit, R.drawable.img_estate_test_2)
+//
+//                    // load bitmap image
+//                    val pictureConverter = PictureConverter()
+//
+//                    // Delete all content here.
+//                    estateDAO.deleteAll()
+//                    // Add example estate 1.
+//                    //var image = pictureConverter.compressImage(pictureConverter.fromBitmap(pictures.pictures[0]))
+//                    var estate = Estate("House",41480000, 750,8,"description too long"
+//                        ,pictureConverter.fromBitmap(imageBitmap)
+//                        ,"New York","idk",false,"sale date","date sale","maurice")
+//                    estateDAO.insert(estate)
+//                    // Add example estate 2.
+//                    //image = pictureConverter.compressImage(pictureConverter.fromBitmap(pictures.pictures[1]))
+//                    estate = Estate("Flat",17870000, 500,12,"description too long"
+//                        ,pictureConverter.fromBitmap(imageBitmap)
+//                        ,"Manhattan","idk",false,"sale date","date sale","paul")
+//                    estateDAO.insert(estate)
+//                }
             }
         }
     }
