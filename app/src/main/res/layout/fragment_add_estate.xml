@@ -1,18 +1,197 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="8dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
+
+    <EditText
+        android:id="@+id/add_estate_et_type"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/type"
+        android:paddingHorizontal="10dp"
+        android:inputType="none"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/add_estate_btn_camera"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/add_estate_et_surface"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/add_estate_et_surface"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/surface"
+        android:paddingHorizontal="10dp"
+        android:inputType="number"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/add_estate_btn_camera"
+        app:layout_constraintStart_toEndOf="@id/add_estate_et_type"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:autofillHints="" />
+
+
+    <EditText
+        android:id="@+id/add_estate_et_price"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/price"
+        android:paddingHorizontal="10dp"
+        android:inputType="number"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/add_estate_et_type"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/add_estate_et_nb_room"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/add_estate_et_nb_room"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="add fragment"
+        android:hint="@string/room"
+        android:paddingHorizontal="10dp"
+        android:inputType="number"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/add_estate_et_type"
+        app:layout_constraintStart_toEndOf="@id/add_estate_et_price"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:autofillHints="" />
+
+
+    <EditText
+        android:id="@+id/add_estate_et_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/address"
+        android:paddingHorizontal="10dp"
+        android:inputType="none"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/add_estate_et_price"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/add_estate_et_interesting_point"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/interesting_point"
+        android:paddingHorizontal="10dp"
+        android:inputType="none"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/add_estate_et_address"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/add_estate_et_start_sale"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/start_sale"
+        android:paddingHorizontal="10dp"
+        android:inputType="none"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/add_estate_et_interesting_point"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/add_estate_et_end_sale"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/add_estate_et_end_sale"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/end_sale"
+        android:paddingHorizontal="10dp"
+        android:inputType="none"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/add_estate_et_interesting_point"
+        app:layout_constraintStart_toEndOf="@id/add_estate_et_start_sale"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/add_estate_et_status"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/status"
+        android:paddingHorizontal="10dp"
+        android:inputType="none"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/add_estate_et_start_sale"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/add_estate_et_agent"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/add_estate_et_agent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/agent"
+        android:paddingHorizontal="10dp"
+        android:inputType="none"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/add_estate_et_end_sale"
+        app:layout_constraintStart_toEndOf="@id/add_estate_et_status"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:autofillHints="" />
+
+
+    <EditText
+        android:id="@+id/add_estate_et_description"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:hint="@string/description"
+        android:paddingHorizontal="10dp"
+        android:gravity="top"
+        android:inputType="textLongMessage"
+        android:maxLines="10"
+        android:lineSpacingMultiplier="1.8"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/add_estate_et_agent"
+        app:layout_constraintBottom_toTopOf="@id/btn_add_estate_cancel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:autofillHints="" />
+
+
+
+
+    <Button
+        android:id="@+id/add_estate_btn_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_photo"
+        android:drawableEnd="@drawable/baseline_photo_camera_24"
+        android:drawablePadding="10dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintRight_toLeftOf="@id/add_estate_btn_folder"/>
+
+    <Button
+        android:id="@+id/add_estate_btn_folder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_photo"
+        android:drawableEnd="@drawable/baseline_folder_24"
+        android:drawablePadding="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/add_estate_btn_camera"/>
 
     <Button
         android:id="@+id/btn_add_estate_create"

@@ -1,4 +1,4 @@
-package anthony.brenon.realestatemanager.models.dao
+package anthony.brenon.realestatemanager.database.dao
 
 import androidx.room.*
 import anthony.brenon.realestatemanager.models.Estate
@@ -19,13 +19,7 @@ interface EstateDAO {
     @Query("DELETE FROM estate_table")
     suspend fun deleteAll()
 
-    // Example image room
-//    @Insert(onConflict = OnConflictStrategy.REPLACE)
-//    fun upsertByReplacement(image: List<ImageTest>)
-//    @Query("SELECT * FROM image")
-//    fun getAll(): List<ImageTest>
-//    @Query("SELECT * FROM image WHERE id IN (:arg0)")
-//    fun findByIds(imageTestIds: List<Int>): List<ImageTest>
-//    @Delete
-//    fun delete(imageTest: ImageTest)
+    //todo implement get estate by id for put ids of images
+//    @Query("SELECT * FROM estate_table WHERE estateId = :estateId")
+//    fun getEstateById(estateId: Int): Flow<List<Picture>>
 }

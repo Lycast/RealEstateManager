@@ -3,16 +3,16 @@ package anthony.brenon.realestatemanager.ui
 import androidx.lifecycle.*
 import anthony.brenon.realestatemanager.models.Agent
 import anthony.brenon.realestatemanager.models.Estate
+import anthony.brenon.realestatemanager.models.Picture
 import anthony.brenon.realestatemanager.repository.AgentRepository
 import anthony.brenon.realestatemanager.repository.EstateRepository
 import anthony.brenon.realestatemanager.utils.NavigationStates
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val estateRepository: EstateRepository, private val agentRepository: AgentRepository) : ViewModel() {
+class MainViewModel(private val agentRepository : AgentRepository, private val estateRepository : EstateRepository) : ViewModel() {
 
     var estateSelected = MutableLiveData<Estate>()
     var agentSelected = MutableLiveData<Agent>()
-
     var navigationStates = MutableLiveData<NavigationStates>()
 
     fun selectThisEstate(estate: Estate) { estateSelected.value = estate }
@@ -24,12 +24,16 @@ class MainViewModel(private val estateRepository: EstateRepository, private val 
     // - Repository is completely separated from the UI through the ViewModel.
     val allAgents: LiveData<List<Agent>> = agentRepository.allAgents.asLiveData()
     val allEstates: LiveData<List<Estate>> = estateRepository.allEstates.asLiveData()
+    fun getPicturesByEstate(estateId: Int) : LiveData<List<Picture>> { return estateRepository.getPicturesByEstate(estateId).asLiveData() }
 
     // Launching a new coroutine to insert the data in a non-blocking way
-    fun insert(agent: Agent) = viewModelScope.launch {
-        agentRepository.insert(agent)
+    fun insertAgent(agent: Agent) = viewModelScope.launch {
+        agentRepository.insertAgent(agent)
     }
-    fun insert(estate: Estate) = viewModelScope.launch {
-        estateRepository.insert(estate)
+    fun insertEstate(estate: Estate) = viewModelScope.launch {
+        estateRepository.insertEstate(estate)
+    }
+    fun insertPicture(picture: Picture) = viewModelScope.launch {
+        estateRepository.insertPicture(picture)
     }
 }

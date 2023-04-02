@@ -3,7 +3,6 @@ package anthony.brenon.realestatemanager.ui.dialog
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -40,6 +39,7 @@ class DialogAgentConnect : DialogFragment(), AdapterView.OnItemSelectedListener 
             dialogBinding.agentSpinner.onItemSelectedListener = this
 
             viewModel.allAgents.observe(requireActivity()) { agents ->
+                if (agents.isEmpty()) { DialogAgentCreate().show(parentFragmentManager, "dialog_agent_create") }
                 // access the items of the list
                 agentsData.addAll(agents)
                 adapter.notifyDataSetChanged()

@@ -1,8 +1,6 @@
 package anthony.brenon.realestatemanager.models
 
 
-import android.graphics.Bitmap
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -11,7 +9,7 @@ import androidx.room.PrimaryKey
  * Created by Lycast on 28/07/2022.
  */
 @Entity(tableName = "estate_table")
-class Estate(
+data class Estate(
 
     var type: String,
 
@@ -23,8 +21,8 @@ class Estate(
 
     var description: String,
 
-    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
-    var picture: Bitmap,
+//    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
+//    var picture: Bitmap,
 
     var address: String,
 
@@ -37,8 +35,8 @@ class Estate(
     var dateOfSale: String,
 
     var agentInChargeName: String
-
-) {
+    )
+{
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 }

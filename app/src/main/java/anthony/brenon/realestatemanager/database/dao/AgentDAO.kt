@@ -1,4 +1,4 @@
-package anthony.brenon.realestatemanager.models.dao
+package anthony.brenon.realestatemanager.database.dao
 
 import androidx.room.*
 import anthony.brenon.realestatemanager.models.Agent

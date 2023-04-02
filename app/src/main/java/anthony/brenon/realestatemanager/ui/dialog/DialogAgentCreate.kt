@@ -7,6 +7,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.databinding.DialogAgentCreateBinding
+import anthony.brenon.realestatemanager.models.Agent
 import anthony.brenon.realestatemanager.ui.MainViewModel
 
 class DialogAgentCreate : DialogFragment() {
@@ -21,8 +22,11 @@ class DialogAgentCreate : DialogFragment() {
             alertDialog.setView(dialogBinding.root)
 
             alertDialog.setPositiveButton(R.string.create) { _, _ ->
-                //todo not yet implemented
-                dismiss()
+                val name = dialogBinding.createDialEtName.text.toString()
+                val email = dialogBinding.createDialEtEmail.text.toString()
+                val agentCreated = Agent(name, email)
+                viewModel.insertAgent(agentCreated)
+                DialogAgentConnect().show(childFragmentManager,"dialog_connect")
             }
 
             alertDialog.setNegativeButton(R.string.cancel) { _, _ ->

@@ -2,7 +2,7 @@ package anthony.brenon.realestatemanager.repository
 
 import androidx.annotation.WorkerThread
 import anthony.brenon.realestatemanager.models.Agent
-import anthony.brenon.realestatemanager.models.dao.AgentDAO
+import anthony.brenon.realestatemanager.database.dao.AgentDAO
 import kotlinx.coroutines.flow.Flow
 
 // Declares the DAO as a private property in the constructor. Pass in the DAO
@@ -18,7 +18,7 @@ class AgentRepository(private val agentDAO: AgentDAO) {
     // off the main thread.
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun insert(agent: Agent) {
+    suspend fun insertAgent(agent: Agent) {
         agentDAO.insert(agent)
     }
 }
