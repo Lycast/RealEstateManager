@@ -13,6 +13,11 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
 import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.RealEstateManagerApp
 import anthony.brenon.realestatemanager.databinding.ActivityMainBinding
@@ -31,6 +36,8 @@ class MainActivity : AppCompatActivity() {
         MainViewModelFactory((application as RealEstateManagerApp).agentRepository, (application as RealEstateManagerApp).estateRepository)
     }
 
+    private lateinit var appBarConfiguration: AppBarConfiguration
+
     // drawer init
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
@@ -43,28 +50,21 @@ class MainActivity : AppCompatActivity() {
 
         displayFragment(ListFragment())
         initDrawer()
-        setNavigation()
 
         // set field room for image
         setFieldRoom()
+
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+        appBarConfiguration = AppBarConfiguration(navController.graph)
+        setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
-    private fun setNavigation() {
-
-        viewModel.navigationStates.observe(this) {
-            when (it!!) {
-                NavigationStates.DISPLAY_DETAILS -> displayFragment(DetailsFragment())
-                NavigationStates.CLOSE_DETAILS -> displayFragment(ListFragment())
-                NavigationStates.CLOSE_CREATE -> displayFragment(ListFragment())
-            }
-        }
-
-        // when tab land
-        if ( binding.fragmentDetailsMain != null ) {
-            viewModel.estateSelected.observe(this) { estate ->
-                if ( estate != null) binding.fragmentDetailsMain!!.visibility = View.VISIBLE
-            }
-        }
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(R.id.nav_host_fragment)
+        return navController.navigateUp(appBarConfiguration)
+                || super.onSupportNavigateUp()
     }
 
     private fun setFieldRoom() {
@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun displayFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction().replace(R.id.fragment_main, fragment)
+        supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment)
             .commitAllowingStateLoss()
     }
 

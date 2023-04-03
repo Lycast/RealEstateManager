@@ -39,4 +39,5 @@
     <string name="description">description</string>
     <string name="enter_name">enter name</string>
     <string name="enter_email">enter email</string>
+    <string name="details_fragment">details fragment</string>
 </resources>
