@@ -1,8 +1,10 @@
 package anthony.brenon.realestatemanager.models
 
 
+
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+
 
 
 /**
@@ -13,16 +15,13 @@ data class Estate(
 
     var type: String,
 
-    var price: Int,
+    var price: String,
 
     var surface: Int,
 
     var roomsNumber: Int,
 
     var description: String,
-
-//    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
-//    var picture: Bitmap,
 
     var address: String,
 
@@ -32,7 +31,7 @@ data class Estate(
 
     var onSaleDate: String,
 
-    var dateOfSale: String,
+    var dateOfSale: String?,
 
     var agentInChargeName: String
     )

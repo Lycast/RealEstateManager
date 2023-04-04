@@ -6,11 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.databinding.FragmentListBinding
 import anthony.brenon.realestatemanager.ui.MainViewModel
 import anthony.brenon.realestatemanager.ui.adapter.RecyclerViewEstate
-import anthony.brenon.realestatemanager.utils.NavigationStates
 
 
 class ListFragment : Fragment() {
@@ -40,9 +41,9 @@ class ListFragment : Fragment() {
 
     private fun setRecyclerViewEstates() {
 
-        adapter = RecyclerViewEstate(){
+        adapter = RecyclerViewEstate {
             viewModel.selectThisEstate(it!!)
-            viewModel.selectNavigationStates(NavigationStates.DISPLAY_DETAILS)
+            Navigation.findNavController(binding.root).navigate(R.id.item_detail_fragment)
         }
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireActivity())

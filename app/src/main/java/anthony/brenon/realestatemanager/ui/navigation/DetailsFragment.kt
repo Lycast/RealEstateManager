@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.Navigation
+import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.databinding.FragmentDetailsBinding
 import anthony.brenon.realestatemanager.models.Estate
 import anthony.brenon.realestatemanager.ui.MainViewModel
-import anthony.brenon.realestatemanager.ui.adapter.RecyclerViewImage
-import anthony.brenon.realestatemanager.utils.NavigationStates
 
 class DetailsFragment : Fragment() {
 
@@ -20,8 +20,8 @@ class DetailsFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel by activityViewModels<MainViewModel>()
 
-    private lateinit var adapter : RecyclerViewImage
-    private lateinit var images : List<Int>
+//    private lateinit var adapter : RecyclerViewImage
+//    private lateinit var images : List<Int>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +40,7 @@ class DetailsFragment : Fragment() {
 
     private fun populateView(estate: Estate ) {
         binding.apply {
-            //initRVImage(estate.photos)
+//            initRVImage(images)
             detailsActivityTvDescription.text = estate.description
             detailsActivityTvSurface.text = "${estate.surface} sq m"
             detailsActivityTvRoomNumber.text = estate.roomsNumber.toString()
@@ -48,22 +48,16 @@ class DetailsFragment : Fragment() {
         }
     }
 
-    private fun initRVImage(images : List<Int>) {
-        adapter = RecyclerViewImage(images){
-            //todo implement action on click
-        }
-        binding.recyclerViewImage.adapter = adapter
-    }
+//    private fun initRVImage(images : List<Int>) {
+//        adapter = RecyclerViewImage(images){
+//            //todo add init images
+//        }
+//        binding.recyclerViewImage.adapter = adapter
+//    }
 
     private fun onClickFabClose() {
         binding.imgDetailsClose?.setOnClickListener {
-            viewModel.selectNavigationStates(NavigationStates.CLOSE_DETAILS)
-            requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+            Navigation.findNavController(binding.root).navigate(R.id.item_list_fragment)
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        //todo _binding = null  --look for fix null pointer after that
     }
 }

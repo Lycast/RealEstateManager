@@ -17,13 +17,11 @@ class EstateRepository(private val estateDAO: EstateDAO, private val pictureDAO:
         return pictureDAO.getPicturesByEstate(estateId)
     }
 
-//    fun getEstateById(estateId: Int) : Flow<List<Picture>> {
-//        return estateDAO.getEstateById(estateId)
-//    }
 
     // By default Room runs suspend queries off the main thread, therefore, we don't need to
     // implement anything else to ensure we're not doing long running database work
     // off the main thread.
+    // ESTATES
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun insertEstate(estate: Estate) {
@@ -31,7 +29,19 @@ class EstateRepository(private val estateDAO: EstateDAO, private val pictureDAO:
     }
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
+    suspend fun deleteEstate(estate: Estate) {
+        estateDAO.delete(estate)
+    }
+
+    // PICTURES
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
     suspend fun insertPicture(picture: Picture) {
         pictureDAO.insert(picture)
+    }
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun deletePicture(picture: Picture) {
+        pictureDAO.delete(picture)
     }
 }

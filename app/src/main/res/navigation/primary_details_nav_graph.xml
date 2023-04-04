@@ -8,19 +8,34 @@
     <fragment
         android:id="@+id/item_list_fragment"
         android:name="anthony.brenon.realestatemanager.ui.navigation.ListFragment"
-        android:label="ItemListFragment">
+        android:label="ItemListFragment"
+        tools:layout="@layout/fragment_list">
         <action
             android:id="@+id/show_item_detail"
             app:destination="@id/item_detail_fragment" />
+        <action
+            android:id="@+id/show_item_add"
+            app:destination="@id/item_add_fragment" />
     </fragment>
+
     <fragment
         android:id="@+id/item_detail_fragment"
         android:name="anthony.brenon.realestatemanager.ui.navigation.DetailsFragment"
         android:label="item_detail"
         tools:layout="@layout/fragment_details">
-        <argument
-            android:name="item_id"
-            android:defaultValue=""
-            app:argType="string" />
+        <action
+            android:id="@+id/show_item_list"
+            app:destination="@id/item_list_fragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/item_add_fragment"
+        android:name="anthony.brenon.realestatemanager.ui.navigation.AddEstateFragment"
+        android:label="item_add"
+        tools:layout="@layout/fragment_add_estate">
+        <action
+            android:id="@+id/show_item_list"
+            app:destination="@id/item_list_fragment" />
+    </fragment>
+
 </navigation>

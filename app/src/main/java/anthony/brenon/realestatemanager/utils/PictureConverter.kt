@@ -21,7 +21,7 @@ class PictureConverter {
 
     fun compressImage(imageCompressed: ByteArray): ByteArray {
         var compressImage = imageCompressed
-        while (compressImage.size > 300000) {
+        while (compressImage.size > 100000) {
             val bitmap = BitmapFactory.decodeByteArray(compressImage, 0, compressImage.size)
             val resized = Bitmap.createScaledBitmap(
                 bitmap,

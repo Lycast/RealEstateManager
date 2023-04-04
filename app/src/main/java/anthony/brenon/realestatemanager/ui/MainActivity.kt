@@ -1,6 +1,7 @@
 package anthony.brenon.realestatemanager.ui
 
 
+import android.annotation.SuppressLint
 import android.database.CursorWindow
 import android.os.Bundle
 import android.util.Log
@@ -12,7 +13,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -22,16 +23,12 @@ import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.RealEstateManagerApp
 import anthony.brenon.realestatemanager.databinding.ActivityMainBinding
 import anthony.brenon.realestatemanager.ui.dialog.DialogAgentConnect
-import anthony.brenon.realestatemanager.ui.navigation.AddEstateFragment
-import anthony.brenon.realestatemanager.ui.navigation.DetailsFragment
-import anthony.brenon.realestatemanager.ui.navigation.ListFragment
-import anthony.brenon.realestatemanager.utils.NavigationStates
 import java.lang.reflect.Field
-
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
     private val viewModel: MainViewModel by viewModels {
         MainViewModelFactory((application as RealEstateManagerApp).agentRepository, (application as RealEstateManagerApp).estateRepository)
     }
@@ -48,7 +45,6 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        displayFragment(ListFragment())
         initDrawer()
 
         // set field room for image
@@ -59,27 +55,19 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
+
+        addImageEstate()
+    }
+
+    //todo delete this inject after
+    private fun addImageEstate() {
+        //val imageBitmap = BitmapFactory.decodeResource(resources, R.drawable.img_estate_test_2)
     }
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
-    }
-
-    private fun setFieldRoom() {
-        try {
-            val field: Field = CursorWindow::class.java.getDeclaredField("sCursorWindowSize")
-            field.isAccessible = true
-            field.set(null, 100 * 1024 * 1024) //the 100MB is the new size
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-
-    private fun displayFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment)
-            .commitAllowingStateLoss()
     }
 
     private fun initDrawer() {
@@ -89,7 +77,7 @@ class MainActivity : AppCompatActivity() {
         actionBarDrawerToggle =
             ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close)
         // binding header
-        val header: View = binding.designNavigationView.getHeaderView(0)
+        val header: View = binding.headerNavigationView.getHeaderView(0)
         viewModel.agentSelected.observe(this) {
             Log.i("MY_LOG", "observe $it")
             val name: TextView = header.findViewById(R.id.name_header)
@@ -104,7 +92,7 @@ class MainActivity : AppCompatActivity() {
         // to make the Navigation drawer icon always appear on the action bar
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         // listener drawer menu
-        binding.designNavigationView.setNavigationItemSelectedListener {
+        binding.headerNavigationView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.item_login -> DialogAgentConnect().show(supportFragmentManager, "dialog_login")
                 R.id.item_exit -> finishAndRemoveTask()
@@ -126,12 +114,23 @@ class MainActivity : AppCompatActivity() {
         }
         return when (item.itemId) {
             R.id.item_add -> {
-                displayFragment(AddEstateFragment())
+                Navigation.findNavController(binding.root.findViewById(R.id.nav_host_fragment)).navigate(R.id.item_add_fragment)
                 return true
             }
             else -> {
                 super.onOptionsItemSelected(item)
             }
+        }
+    }
+
+    @SuppressLint("DiscouragedPrivateApi")
+    private fun setFieldRoom() {
+        try {
+            val field: Field = CursorWindow::class.java.getDeclaredField("sCursorWindowSize")
+            field.isAccessible = true
+            field.set(null, 100 * 1024 * 1024) //the 100MB is the new size
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 }

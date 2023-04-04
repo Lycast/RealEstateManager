@@ -6,10 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.Navigation
 import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.databinding.FragmentAddEstateBinding
 import anthony.brenon.realestatemanager.ui.MainViewModel
-import anthony.brenon.realestatemanager.utils.NavigationStates
 
 class AddEstateFragment : Fragment() {
 
@@ -39,7 +39,7 @@ class AddEstateFragment : Fragment() {
 
     private fun buttonListener() {
         binding.btnAddEstateCancel.setOnClickListener {
-            // todo leave add fragment
+            Navigation.findNavController(binding.root).navigate(R.id.item_list_fragment)
         }
     }
 }

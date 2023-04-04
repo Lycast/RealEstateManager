@@ -13,6 +13,20 @@
             android:name="item_id"
             android:defaultValue=""
             app:argType="string" />
+        <action
+        android:id="@+id/item_add_fragment"
+        app:destination="@id/item_add_fragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/item_add_fragment"
+        android:name="anthony.brenon.realestatemanager.ui.navigation.AddEstateFragment"
+        android:label="item_add"
+        tools:layout="@layout/fragment_add_estate">
+        <action
+            android:id="@+id/fragment_item_detail"
+            app:destination="@id/fragment_item_detail" />
     </fragment>
 
 </navigation>

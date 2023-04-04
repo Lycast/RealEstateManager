@@ -12,7 +12,6 @@ import anthony.brenon.realestatemanager.models.Estate
  */
 class RecyclerViewEstate (
     private val onSelect: (Estate?) -> Unit,
-    //todo private val viewModel: MainViewModel
     ): RecyclerView.Adapter<RecyclerViewEstate.ViewHolder>() {
 
     private lateinit var binding: ItemEstateBinding
@@ -42,10 +41,9 @@ class RecyclerViewEstate (
         fun bind(estate: Estate, onSelect: (Estate?) -> Unit) {
             //todo implement image
             itemBinding.apply {
-                //todo cardLayoutImageView.setImageBitmap(estate.)
                 cardLayoutTextView1.text = estate.type
                 cardLayoutTextView2.text = estate.address
-                cardLayoutTextView3.text = estate.price.toString()
+                cardLayoutTextView3.text = estate.price
             }
             // bind your view here
             binding.root.setOnClickListener {

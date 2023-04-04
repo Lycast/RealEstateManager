@@ -15,7 +15,7 @@ import androidx.room.PrimaryKey
             onDelete = CASCADE)])
 class Picture (
     @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
-    var pictures: Bitmap,
+    var picture: Bitmap,
     @ColumnInfo(name = "estateId")
     var estateId: Int
     )
