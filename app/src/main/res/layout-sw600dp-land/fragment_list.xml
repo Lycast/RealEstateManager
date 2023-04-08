@@ -34,6 +34,7 @@
         app:layout_constraintStart_toEndOf="@id/recyclerView"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:navGraph="@navigation/primary_details_sub_nav_graph" />
+        app:navGraph="@navigation/nav_graph_sw600dp_land"
+        tools:ignore="FragmentTagUsage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

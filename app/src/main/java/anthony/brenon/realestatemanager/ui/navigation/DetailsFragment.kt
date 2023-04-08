@@ -1,5 +1,6 @@
 package anthony.brenon.realestatemanager.ui.navigation
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.databinding.FragmentDetailsBinding
 import anthony.brenon.realestatemanager.models.Estate
 import anthony.brenon.realestatemanager.ui.MainViewModel
+import anthony.brenon.realestatemanager.ui.adapter.RecyclerViewImage
 
 class DetailsFragment : Fragment() {
 
@@ -20,8 +22,7 @@ class DetailsFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel by activityViewModels<MainViewModel>()
 
-//    private lateinit var adapter : RecyclerViewImage
-//    private lateinit var images : List<Int>
+    private lateinit var adapter : RecyclerViewImage
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,13 +35,13 @@ class DetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.estateSelected.observe(requireActivity()) {
             populateView(it)
+            initRVImage(it.id)
         }
         onClickFabClose()
     }
 
     private fun populateView(estate: Estate ) {
         binding.apply {
-//            initRVImage(images)
             detailsActivityTvDescription.text = estate.description
             detailsActivityTvSurface.text = "${estate.surface} sq m"
             detailsActivityTvRoomNumber.text = estate.roomsNumber.toString()
@@ -48,12 +49,19 @@ class DetailsFragment : Fragment() {
         }
     }
 
-//    private fun initRVImage(images : List<Int>) {
-//        adapter = RecyclerViewImage(images){
-//            //todo add init images
-//        }
-//        binding.recyclerViewImage.adapter = adapter
-//    }
+    private fun initRVImage(estateId : Int) {
+        adapter = RecyclerViewImage {
+            //todo add listener image
+        }
+        viewModel.getPicturesByEstate(estateId).observe(requireActivity()) {
+            val listBitmap = mutableListOf<Bitmap>()
+            for (picture in it) {
+                listBitmap.add(picture.picture)
+            }
+            adapter.setData(listBitmap)
+        }
+        binding.recyclerViewImage.adapter = adapter
+    }
 
     private fun onClickFabClose() {
         binding.imgDetailsClose?.setOnClickListener {

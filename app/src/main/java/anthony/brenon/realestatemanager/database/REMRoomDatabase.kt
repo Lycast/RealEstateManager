@@ -47,7 +47,7 @@ abstract class REMRoomDatabase : RoomDatabase() {
             // Delete all content here.
             estateDAO.deleteAll()
             // Add sample estate.
-            val estate = Estate("Castle", "48 879 000",1450,48,"This one estate is a castle !!","Paris","Close to the Tour Eiffel",
+            val estate = Estate("Castle", "48 879 000","1450","48","This one estate is a castle !!","Paris","Close to the Tour Eiffel",
             false,"12 july 2022",null,"paul")
             estateDAO.insert(estate)
         }

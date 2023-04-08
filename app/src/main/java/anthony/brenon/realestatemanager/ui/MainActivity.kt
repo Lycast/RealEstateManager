@@ -45,8 +45,6 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        initDrawer()
-
         // set field room for image
         setFieldRoom()
 
@@ -57,6 +55,8 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         addImageEstate()
+
+        initDrawer()
     }
 
     //todo delete this inject after
