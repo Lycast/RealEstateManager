@@ -13,7 +13,7 @@ import anthony.brenon.realestatemanager.ui.MainViewModel
 class DialogAgentCreate : DialogFragment() {
 
     private lateinit var dialogBinding: DialogAgentCreateBinding
-    val viewModel by activityViewModels<MainViewModel>()
+    private val viewModel by activityViewModels<MainViewModel>()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         dialogBinding = DialogAgentCreateBinding.inflate(layoutInflater)

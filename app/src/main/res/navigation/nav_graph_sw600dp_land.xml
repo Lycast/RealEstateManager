@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_details"
     app:startDestination="@id/fragment_item_detail">
     <fragment
         android:id="@+id/fragment_item_detail"
-        android:name="anthony.brenon.realestatemanager.ui.navigation.DetailsFragment"
-        android:label="@string/details_fragment"
-        tools:layout="@layout/fragment_details">
-        <argument
-            android:name="item_id"
-            android:defaultValue=""
-            app:argType="string" />
+        android:name="anthony.brenon.realestatemanager.ui.navigation.DetailsFragment">
         <action
         android:id="@+id/item_add_fragment"
         app:destination="@id/item_add_fragment" />
@@ -21,9 +14,7 @@
 
     <fragment
         android:id="@+id/item_add_fragment"
-        android:name="anthony.brenon.realestatemanager.ui.navigation.AddEstateFragment"
-        android:label="item_add"
-        tools:layout="@layout/fragment_add_estate">
+        android:name="anthony.brenon.realestatemanager.ui.navigation.AddEstateFragment">
         <action
             android:id="@+id/fragment_item_detail"
             app:destination="@id/fragment_item_detail" />

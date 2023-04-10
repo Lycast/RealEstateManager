@@ -2,6 +2,7 @@ package anthony.brenon.realestatemanager.ui.navigation
 
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,11 +18,9 @@ import anthony.brenon.realestatemanager.ui.adapter.RecyclerViewImage
 class DetailsFragment : Fragment() {
 
     private var _binding: FragmentDetailsBinding? = null
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
-    private val viewModel by activityViewModels<MainViewModel>()
 
+    private val viewModel by activityViewModels<MainViewModel>()
     private lateinit var adapter : RecyclerViewImage
 
     override fun onCreateView(
@@ -33,34 +32,39 @@ class DetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         viewModel.estateSelected.observe(requireActivity()) {
             populateView(it)
             initRVImage(it.id)
         }
+
         onClickFabClose()
     }
 
     private fun populateView(estate: Estate ) {
         binding.apply {
             detailsActivityTvDescription.text = estate.description
-            detailsActivityTvSurface.text = "${estate.surface} sq m"
-            detailsActivityTvRoomNumber.text = estate.roomsNumber.toString()
+            detailsActivityTvSurface.text = estate.surface
+            detailsActivityTvRoomNumber.text = estate.roomsNumber
             detailsActivityTvLocation.text = estate.address
         }
     }
 
     private fun initRVImage(estateId : Int) {
+
         adapter = RecyclerViewImage {
             //todo add listener image
         }
-        viewModel.getPicturesByEstate(estateId).observe(requireActivity()) {
-            val listBitmap = mutableListOf<Bitmap>()
-            for (picture in it) {
-                listBitmap.add(picture.picture)
-            }
-            adapter.setData(listBitmap)
-        }
+
         binding.recyclerViewImage.adapter = adapter
+        Log.i("MY_TAG","id estate recycler view details = $estateId")
+        val images = mutableListOf<Bitmap>()
+        viewModel.getPicturesByEstate(estateId).observe(requireActivity()) {
+            for (picture in it) {
+                images.add(picture.picture)
+            }
+            adapter.setData(images)
+        }
     }
 
     private fun onClickFabClose() {

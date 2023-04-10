@@ -31,6 +31,7 @@ abstract class REMRoomDatabase : RoomDatabase() {
                 scope.launch {
                     populateAgentDatabase(database.agentDao())
                     populateEstateDatabase(database.estateDao())
+                    populatePictureDatabase(database.pictureDao())
                 }
             }
         }
@@ -39,7 +40,9 @@ abstract class REMRoomDatabase : RoomDatabase() {
             // Delete all content here.
             agentDAO.deleteAll()
             // Add sample agent.
-            val agent = Agent("Paul", "paul.practice@gmail.com")
+            var agent = Agent("Paul", "paul.practice@gmail.com")
+            agentDAO.insert(agent)
+            agent = Agent("Henry", "henry.senior@gmail.com")
             agentDAO.insert(agent)
         }
 
@@ -47,9 +50,18 @@ abstract class REMRoomDatabase : RoomDatabase() {
             // Delete all content here.
             estateDAO.deleteAll()
             // Add sample estate.
-            val estate = Estate("Castle", "48 879 000","1450","48","This one estate is a castle !!","Paris","Close to the Tour Eiffel",
+            val estate = Estate(0,"Castle", "48 879 000","1450","48","This one estate is a castle !!","Paris","Close to the Tour Eiffel",
             false,"12 july 2022",null,"paul")
             estateDAO.insert(estate)
+        }
+
+        suspend fun populatePictureDatabase(pictureDao: PictureDAO) {
+            // Delete all content here.
+            pictureDao.deleteAll()
+            // Add sample estate.
+            //todo how add picture ?
+            //val imageBitmap = BitmapFactory.decodeResource(resources, R.drawable.img_estate_test_2)
+            //val picture = Picture()
         }
     }
 

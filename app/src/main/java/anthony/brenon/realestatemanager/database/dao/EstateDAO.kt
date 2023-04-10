@@ -14,12 +14,9 @@ interface EstateDAO {
     suspend fun insert(estate: Estate)
 
     @Delete
-    suspend fun delete(estate: Estate): Int
+    suspend fun delete(estate: Estate)
 
     @Query("DELETE FROM estate_table")
     suspend fun deleteAll()
 
-    //todo implement get estate by id for put ids of images
-//    @Query("SELECT * FROM estate_table WHERE estateId = :estateId")
-//    fun getEstateById(estateId: Int): Flow<List<Picture>>
 }

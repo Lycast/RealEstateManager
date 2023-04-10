@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/item_image"
     android:layout_width="100dp"
@@ -14,4 +14,4 @@
            android:scaleType="fitXY"
            android:contentDescription="@string/dsc_image_item" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

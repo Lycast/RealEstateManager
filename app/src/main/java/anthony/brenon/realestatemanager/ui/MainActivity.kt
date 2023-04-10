@@ -33,8 +33,6 @@ class MainActivity : AppCompatActivity() {
         MainViewModelFactory((application as RealEstateManagerApp).agentRepository, (application as RealEstateManagerApp).estateRepository)
     }
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
-
     // drawer init
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
@@ -45,18 +43,9 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        // set field room for image
         setFieldRoom()
-
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navHostFragment.navController
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController, appBarConfiguration)
-
-        addImageEstate()
-
         initDrawer()
+        addImageEstate()
     }
 
     //todo delete this inject after
@@ -64,19 +53,12 @@ class MainActivity : AppCompatActivity() {
         //val imageBitmap = BitmapFactory.decodeResource(resources, R.drawable.img_estate_test_2)
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment)
-        return navController.navigateUp(appBarConfiguration)
-                || super.onSupportNavigateUp()
-    }
-
     private fun initDrawer() {
-        // drawer layout instance to toggle the menu icon to open
-        // drawer and back button to close drawer
+
         drawerLayout = binding.myDrawerLayout
         actionBarDrawerToggle =
             ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close)
-        // binding header
+
         val header: View = binding.headerNavigationView.getHeaderView(0)
         viewModel.agentSelected.observe(this) {
             Log.i("MY_LOG", "observe $it")
@@ -85,13 +67,12 @@ class MainActivity : AppCompatActivity() {
             name.text = it.nameAgent
             email.text = it.emailAgent
         }
-        // pass the Open and Close toggle for the drawer layout listener
-        // to toggle the button
+
         drawerLayout.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.syncState()
-        // to make the Navigation drawer icon always appear on the action bar
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        // listener drawer menu
+
         binding.headerNavigationView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.item_login -> DialogAgentConnect().show(supportFragmentManager, "dialog_login")
@@ -101,7 +82,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // add menu toolbar
+    // add custom menu toolbar
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar_menu, menu)
         return true

@@ -11,7 +11,7 @@
         android:id="@+id/tv_media"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Media"
+        android:text="@string/media"
         android:textStyle="bold"
         android:textSize="20sp"
         app:layout_constraintTop_toTopOf="parent"
@@ -19,7 +19,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:id="@+id/recyclerView_image"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -31,7 +31,7 @@
         android:id="@+id/tv_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Description"
+        android:text="@string/description"
         android:textStyle="bold"
         android:textSize="20sp"
         app:layout_constraintTop_toBottomOf="@id/recyclerView_image"
@@ -41,7 +41,6 @@
         android:id="@+id/details_activity_tv_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ici est la description du bien"
         app:layout_constraintTop_toBottomOf="@id/tv_description"
         app:layout_constraintLeft_toLeftOf="parent"/>
 
