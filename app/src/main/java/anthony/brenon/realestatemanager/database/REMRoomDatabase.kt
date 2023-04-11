@@ -21,50 +21,6 @@ abstract class REMRoomDatabase : RoomDatabase() {
     abstract fun estateDao() : EstateDAO
     abstract fun pictureDao() : PictureDAO
 
-    private class REMDatabaseCallback(
-        private val scope: CoroutineScope
-    ) : Callback() {
-
-        override fun onCreate(db: SupportSQLiteDatabase) {
-            super.onCreate(db)
-            INSTANCE?.let { database ->
-                scope.launch {
-                    populateAgentDatabase(database.agentDao())
-                    populateEstateDatabase(database.estateDao())
-                    populatePictureDatabase(database.pictureDao())
-                }
-            }
-        }
-
-        suspend fun populateAgentDatabase(agentDAO: AgentDAO) {
-            // Delete all content here.
-            agentDAO.deleteAll()
-            // Add sample agent.
-            var agent = Agent("Paul", "paul.practice@gmail.com")
-            agentDAO.insert(agent)
-            agent = Agent("Henry", "henry.senior@gmail.com")
-            agentDAO.insert(agent)
-        }
-
-        suspend fun populateEstateDatabase(estateDAO: EstateDAO) {
-            // Delete all content here.
-            estateDAO.deleteAll()
-            // Add sample estate.
-            val estate = Estate(0,"Castle", "48 879 000","1450","48","This one estate is a castle !!","Paris","Close to the Tour Eiffel",
-            false,"12 july 2022",null,"paul")
-            estateDAO.insert(estate)
-        }
-
-        suspend fun populatePictureDatabase(pictureDao: PictureDAO) {
-            // Delete all content here.
-            pictureDao.deleteAll()
-            // Add sample estate.
-            //todo how add picture ?
-            //val imageBitmap = BitmapFactory.decodeResource(resources, R.drawable.img_estate_test_2)
-            //val picture = Picture()
-        }
-    }
-
     companion object {
         // Singleton prevents multiple instances of database opening at the
         // same time.
@@ -73,7 +29,6 @@ abstract class REMRoomDatabase : RoomDatabase() {
 
         fun getDatabase(
             context: Context,
-            scope: CoroutineScope
         ) : REMRoomDatabase {
             // if the INSTANCE is not null, then return it,
             // if it is, then create the database
@@ -82,7 +37,6 @@ abstract class REMRoomDatabase : RoomDatabase() {
                     context.applicationContext,
                     REMRoomDatabase::class.java,
                     "database_rem")
-                    .addCallback(REMDatabaseCallback(scope))
                     .build()
                 INSTANCE = instance
                 // return instance

@@ -11,7 +11,7 @@ interface EstateDAO {
     fun getAllEstates(): Flow<List<Estate>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(estate: Estate)
+    suspend fun insert(estate: Estate) : Long
 
     @Delete
     suspend fun delete(estate: Estate)

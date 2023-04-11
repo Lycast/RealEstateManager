@@ -50,7 +50,7 @@ class DetailsFragment : Fragment() {
         }
     }
 
-    private fun initRVImage(estateId : Int) {
+    private fun initRVImage(estateId : Long) {
 
         adapter = RecyclerViewImage {
             //todo add listener image

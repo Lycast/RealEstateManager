@@ -17,13 +17,10 @@ import anthony.brenon.realestatemanager.ui.adapter.RecyclerViewEstate
 class ListFragment : Fragment() {
 
     private var _binding: FragmentListBinding? = null
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+
     private val viewModel by activityViewModels<MainViewModel>()
-
     private lateinit var adapter: RecyclerViewEstate
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -14,11 +14,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.RealEstateManagerApp
 import anthony.brenon.realestatemanager.databinding.ActivityMainBinding
@@ -43,7 +38,6 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        setFieldRoom()
         initDrawer()
         addImageEstate()
     }
@@ -95,23 +89,12 @@ class MainActivity : AppCompatActivity() {
         }
         return when (item.itemId) {
             R.id.item_add -> {
-                Navigation.findNavController(binding.root.findViewById(R.id.nav_host_fragment)).navigate(R.id.item_add_fragment)
+                Navigation.findNavController(binding.root.findViewById(R.id.nav_host_fragment_list)).navigate(R.id.item_add_fragment)
                 return true
             }
             else -> {
                 super.onOptionsItemSelected(item)
             }
-        }
-    }
-
-    @SuppressLint("DiscouragedPrivateApi")
-    private fun setFieldRoom() {
-        try {
-            val field: Field = CursorWindow::class.java.getDeclaredField("sCursorWindowSize")
-            field.isAccessible = true
-            field.set(null, 100 * 1024 * 1024) //the 100MB is the new size
-        } catch (e: Exception) {
-            e.printStackTrace()
         }
     }
 }

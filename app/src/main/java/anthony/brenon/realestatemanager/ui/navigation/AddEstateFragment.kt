@@ -1,5 +1,6 @@
 package anthony.brenon.realestatemanager.ui.navigation
 
+import android.app.Application
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -14,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import anthony.brenon.realestatemanager.R
+import anthony.brenon.realestatemanager.RealEstateManagerApp
 import anthony.brenon.realestatemanager.databinding.FragmentAddEstateBinding
 import anthony.brenon.realestatemanager.models.Estate
 import anthony.brenon.realestatemanager.models.Picture
@@ -27,14 +29,24 @@ class AddEstateFragment : Fragment() {
 
     private val viewModel by activityViewModels<MainViewModel>()
     private lateinit var adapter: RecyclerViewImage
-    private var estate = Estate(0,null,null,null,null,null,null,null,null,null,null,null)
+    private var estate = Estate(
+        0, null, null, null, null, null, null, null, null, null, null, null//, null
+    )
     private val images = mutableListOf<Bitmap>()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = FragmentAddEstateBinding.inflate(inflater, container, false)
 
-        viewModel.insertEstate(estate)
-        getCurrentEstateId()
+        viewModel.insertEstate(requireContext(),estate).observe(requireActivity()) {
+            estate.id = it
+            setDataRV()
+        }
+
+        initRecyclerViewPictures()
 
         return binding.root
     }
@@ -43,29 +55,19 @@ class AddEstateFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         buttonListener()
-        initRVImage()
     }
 
-    //todo how get estate id created
-
-
-    private fun getCurrentEstateId() {
-        viewModel.allEstates.observe(requireActivity()) {
-            Log.i("MY_TAG","id estate 'getCurrentEstateId' = ${it[it.lastIndex]}")
-            estate = it[it.lastIndex]
-            initRVImage()
-        }
-    }
-
-    private fun initRVImage() {
-
-        adapter = RecyclerViewImage{
+    private fun initRecyclerViewPictures() {
+        adapter = RecyclerViewImage {
             //todo add listener image
         }
-
         binding.recyclerViewImage.adapter = adapter
-        Log.i("MY_TAG","id estate 'initRVImage' = ${estate.id}")
+    }
+
+    private fun setDataRV() {
+        Log.i("MY_TAG", "id estate 'setDataRV' = ${estate.id}")
         viewModel.getPicturesByEstate(estate.id).observe(requireActivity()) {
+            images.clear()
             for (picture in it) {
                 images.add(picture.picture)
             }
@@ -74,25 +76,41 @@ class AddEstateFragment : Fragment() {
     }
 
     private fun addImageFromCamera() {
-        if (ActivityCompat.checkSelfPermission(requireActivity(), android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(requireActivity(), arrayOf(android.Manifest.permission.CAMERA), 111)
+        if (ActivityCompat.checkSelfPermission(
+                requireActivity(),
+                android.Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(android.Manifest.permission.CAMERA),
+                111
+            )
         } else {
             val i = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            startActivityForResult(i,101)
+            startActivityForResult(i, 101)
         }
     }
 
     private fun addImageFromFolder() {
-        if (ActivityCompat.checkSelfPermission(requireActivity(), android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(requireActivity(), arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 121)
+        if (ActivityCompat.checkSelfPermission(
+                requireActivity(),
+                android.Manifest.permission.READ_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                121
+            )
         } else {
             val i = Intent(Intent.ACTION_PICK)
             i.type = "image/*"
-            startActivityForResult(i,120)
+            startActivityForResult(i, 120)
         }
     }
 
-    private fun getNewsData() : Estate {
+    private fun getNewsData(): Estate {
         binding.apply {
             val type = addEstateEtType.text.toString()
             val price = addEstateEtPrice.text.toString()
@@ -130,7 +148,8 @@ class AddEstateFragment : Fragment() {
 
         binding.btnAddEstateCreate.setOnClickListener {
             getNewsData()
-            viewModel.insertEstate(estate)
+
+            viewModel.insertEstate(requireContext(),estate)
             Navigation.findNavController(binding.root).navigate(R.id.item_list_fragment)
         }
 
@@ -143,7 +162,11 @@ class AddEstateFragment : Fragment() {
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
@@ -153,13 +176,14 @@ class AddEstateFragment : Fragment() {
         if (requestCode == 101) {
             val pic = data?.getParcelableExtra<Bitmap>("data")
             val newPicture = Picture(pic!!, estate.id)
-            Log.i("MY_TAG","id picture camera = ${newPicture.estateId}")
+            Log.i("MY_TAG", "id picture camera = ${newPicture.estateId}")
             viewModel.insertPicture(newPicture)
         }
         if (requestCode == 120) {
-            val pic = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, data?.data)
+            val pic =
+                MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, data?.data)
             val newPicture = Picture(pic!!, estate.id)
-            Log.i("MY_TAG","id picture folder = ${newPicture.estateId}")
+            Log.i("MY_TAG", "id picture folder = ${newPicture.estateId}")
             viewModel.insertPicture(newPicture)
         }
     }

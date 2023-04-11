@@ -17,7 +17,7 @@ class Picture (
     @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
     var picture: Bitmap,
     @ColumnInfo(name = "estateId")
-    var estateId: Int
+    var estateId: Long
     )
 {
     @PrimaryKey(autoGenerate = true)

@@ -1,5 +1,6 @@
 package anthony.brenon.realestatemanager.ui
 
+import android.content.Context
 import androidx.lifecycle.*
 import anthony.brenon.realestatemanager.models.Agent
 import anthony.brenon.realestatemanager.models.Estate
@@ -22,15 +23,20 @@ class MainViewModel(private val agentRepository : AgentRepository, private val e
     val allAgents: LiveData<List<Agent>> = agentRepository.allAgents.asLiveData()
     val allEstates: LiveData<List<Estate>> = estateRepository.allEstates.asLiveData()
 
-    fun getPicturesByEstate(estateId: Int) : LiveData<List<Picture>> { return estateRepository.getPicturesByEstate(estateId).asLiveData() }
+    fun getPicturesByEstate(estateId: Long) : LiveData<List<Picture>> { return estateRepository.getPicturesByEstate(estateId).asLiveData() }
 
     // Launching a new coroutine to insert the data in a non-blocking way
     fun insertAgent(agent: Agent) = viewModelScope.launch {
         agentRepository.insertAgent(agent)
     }
 
-    fun insertEstate(estate: Estate) = viewModelScope.launch {
-        estateRepository.insertEstate(estate)
+    fun insertEstate(context: Context,estate: Estate) = liveData {
+        try {
+            val response = estateRepository.insertEstate(context, estate)
+            emit(response)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
     fun deleteEstate(estate: Estate) = viewModelScope.launch {
         estateRepository.deleteEstate(estate)

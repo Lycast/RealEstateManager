@@ -3,9 +3,11 @@ package anthony.brenon.realestatemanager.models
 
 
 
+import android.graphics.Bitmap
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-
+import java.sql.Blob
 
 
 /**
@@ -14,7 +16,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "estate_table")
 data class Estate(
     @PrimaryKey(autoGenerate = true)
-    var id: Int = 0,
+    var id: Long = 0,
     var type: String?,
     var price: String?,
     var surface: String?,
@@ -26,4 +28,6 @@ data class Estate(
     var onSaleDate: String?,
     var dateOfSale: String?,
     var agentInChargeName: String?,
+//    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
+//    var picture: Bitmap? = null
     )

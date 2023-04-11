@@ -14,7 +14,7 @@ interface PictureDAO {
     suspend fun delete(picture: Picture) : Int
 
     @Query("SELECT * FROM picture_table WHERE estateId = :estateId")
-    fun getPicturesByEstate(estateId: Int): Flow<List<Picture>>
+    fun getPicturesByEstate(estateId: Long): Flow<List<Picture>>
 
     @Query("DELETE FROM picture_table")
     suspend fun deleteAll()
