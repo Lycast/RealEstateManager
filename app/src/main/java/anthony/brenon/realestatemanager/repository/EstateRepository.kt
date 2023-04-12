@@ -2,13 +2,11 @@ package anthony.brenon.realestatemanager.repository
 
 import android.content.Context
 import androidx.annotation.WorkerThread
-import anthony.brenon.realestatemanager.RealEstateManagerApp
 import anthony.brenon.realestatemanager.database.REMRoomDatabase
-import anthony.brenon.realestatemanager.models.Estate
-import anthony.brenon.realestatemanager.models.Picture
 import anthony.brenon.realestatemanager.database.dao.EstateDAO
 import anthony.brenon.realestatemanager.database.dao.PictureDAO
-import kotlinx.coroutines.CoroutineScope
+import anthony.brenon.realestatemanager.models.Estate
+import anthony.brenon.realestatemanager.models.Picture
 import kotlinx.coroutines.flow.Flow
 
 class EstateRepository(private val estateDAO: EstateDAO, private val pictureDAO: PictureDAO) {

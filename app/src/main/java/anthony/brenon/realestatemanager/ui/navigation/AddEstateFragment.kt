@@ -1,6 +1,6 @@
 package anthony.brenon.realestatemanager.ui.navigation
 
-import android.app.Application
+
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -15,7 +15,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import anthony.brenon.realestatemanager.R
-import anthony.brenon.realestatemanager.RealEstateManagerApp
 import anthony.brenon.realestatemanager.databinding.FragmentAddEstateBinding
 import anthony.brenon.realestatemanager.models.Estate
 import anthony.brenon.realestatemanager.models.Picture
@@ -47,7 +46,6 @@ class AddEstateFragment : Fragment() {
         }
 
         initRecyclerViewPictures()
-
         return binding.root
     }
 
@@ -176,14 +174,11 @@ class AddEstateFragment : Fragment() {
         if (requestCode == 101) {
             val pic = data?.getParcelableExtra<Bitmap>("data")
             val newPicture = Picture(pic!!, estate.id)
-            Log.i("MY_TAG", "id picture camera = ${newPicture.estateId}")
             viewModel.insertPicture(newPicture)
         }
         if (requestCode == 120) {
-            val pic =
-                MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, data?.data)
+            val pic = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, data?.data)
             val newPicture = Picture(pic!!, estate.id)
-            Log.i("MY_TAG", "id picture folder = ${newPicture.estateId}")
             viewModel.insertPicture(newPicture)
         }
     }

@@ -13,7 +13,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/item_detail_nav_container" />
+        app:layout_constraintEnd_toStartOf="@id/nav_detail_sw600dp_land" />
 
     <com.google.android.material.divider.MaterialDivider
         android:layout_width="2dp"
@@ -22,10 +22,10 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/recyclerView"
-        app:layout_constraintEnd_toStartOf="@id/item_detail_nav_container"/>
+        app:layout_constraintEnd_toStartOf="@id/nav_detail_sw600dp_land"/>
 
-    <fragment
-        android:id="@+id/item_detail_nav_container"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_detail_sw600dp_land"
         android:name="anthony.brenon.realestatemanager.ui.navigation.DetailsFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -33,6 +33,6 @@
         app:layout_constraintStart_toEndOf="@id/recyclerView"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="FragmentTagUsage" />
+        tools:layout="@layout/fragment_details" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

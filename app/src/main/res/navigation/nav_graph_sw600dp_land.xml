@@ -2,13 +2,13 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph_details"
-    app:startDestination="@id/fragment_item_detail">
+    app:startDestination="@id/item_list_fragment">
 
 
 
     <fragment
-        android:id="@+id/fragment_item_detail"
-        android:name="anthony.brenon.realestatemanager.ui.navigation.DetailsFragment">
+        android:id="@+id/item_list_fragment"
+        android:name="anthony.brenon.realestatemanager.ui.navigation.ListFragment">
         <action
         android:id="@+id/item_add_fragment"
         app:destination="@id/item_add_fragment" />
@@ -19,8 +19,8 @@
         android:id="@+id/item_add_fragment"
         android:name="anthony.brenon.realestatemanager.ui.navigation.AddEstateFragment">
         <action
-            android:id="@+id/fragment_item_detail"
-            app:destination="@id/fragment_item_detail" />
+            android:id="@+id/fragment_nav_list_land"
+            app:destination="@id/fragment_nav_list_land" />
     </fragment>
 
 </navigation>

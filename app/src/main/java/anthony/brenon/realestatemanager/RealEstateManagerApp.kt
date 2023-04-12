@@ -6,14 +6,9 @@ import android.database.CursorWindow
 import anthony.brenon.realestatemanager.database.REMRoomDatabase
 import anthony.brenon.realestatemanager.repository.AgentRepository
 import anthony.brenon.realestatemanager.repository.EstateRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.SupervisorJob
 import java.lang.reflect.Field
 
 class RealEstateManagerApp : Application() {
-
-    // No need to cancel this scope as it'll be torn down with the process
-    private val applicationScope = CoroutineScope(SupervisorJob())
 
     // Using by lazy so the database and the repository are only created when they're needed
     // rather than when the application starts

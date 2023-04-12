@@ -1,8 +1,6 @@
 package anthony.brenon.realestatemanager.ui
 
 
-import android.annotation.SuppressLint
-import android.database.CursorWindow
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -18,7 +16,6 @@ import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.RealEstateManagerApp
 import anthony.brenon.realestatemanager.databinding.ActivityMainBinding
 import anthony.brenon.realestatemanager.ui.dialog.DialogAgentConnect
-import java.lang.reflect.Field
 
 class MainActivity : AppCompatActivity() {
 
@@ -89,7 +86,7 @@ class MainActivity : AppCompatActivity() {
         }
         return when (item.itemId) {
             R.id.item_add -> {
-                Navigation.findNavController(binding.root.findViewById(R.id.nav_host_fragment_list)).navigate(R.id.item_add_fragment)
+                Navigation.findNavController(binding.root.findViewById(R.id.nav_host_fragment)).navigate(R.id.item_add_fragment)
                 return true
             }
             else -> {
