@@ -1,15 +1,18 @@
 package anthony.brenon.realestatemanager.ui.navigation
 
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.DatePicker
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -20,18 +23,19 @@ import anthony.brenon.realestatemanager.models.Estate
 import anthony.brenon.realestatemanager.models.Picture
 import anthony.brenon.realestatemanager.ui.MainViewModel
 import anthony.brenon.realestatemanager.ui.adapter.RecyclerViewImage
+import java.util.Calendar
 
-class AddEstateFragment : Fragment() {
+class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private var _binding: FragmentAddEstateBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel by activityViewModels<MainViewModel>()
     private lateinit var adapter: RecyclerViewImage
-    private var estate = Estate(
-        0, null, null, null, null, null, null, null, null, null, null, null//, null
-    )
+    private lateinit var estate: Estate
     private val images = mutableListOf<Bitmap>()
+    private val calendar = Calendar.getInstance()
+    private lateinit var date : String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,6 +43,11 @@ class AddEstateFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAddEstateBinding.inflate(inflater, container, false)
+
+        estate = Estate(
+            0, null, null, null, null, null, null, null, null, null, null, null
+            , BitmapFactory.decodeResource(resources, R.drawable.img_estate_test_1)
+        )
 
         viewModel.insertEstate(requireContext(),estate).observe(requireActivity()) {
             estate.id = it
@@ -51,6 +60,10 @@ class AddEstateFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.getPicturesByEstate(estate.id).observe(requireActivity()) {
+            if(it.isNotEmpty()) estate.picture = it[0].picture
+        }
 
         buttonListener()
     }
@@ -108,6 +121,8 @@ class AddEstateFragment : Fragment() {
         }
     }
 
+
+
     private fun getNewsData(): Estate {
         binding.apply {
             val type = addEstateEtType.text.toString()
@@ -117,10 +132,8 @@ class AddEstateFragment : Fragment() {
             val description = addEstateEtDescription.text.toString()
             val address = addEstateEtAddress.text.toString()
             val interesting = addEstateEtInterestingPoint.text.toString()
-            val isSale = true
-            val startSale = addEstateEtStartSale.text.toString()
-            val endSale = addEstateEtEndSale.text.toString()
-            val agent = addEstateEtAgent.text.toString()
+            val isSale = false
+            val agent = addEstateEtAgent.text.toString() // list agent
 
             estate.type = type
             estate.price = price
@@ -130,8 +143,6 @@ class AddEstateFragment : Fragment() {
             estate.address = address
             estate.interestingPoint = interesting
             estate.isSale = isSale
-            estate.onSaleDate = startSale
-            estate.dateOfSale = endSale
             estate.agentInChargeName = agent
         }
         return estate
@@ -139,24 +150,28 @@ class AddEstateFragment : Fragment() {
 
     private fun buttonListener() {
 
+        binding.addEstateBtnCamera.setOnClickListener { addImageFromCamera() }
+        binding.addEstateBtnFolder.setOnClickListener { addImageFromFolder() }
+
         binding.btnAddEstateCancel.setOnClickListener {
             viewModel.deleteEstate(estate)
             Navigation.findNavController(binding.root).navigate(R.id.item_list_fragment)
         }
-
         binding.btnAddEstateCreate.setOnClickListener {
             getNewsData()
-
-            viewModel.insertEstate(requireContext(),estate)
+            viewModel.updateEstate(estate)
             Navigation.findNavController(binding.root).navigate(R.id.item_list_fragment)
         }
 
-        binding.addEstateBtnCamera.setOnClickListener {
-            addImageFromCamera()
-        }
+        binding.addEstateBtnStartSale.setOnClickListener {
+            DatePickerDialog(requireContext(), this, calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show()
+            date = "Start of sale"
 
-        binding.addEstateBtnFolder.setOnClickListener {
-            addImageFromFolder()
+        }
+        binding.addEstateBtnEndSale.setOnClickListener {
+            DatePickerDialog(requireContext(), this, calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show()
+            date = "End of sale"
+
         }
     }
 
@@ -171,15 +186,37 @@ class AddEstateFragment : Fragment() {
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 101) {
-            val pic = data?.getParcelableExtra<Bitmap>("data")
-            val newPicture = Picture(pic!!, estate.id)
+        val pic : Bitmap? =
+        when (requestCode) {
+            101 -> data?.getParcelableExtra("data")
+            120 -> MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, data?.data)
+            else -> null
+        }
+        pic?.let {
+            val newPicture = Picture(it, estate.id)
             viewModel.insertPicture(newPicture)
         }
-        if (requestCode == 120) {
-            val pic = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, data?.data)
-            val newPicture = Picture(pic!!, estate.id)
-            viewModel.insertPicture(newPicture)
+    }
+
+    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
+        calendar.set(year,month,dayOfMonth)
+        setDate()
+        Log.i("MY_TAG", "addEstateBtnEndSale 'initPickDate' day of month  = ${calendar.get(Calendar.DAY_OF_MONTH)}/${calendar.get(Calendar.MONTH)}/${calendar.get(Calendar.YEAR)}")
+    }
+
+    private fun setDate() {
+        val text: String
+        when(date) {
+            "Start of sale" -> {
+                    text = "${calendar.get(Calendar.DAY_OF_MONTH)}/${calendar.get(Calendar.MONTH)}/${calendar.get(Calendar.YEAR)}"
+                    estate.onSaleDate = text
+                    binding.addEstateBtnStartSale.text = text
+                }
+            "End of sale" -> {
+                    text = "${calendar.get(Calendar.DAY_OF_MONTH)}/${calendar.get(Calendar.MONTH)}/${calendar.get(Calendar.YEAR)}"
+                    estate.dateOfSale = text
+                    binding.addEstateBtnEndSale.text = text
+                }
         }
     }
 }

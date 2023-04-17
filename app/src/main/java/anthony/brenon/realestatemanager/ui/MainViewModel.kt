@@ -41,6 +41,9 @@ class MainViewModel(private val agentRepository : AgentRepository, private val e
     fun deleteEstate(estate: Estate) = viewModelScope.launch {
         estateRepository.deleteEstate(estate)
     }
+    fun updateEstate(estate: Estate) = viewModelScope.launch {
+        estateRepository.updateEstate(estate)
+    }
 
     fun insertPicture(picture: Picture) = viewModelScope.launch {
         estateRepository.insertPicture(picture)

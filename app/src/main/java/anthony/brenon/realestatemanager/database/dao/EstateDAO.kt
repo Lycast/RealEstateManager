@@ -13,6 +13,9 @@ interface EstateDAO {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(estate: Estate) : Long
 
+    @Update
+    suspend fun update(estate: Estate)
+
     @Delete
     suspend fun delete(estate: Estate)
 

@@ -3,6 +3,8 @@ package anthony.brenon.realestatemanager.models
 
 
 
+import android.graphics.Bitmap
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -25,6 +27,6 @@ data class Estate(
     var onSaleDate: String?,
     var dateOfSale: String?,
     var agentInChargeName: String?,
-//    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
-//    var picture: Bitmap? = null
+    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
+    var picture: Bitmap
     )

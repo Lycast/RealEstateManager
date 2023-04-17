@@ -11,7 +11,7 @@ class PictureConverter {
     fun fromBitmap(bitmap: Bitmap?): ByteArray {
         val outputStream = ByteArrayOutputStream()
         bitmap!!.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-        return outputStream.toByteArray()
+        return compressImage(outputStream.toByteArray())
     }
 
     @TypeConverter
@@ -19,7 +19,7 @@ class PictureConverter {
         return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
     }
 
-    fun compressImage(imageCompressed: ByteArray): ByteArray {
+    private fun compressImage(imageCompressed: ByteArray): ByteArray {
         var compressImage = imageCompressed
         while (compressImage.size > 100000) {
             val bitmap = BitmapFactory.decodeByteArray(compressImage, 0, compressImage.size)
