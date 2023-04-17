@@ -29,6 +29,27 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="item_connect_fragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-69" />
+                            <option name="y" value="395" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="show_item_list">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="item_detail_fragment">
                     <value>
                       <LayoutPositions>

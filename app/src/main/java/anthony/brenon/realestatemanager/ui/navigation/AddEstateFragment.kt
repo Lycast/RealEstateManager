@@ -8,7 +8,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,16 +44,18 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         _binding = FragmentAddEstateBinding.inflate(inflater, container, false)
 
         estate = Estate(
-            0, null, null, null, null, null, null, null, null, null, null, null
+            0, "type", "0", "0", "0", "description", "address", "interesting point", false, "", "", "agent"
             , BitmapFactory.decodeResource(resources, R.drawable.img_estate_test_1)
         )
 
         viewModel.insertEstate(requireContext(),estate).observe(requireActivity()) {
             estate.id = it
-            setDataRV()
+            setDataRecyclerView()
         }
 
-        initRecyclerViewPictures()
+
+
+        initRecyclerViewImage()
         return binding.root
     }
 
@@ -68,21 +69,23 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         buttonListener()
     }
 
-    private fun initRecyclerViewPictures() {
+    private fun initRecyclerViewImage() {
         adapter = RecyclerViewImage {
-            //todo add listener image
+            binding.layoutMainAdd.visibility = View.GONE
+            binding.layoutImage.visibility = View.VISIBLE
+            binding.ivDetails.setImageBitmap(it)
         }
         binding.recyclerViewImage.adapter = adapter
     }
 
-    private fun setDataRV() {
-        Log.i("MY_TAG", "id estate 'setDataRV' = ${estate.id}")
+    private fun setDataRecyclerView() {
         viewModel.getPicturesByEstate(estate.id).observe(requireActivity()) {
             images.clear()
             for (picture in it) {
                 images.add(picture.picture)
             }
             adapter.setData(images)
+            if (images.isNotEmpty()) estate.picture = images[0]
         }
     }
 
@@ -120,8 +123,6 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener {
             startActivityForResult(i, 120)
         }
     }
-
-
 
     private fun getNewsData(): Estate {
         binding.apply {
@@ -173,6 +174,11 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener {
             date = "End of sale"
 
         }
+
+        binding.imgImageClose.setOnClickListener {
+            binding.layoutMainAdd.visibility = View.VISIBLE
+            binding.layoutImage.visibility = View.GONE
+        }
     }
 
     override fun onRequestPermissionsResult(
@@ -201,7 +207,6 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
         calendar.set(year,month,dayOfMonth)
         setDate()
-        Log.i("MY_TAG", "addEstateBtnEndSale 'initPickDate' day of month  = ${calendar.get(Calendar.DAY_OF_MONTH)}/${calendar.get(Calendar.MONTH)}/${calendar.get(Calendar.YEAR)}")
     }
 
     private fun setDate() {

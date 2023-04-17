@@ -21,4 +21,10 @@ class AgentRepository(private val agentDAO: AgentDAO) {
     suspend fun insertAgent(agent: Agent) {
         agentDAO.insert(agent)
     }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun deleteAgent(agent: Agent) {
+        agentDAO.delete(agent)
+    }
 }

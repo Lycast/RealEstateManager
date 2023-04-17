@@ -29,6 +29,9 @@ class MainViewModel(private val agentRepository : AgentRepository, private val e
     fun insertAgent(agent: Agent) = viewModelScope.launch {
         agentRepository.insertAgent(agent)
     }
+    fun deleteAgent(agent: Agent) = viewModelScope.launch {
+        agentRepository.deleteAgent(agent)
+    }
 
     fun insertEstate(context: Context,estate: Estate) = liveData {
         try {

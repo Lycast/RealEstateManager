@@ -15,7 +15,6 @@ import androidx.navigation.Navigation
 import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.RealEstateManagerApp
 import anthony.brenon.realestatemanager.databinding.ActivityMainBinding
-import anthony.brenon.realestatemanager.ui.dialog.DialogAgentConnect
 
 class MainActivity : AppCompatActivity() {
 
@@ -66,7 +65,11 @@ class MainActivity : AppCompatActivity() {
 
         binding.headerNavigationView.setNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.item_login -> DialogAgentConnect().show(supportFragmentManager, "dialog_login")
+                R.id.item_login -> {
+                    Navigation.findNavController(binding.root.findViewById(R.id.nav_host_fragment))
+                        .navigate(R.id.item_connect_fragment)
+                    drawerLayout.close()
+                }
                 R.id.item_exit -> finishAndRemoveTask()
             }
             true

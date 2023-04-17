@@ -38,7 +38,7 @@ class DetailsFragment : Fragment() {
             initRVImage(it.id)
         }
 
-        onClickFabClose()
+        listenerClickView()
     }
 
     private fun populateView(estate: Estate ) {
@@ -53,7 +53,9 @@ class DetailsFragment : Fragment() {
     private fun initRVImage(estateId : Long) {
 
         adapter = RecyclerViewImage {
-            //todo add listener image
+            binding.layoutDetails?.visibility = View.GONE
+            binding.layoutImage?.visibility = View.VISIBLE
+            binding.ivDetails?.setImageBitmap(it)
         }
 
         binding.recyclerViewImage.adapter = adapter
@@ -67,9 +69,13 @@ class DetailsFragment : Fragment() {
         }
     }
 
-    private fun onClickFabClose() {
+    private fun listenerClickView() {
         binding.imgDetailsClose?.setOnClickListener {
             Navigation.findNavController(binding.root).navigate(R.id.item_list_fragment)
+        }
+        binding.imgImageClose?.setOnClickListener {
+            binding.layoutDetails?.visibility = View.VISIBLE
+            binding.layoutImage?.visibility = View.GONE
         }
     }
 }

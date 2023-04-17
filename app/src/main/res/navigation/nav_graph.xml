@@ -31,4 +31,12 @@
             app:destination="@id/item_list_fragment" />
     </fragment>
 
+    <fragment
+        android:id="@+id/item_connect_fragment"
+        android:name="anthony.brenon.realestatemanager.ui.navigation.ConnectionFragment">
+        <action
+            android:id="@+id/show_item_list"
+            app:destination="@id/item_list_fragment" />
+    </fragment>
+
 </navigation>
