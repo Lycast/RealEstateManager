@@ -1,88 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="10dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.navigation.ConnectionFragment">
 
     <ImageView
         android:id="@+id/iv_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="15dp"
         android:src="@drawable/baseline_arrow_back_ios_24"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
 
     <EditText
         android:id="@+id/create_dial_et_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxLength="7"
-        android:inputType="textPersonName"
-        android:hint="@string/enter_name"
-        android:layout_marginTop="25dp"
+        android:minHeight="48dip"
         android:layout_marginHorizontal="25dp"
+        android:layout_marginTop="15dp"
+        android:autofillHints=""
+        android:hint="@string/enter_name"
+        android:inputType="textPersonName"
+        android:maxLength="7"
         app:layout_constraintBottom_toTopOf="@id/create_dial_et_email"
-        app:layout_constraintTop_toBottomOf="@id/iv_back"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:autofillHints="" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_back" />
 
     <EditText
         android:id="@+id/create_dial_et_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/enter_email"
         android:layout_marginHorizontal="25dp"
-        app:layout_constraintTop_toBottomOf="@id/create_dial_et_name"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:minHeight="48dip"
         android:autofillHints=""
-        android:inputType="textEmailAddress" />
+        android:hint="@string/enter_email"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/create_dial_et_name" />
 
     <Button
         android:id="@+id/btn_create_agent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/create"
-        android:backgroundTint="@android:color/transparent"
         android:layout_margin="25dp"
+        android:backgroundTint="@android:color/transparent"
+        android:text="@string/create"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/create_dial_et_email"/>
+        app:layout_constraintTop_toBottomOf="@id/create_dial_et_email" />
 
     <Button
         android:id="@+id/btn_delete_agent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/delete"
-        android:backgroundTint="@android:color/transparent"
         android:layout_margin="25dp"
+        android:backgroundTint="@android:color/transparent"
+        android:text="@string/delete"
         app:layout_constraintRight_toLeftOf="@id/btn_create_agent"
-        app:layout_constraintTop_toBottomOf="@id/create_dial_et_email"/>
+        app:layout_constraintTop_toBottomOf="@id/create_dial_et_email" />
 
     <Spinner
         android:id="@+id/agent_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
         android:layout_marginHorizontal="25dp"
-        app:layout_constraintTop_toBottomOf="@id/btn_create_agent"
+        android:layout_marginTop="25dp"
+        android:minHeight="48dip"
         app:layout_constraintBottom_toTopOf="@id/btn_connect_agent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/btn_create_agent"
+        android:contentDescription="@string/select_agent"/>
 
     <Button
         android:id="@+id/btn_connect_agent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/connect"
-        android:backgroundTint="@android:color/transparent"
+        android:minHeight="48dp"
         android:layout_margin="25dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        android:backgroundTint="@android:color/transparent"
+        android:text="@string/connect"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

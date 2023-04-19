@@ -14,10 +14,4 @@
         android:title="@string/edit"
         app:showAsAction="ifRoom"/>
 
-    <item
-        android:id="@+id/item_search"
-        android:icon="@drawable/ic_search_24"
-        android:title="@string/search"
-        app:showAsAction="ifRoom"/>
-
 </menu>

@@ -70,7 +70,7 @@ class DetailsFragment : Fragment() {
     }
 
     private fun listenerClickView() {
-        binding.imgDetailsClose?.setOnClickListener {
+        binding.imgAddEstateBack?.setOnClickListener {
             Navigation.findNavController(binding.root).navigate(R.id.item_list_fragment)
         }
         binding.imgImageClose?.setOnClickListener {
