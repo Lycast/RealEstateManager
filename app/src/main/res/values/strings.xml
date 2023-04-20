@@ -44,4 +44,5 @@
     <string name="delete">delete</string>
     <string name="select_agent">Select Agent</string>
     <string name="add_photo_from_folder">add photo from folder</string>
+    <string name="autocomplete_hint">reseach address</string>
 </resources>

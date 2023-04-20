@@ -1,6 +1,8 @@
 package anthony.brenon.realestatemanager.ui.navigation
 
 
+import android.app.Activity
+import android.app.Activity.RESULT_CANCELED
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -8,6 +10,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +21,7 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
+import anthony.brenon.realestatemanager.BuildConfig
 import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.databinding.FragmentAddEstateBinding
 import anthony.brenon.realestatemanager.models.Agent
@@ -25,7 +29,14 @@ import anthony.brenon.realestatemanager.models.Estate
 import anthony.brenon.realestatemanager.models.Picture
 import anthony.brenon.realestatemanager.ui.MainViewModel
 import anthony.brenon.realestatemanager.ui.adapter.RecyclerViewImage
-import java.util.Calendar
+import com.google.android.gms.common.api.Status
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.AutocompleteActivity
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
+import java.util.*
+
 
 class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener, AdapterView.OnItemSelectedListener {
 
@@ -40,6 +51,9 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener, Adapte
     private val calendar = Calendar.getInstance()
     private lateinit var date : String
 
+    private val AUTOCOMPLETE_REQUEST_CODE = 1
+    private val CAMERA_REQUEST_CODE = 101
+    private val FOLDER_REQUEST_CODE = 120
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,11 +74,23 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener, Adapte
         super.onViewCreated(view, savedInstanceState)
 
 
-
-
         initRecyclerViewImage()
         initSpinnerAgents()
         listenerClickView()
+    }
+
+    private fun autoCompleteLauncher() {
+        if (!Places.isInitialized()) {
+            Places.initialize(requireActivity(), BuildConfig.MAPS_API_KEY)
+        } else {
+            val fields: List<Place.Field> = listOf(Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG)
+            val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
+                .setHint(getString(R.string.autocomplete_hint))
+                .setCountry("FR")
+                .build(requireActivity())
+            startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
+            binding.layoutMainAdd.visibility = View.GONE
+        }
     }
 
     private fun initSpinnerAgents() {
@@ -109,7 +135,7 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener, Adapte
             )
         } else {
             val i = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            startActivityForResult(i, 101)
+            startActivityForResult(i, CAMERA_REQUEST_CODE)
         }
     }
 
@@ -127,7 +153,7 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener, Adapte
         } else {
             val i = Intent(Intent.ACTION_PICK)
             i.type = "image/*"
-            startActivityForResult(i, 120)
+            startActivityForResult(i, FOLDER_REQUEST_CODE)
         }
     }
 
@@ -139,7 +165,6 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener, Adapte
             val surface = addEstateEtSurface.text.toString()
             val roomNb = addEstateEtNbRoom.text.toString()
             val description = addEstateEtDescription.text.toString()
-            //todo val address = addEstateEtAddress.text.toString()
             val interesting = addEstateEtInterestingPoint.text.toString()
             val isSale = false
 
@@ -149,7 +174,6 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener, Adapte
             estate.surface = surface
             estate.roomsNumber = roomNb
             estate.description = description
-            //estate.address = address
             estate.interestingPoint = interesting
             estate.isSale = isSale
         }
@@ -164,29 +188,20 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener, Adapte
     }
 
     private fun listenerClickView() {
-
         binding.addEstateBtnCamera.setOnClickListener { addImageFromCamera() }
         binding.addEstateBtnFolder.setOnClickListener { addImageFromFolder() }
-
-        binding.imgAddEstateBack.setOnClickListener {
-            Navigation.findNavController(binding.root).navigate(R.id.item_list_fragment)
-        }
+        binding.btnAddEstateAddress.setOnClickListener { autoCompleteLauncher() }
+        binding.imgAddEstateBack.setOnClickListener { Navigation.findNavController(binding.root).navigate(R.id.item_list_fragment) }
         binding.btnAddEstateCreate.setOnClickListener {
             insertEstateData()
             Navigation.findNavController(binding.root).navigate(R.id.item_list_fragment)
         }
-
-        binding.addEstateBtnStartSale.setOnClickListener {
+        binding.addEstateBtnStartSale.setOnClickListener {date = "Start of sale"
             DatePickerDialog(requireContext(), this, calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show()
-            date = "Start of sale"
-
         }
-        binding.addEstateBtnEndSale.setOnClickListener {
+        binding.addEstateBtnEndSale.setOnClickListener {date = "End of sale"
             DatePickerDialog(requireContext(), this, calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show()
-            date = "End of sale"
-
         }
-
         binding.imgImageClose.setOnClickListener {
             binding.layoutMainAdd.visibility = View.VISIBLE
             binding.layoutImage.visibility = View.GONE
@@ -204,16 +219,35 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener, Adapte
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val pic : Bitmap? =
-        when (requestCode) {
-            101 -> data?.getParcelableExtra("data")
-            120 -> MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, data?.data)
-            else -> null
-        }
-        pic?.let {
-            val newImage = it
-            images.add(newImage)
-            adapter.setData(images)
+
+        binding.layoutMainAdd.visibility = View.VISIBLE
+        Log.i("TAG", "request code: $requestCode")
+
+        if (resultCode == Activity.RESULT_OK) {
+
+            if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+                data?.let {
+                    val place = Autocomplete.getPlaceFromIntent(data)
+                    Log.i("TAG", "Place: " + place.name + "  " + place.latLng)
+                    estate.address = place.address as String
+                    Log.i("TAG", "estate address : " + estate.address )
+                }
+            }
+
+            val pic: Bitmap? =
+                when (requestCode) {
+                    CAMERA_REQUEST_CODE -> data?.getParcelableExtra("data")
+                    FOLDER_REQUEST_CODE -> MediaStore.Images.Media.getBitmap(
+                        requireActivity().contentResolver,
+                        data?.data
+                    )
+                    else -> null
+                }
+            pic?.let {
+                val newImage = it
+                images.add(newImage)
+                adapter.setData(images)
+            }
         }
     }
 

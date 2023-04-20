@@ -70,32 +70,6 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/add_estate_btn_camera"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:padding="10dp"
-            android:minHeight="48dp"
-            android:src="@drawable/baseline_photo_camera_24"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/add_estate_btn_folder"
-            app:layout_constraintTop_toBottomOf="@id/img_add_estate_back"
-            android:contentDescription="@string/add_photo" />
-
-        <ImageButton
-            android:id="@+id/add_estate_btn_folder"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:padding="10dp"
-            android:minHeight="48dp"
-            android:src="@drawable/baseline_folder_24"
-            app:layout_constraintLeft_toRightOf="@id/add_estate_btn_camera"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/img_add_estate_back"
-            android:contentDescription="@string/add_photo_from_folder" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView_image"
             android:layout_width="0dp"
@@ -105,7 +79,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/add_estate_btn_camera" />
+            app:layout_constraintTop_toBottomOf="@id/img_add_estate_back" />
 
         <EditText
             android:id="@+id/add_estate_et_type"
@@ -120,7 +94,7 @@
             android:paddingHorizontal="10dp"
             app:layout_constraintEnd_toStartOf="@id/add_estate_et_surface"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recyclerView_image" />
+            app:layout_constraintTop_toBottomOf="@id/add_estate_btn_camera" />
 
         <EditText
             android:id="@+id/add_estate_et_surface"
@@ -135,7 +109,7 @@
             android:paddingHorizontal="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/add_estate_et_type"
-            app:layout_constraintTop_toBottomOf="@id/recyclerView_image" />
+            app:layout_constraintTop_toBottomOf="@id/add_estate_btn_camera" />
 
 
         <EditText
@@ -169,6 +143,19 @@
             app:layout_constraintTop_toBottomOf="@id/add_estate_et_type" />
 
 
+        <Button
+            android:id="@+id/btn_add_estate_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="10dp"
+            android:minHeight="48dp"
+            android:hint="@string/address"
+            android:paddingHorizontal="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/add_estate_et_price" />
 
         <EditText
             android:id="@+id/add_estate_et_interesting_point"
@@ -183,7 +170,7 @@
             android:paddingHorizontal="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/add_estate_et_nb_room" />
+            app:layout_constraintTop_toBottomOf="@id/btn_add_estate_address" />
 
         <EditText
             android:id="@+id/add_estate_et_status"
@@ -255,21 +242,37 @@
             android:lineSpacingMultiplier="1.8"
             android:maxLines="10"
             android:paddingHorizontal="10dp"
-            app:layout_constraintBottom_toTopOf="@id/autocomplete_fragment"
+            app:layout_constraintBottom_toTopOf="@id/btn_add_estate_create"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/add_estate_et_status" />
 
-        <EditText android:id="@+id/autocomplete_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/add_estate_et_description"
-            app:layout_constraintBottom_toTopOf="@id/btn_add_estate_create"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:autofillHints=""
-            android:inputType="none" />
 
+        <ImageButton
+            android:id="@+id/add_estate_btn_camera"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:padding="10dp"
+            android:minHeight="48dp"
+            android:src="@drawable/baseline_photo_camera_24"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/add_estate_btn_folder"
+            app:layout_constraintTop_toBottomOf="@id/recyclerView_image"
+            android:contentDescription="@string/add_photo" />
+
+        <ImageButton
+            android:id="@+id/add_estate_btn_folder"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:padding="10dp"
+            android:minHeight="48dp"
+            android:src="@drawable/baseline_folder_24"
+            app:layout_constraintLeft_toRightOf="@id/add_estate_btn_camera"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recyclerView_image"
+            android:contentDescription="@string/add_photo_from_folder" />
 
         <Button
             android:id="@+id/btn_add_estate_create"
