@@ -22,6 +22,8 @@ data class Estate(
     var roomsNumber: String,
     var description: String,
     var address: String,
+    var lng: Double,
+    var lat: Double,
     var interestingPoint: String,
     var isSale: Boolean,
     var onSaleDate: String,

@@ -45,4 +45,7 @@
     <string name="select_agent">Select Agent</string>
     <string name="add_photo_from_folder">add photo from folder</string>
     <string name="autocomplete_hint">reseach address</string>
+    <string name="picture">picture</string>
+    <string name="add_picture">add picture</string>
+    <string name="select_resource_for_add_picture">select resource for add picture</string>
 </resources>

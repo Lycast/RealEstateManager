@@ -19,7 +19,7 @@ class RealEstateManagerApp : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        setCursorSize()
+        //setCursorSize()
     }
 
     @SuppressLint("DiscouragedPrivateApi")

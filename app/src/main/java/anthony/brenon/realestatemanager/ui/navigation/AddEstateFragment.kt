@@ -2,7 +2,6 @@ package anthony.brenon.realestatemanager.ui.navigation
 
 
 import android.app.Activity
-import android.app.Activity.RESULT_CANCELED
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -29,11 +28,9 @@ import anthony.brenon.realestatemanager.models.Estate
 import anthony.brenon.realestatemanager.models.Picture
 import anthony.brenon.realestatemanager.ui.MainViewModel
 import anthony.brenon.realestatemanager.ui.adapter.RecyclerViewImage
-import com.google.android.gms.common.api.Status
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
-import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import java.util.*
 
@@ -63,7 +60,7 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener, Adapte
         _binding = FragmentAddEstateBinding.inflate(inflater, container, false)
 
         estate = Estate(
-            0, "type", "0", "0", "0", "description", "address", "interesting point", false, "", "", "agent"
+            0, "type", "0", "0", "0", "description", "address",0.00,0.00,"interesting point", false, "", "", "agent"
             , BitmapFactory.decodeResource(resources, R.drawable.img_estate_test_1)
         )
 
@@ -91,35 +88,6 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener, Adapte
             startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
             binding.layoutMainAdd.visibility = View.GONE
         }
-    }
-
-    private fun initSpinnerAgents() {
-        // access the spinner
-        val adapter = ArrayAdapter(
-            requireActivity(),
-            android.R.layout.simple_spinner_item,
-            agentsData
-        )
-
-        binding.agentSpinner.adapter = adapter
-        binding.agentSpinner.onItemSelectedListener = this
-
-
-        viewModel.allAgents.observe(requireActivity()) { agents ->
-            // access the items of the list
-            agentsData.addAll(agents)
-            adapter.notifyDataSetChanged()
-        }
-    }
-
-    private fun initRecyclerViewImage() {
-        adapter = RecyclerViewImage {
-            binding.layoutMainAdd.visibility = View.GONE
-            binding.layoutImage.visibility = View.VISIBLE
-            binding.ivDetails.setImageBitmap(it)
-        }
-        binding.recyclerViewImage.adapter = adapter
-        adapter.setData(images)
     }
 
     private fun addImageFromCamera() {
@@ -157,57 +125,6 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener, Adapte
         }
     }
 
-    private fun insertEstateData() {
-
-        binding.apply {
-            val type = addEstateEtType.text.toString()
-            val price = addEstateEtPrice.text.toString()
-            val surface = addEstateEtSurface.text.toString()
-            val roomNb = addEstateEtNbRoom.text.toString()
-            val description = addEstateEtDescription.text.toString()
-            val interesting = addEstateEtInterestingPoint.text.toString()
-            val isSale = false
-
-            if(images.isNotEmpty()) estate.picture = images[0]
-            estate.type = type
-            estate.price = price
-            estate.surface = surface
-            estate.roomsNumber = roomNb
-            estate.description = description
-            estate.interestingPoint = interesting
-            estate.isSale = isSale
-        }
-
-        viewModel.insertEstate(requireContext(),estate).observe(requireActivity()) {
-            estate.id = it
-
-            for (image in images) {
-                viewModel.insertPicture(Picture(image,it))
-            }
-        }
-    }
-
-    private fun listenerClickView() {
-        binding.addEstateBtnCamera.setOnClickListener { addImageFromCamera() }
-        binding.addEstateBtnFolder.setOnClickListener { addImageFromFolder() }
-        binding.btnAddEstateAddress.setOnClickListener { autoCompleteLauncher() }
-        binding.imgAddEstateBack.setOnClickListener { Navigation.findNavController(binding.root).navigate(R.id.item_list_fragment) }
-        binding.btnAddEstateCreate.setOnClickListener {
-            insertEstateData()
-            Navigation.findNavController(binding.root).navigate(R.id.item_list_fragment)
-        }
-        binding.addEstateBtnStartSale.setOnClickListener {date = "Start of sale"
-            DatePickerDialog(requireContext(), this, calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show()
-        }
-        binding.addEstateBtnEndSale.setOnClickListener {date = "End of sale"
-            DatePickerDialog(requireContext(), this, calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show()
-        }
-        binding.imgImageClose.setOnClickListener {
-            binding.layoutMainAdd.visibility = View.VISIBLE
-            binding.layoutImage.visibility = View.GONE
-        }
-    }
-
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -230,7 +147,8 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener, Adapte
                     val place = Autocomplete.getPlaceFromIntent(data)
                     Log.i("TAG", "Place: " + place.name + "  " + place.latLng)
                     estate.address = place.address as String
-                    Log.i("TAG", "estate address : " + estate.address )
+                    estate.lat = place.latLng?.latitude ?: 0.00
+                    estate.lng = place.latLng?.longitude ?: 0.00
                 }
             }
 
@@ -276,4 +194,101 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener, Adapte
         estate.agentInChargeName = agentsData[position].nameAgent
     }
     override fun onNothingSelected(parent: AdapterView<*>?) {}
+
+    private fun listenerClickView() {
+        binding.addEstateBtnPicture.setOnClickListener {
+            //todo add dialog select folder or camera
+            addImageFromCamera()
+        }
+        binding.btnAddEstateAddress.setOnClickListener { autoCompleteLauncher() }
+        binding.imgAddEstateBack.setOnClickListener { Navigation.findNavController(binding.root).navigate(R.id.item_list_fragment) }
+        binding.btnAddEstateCreate.setOnClickListener {
+            insertEstateData()
+            Navigation.findNavController(binding.root).navigate(R.id.item_list_fragment)
+        }
+        binding.addEstateBtnStartSale.setOnClickListener {date = "Start of sale"
+            DatePickerDialog(requireContext(), this, calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show()
+        }
+        binding.addEstateBtnEndSale.setOnClickListener {date = "End of sale"
+            DatePickerDialog(requireContext(), this, calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show()
+        }
+        binding.imgImageClose.setOnClickListener {
+            binding.layoutMainAdd.visibility = View.VISIBLE
+            binding.layoutImage.visibility = View.GONE
+        }
+    }
+
+    private fun insertEstateData() {
+
+        /*
+        Le type de bien (appartement, loft, manoir, etc) ;
+        Le prix du bien (en dollar) ;
+        La surface du bien (en m2) ;
+        Le nombre de pièces ;
+        La description complète du bien ;
+        Au moins une photo, avec une description associée. Vous devez gérer le cas où plusieurs photos sont présentes pour un bien ! La photo peut être récupérée depuis la galerie photos du téléphone, ou prise directement avec l'équipement ;
+        L’adresse du bien ;
+        Les points d’intérêts à proximité (école, commerces, parc, etc) ;
+        Le statut du bien (toujours disponible ou vendu) ;
+        La date d’entrée du bien sur le marché ;
+        La date de vente du bien, s’il a été vendu ;
+        L'agent immobilier en charge de ce bien.
+        */
+
+        binding.apply {
+            val type = addEstateEtType.text.toString()
+            val price = addEstateEtPrice.text.toString()
+            val surface = addEstateEtSurface.text.toString()
+            val roomNb = addEstateEtNbRoom.text.toString()
+            val description = addEstateEtDescription.text.toString()
+            val interesting = addEstateEtInterestingPoint.text.toString()
+            val isSale = false
+
+            if(images.isNotEmpty()) estate.picture = images[0]
+            estate.type = type
+            estate.price = price
+            estate.surface = surface
+            estate.roomsNumber = roomNb
+            estate.description = description
+            estate.interestingPoint = interesting
+            estate.isSale = isSale
+        }
+
+        viewModel.insertEstate(requireContext(),estate).observe(requireActivity()) {
+            estate.id = it
+
+            for (image in images) {
+                viewModel.insertPicture(Picture(image,it))
+            }
+        }
+    }
+
+    private fun initSpinnerAgents() {
+        // access the spinner
+        val adapter = ArrayAdapter(
+            requireActivity(),
+            android.R.layout.simple_spinner_item,
+            agentsData
+        )
+
+        binding.agentSpinner.adapter = adapter
+        binding.agentSpinner.onItemSelectedListener = this
+
+
+        viewModel.allAgents.observe(requireActivity()) { agents ->
+            // access the items of the list
+            agentsData.addAll(agents)
+            adapter.notifyDataSetChanged()
+        }
+    }
+
+    private fun initRecyclerViewImage() {
+        adapter = RecyclerViewImage {
+            binding.layoutMainAdd.visibility = View.GONE
+            binding.layoutImage.visibility = View.VISIBLE
+            binding.ivDetails.setImageBitmap(it)
+        }
+        binding.recyclerViewImage.adapter = adapter
+        adapter.setData(images)
+    }
 }

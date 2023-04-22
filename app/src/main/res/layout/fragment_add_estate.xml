@@ -16,10 +16,21 @@
             android:id="@+id/img_image_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="15dp"
             android:contentDescription="@string/desc_close_details"
             android:src="@drawable/ic_close_24"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent" />
+
+        <ImageView
+            android:id="@+id/dial_iv_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:src="@drawable/baseline_delete_forever_24"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
 
         <ImageView
             android:id="@+id/iv_details"
@@ -27,28 +38,6 @@
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription" />
-
-        <ImageView
-            android:id="@+id/dial_iv_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:elevation="5dp"
-            android:padding="15dp"
-            android:src="@drawable/baseline_delete_forever_24"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription" />
-
-        <ImageView
-            android:id="@+id/dial_iv_select"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:elevation="5dp"
-            android:padding="15dp"
-            android:src="@drawable/ic_home_24"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription" />
@@ -65,9 +54,35 @@
             android:id="@+id/img_add_estate_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:minHeight="48dp"
             android:contentDescription="@string/desc_close_details"
             android:src="@drawable/baseline_arrow_back_ios_24"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/add_estate_btn_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            android:minHeight="48dp"
+            android:text="@string/picture"
+            android:textAllCaps="false"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/add_picture" />
+
+        <Button
+            android:id="@+id/btn_add_estate_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            android:layout_marginHorizontal="10dp"
+            android:minHeight="48dp"
+            android:text="@string/address"
+            android:textAllCaps="false"
+            android:paddingHorizontal="10dp"
+            app:layout_constraintRight_toLeftOf="@id/add_estate_btn_picture"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -94,7 +109,7 @@
             android:paddingHorizontal="10dp"
             app:layout_constraintEnd_toStartOf="@id/add_estate_et_surface"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/add_estate_btn_camera" />
+            app:layout_constraintTop_toBottomOf="@id/recyclerView_image" />
 
         <EditText
             android:id="@+id/add_estate_et_surface"
@@ -109,7 +124,7 @@
             android:paddingHorizontal="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/add_estate_et_type"
-            app:layout_constraintTop_toBottomOf="@id/add_estate_btn_camera" />
+            app:layout_constraintTop_toBottomOf="@id/recyclerView_image" />
 
 
         <EditText
@@ -142,21 +157,6 @@
             app:layout_constraintStart_toEndOf="@id/add_estate_et_price"
             app:layout_constraintTop_toBottomOf="@id/add_estate_et_type" />
 
-
-        <Button
-            android:id="@+id/btn_add_estate_address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/transparent"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="10dp"
-            android:minHeight="48dp"
-            android:hint="@string/address"
-            android:paddingHorizontal="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/add_estate_et_price" />
-
         <EditText
             android:id="@+id/add_estate_et_interesting_point"
             android:layout_width="match_parent"
@@ -170,7 +170,7 @@
             android:paddingHorizontal="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_add_estate_address" />
+            app:layout_constraintTop_toBottomOf="@id/add_estate_et_nb_room" />
 
         <EditText
             android:id="@+id/add_estate_et_status"
@@ -199,9 +199,6 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/add_estate_btn_end_sale"/>
 
-
-
-
         <Button
             android:id="@+id/add_estate_btn_start_sale"
             android:layout_width="0dp"
@@ -209,8 +206,8 @@
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="10dp"
             android:backgroundTint="@android:color/transparent"
-            android:hint="@string/start_sale"
-            android:textSize="18sp"
+            android:text="@string/start_sale"
+            android:textAllCaps="false"
             app:layout_constraintEnd_toStartOf="@id/add_estate_btn_end_sale"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/add_estate_et_interesting_point" />
@@ -221,10 +218,9 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="10dp"
-            android:autofillHints=""
             android:backgroundTint="@android:color/transparent"
-            android:hint="@string/end_sale"
-            android:textSize="18sp"
+            android:text="@string/end_sale"
+            android:textAllCaps="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/add_estate_btn_start_sale"
             app:layout_constraintTop_toBottomOf="@id/add_estate_et_interesting_point" />
@@ -247,32 +243,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/add_estate_et_status" />
 
-
-        <ImageButton
-            android:id="@+id/add_estate_btn_camera"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:padding="10dp"
-            android:minHeight="48dp"
-            android:src="@drawable/baseline_photo_camera_24"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/add_estate_btn_folder"
-            app:layout_constraintTop_toBottomOf="@id/recyclerView_image"
-            android:contentDescription="@string/add_photo" />
-
-        <ImageButton
-            android:id="@+id/add_estate_btn_folder"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:padding="10dp"
-            android:minHeight="48dp"
-            android:src="@drawable/baseline_folder_24"
-            app:layout_constraintLeft_toRightOf="@id/add_estate_btn_camera"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recyclerView_image"
-            android:contentDescription="@string/add_photo_from_folder" />
 
         <Button
             android:id="@+id/btn_add_estate_create"

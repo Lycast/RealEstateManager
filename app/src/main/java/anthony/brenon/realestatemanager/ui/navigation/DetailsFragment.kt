@@ -23,6 +23,7 @@ class DetailsFragment : Fragment() {
     private val viewModel by activityViewModels<MainViewModel>()
     private lateinit var adapter : RecyclerViewImage
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle? ): View {

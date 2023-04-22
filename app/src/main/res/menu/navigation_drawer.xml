@@ -9,11 +9,7 @@
             android:icon="@drawable/ic_login_24"
             android:title="@string/login"
             android:checkable="false"/>
-        <item
-            android:id="@+id/item_search"
-            android:icon="@drawable/ic_search_24"
-            android:title="@string/search"
-            android:checkable="false"/>
+
     </group>
 
     <group
