@@ -15,18 +15,18 @@ import androidx.navigation.Navigation
 import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.RealEstateManagerApp
 import anthony.brenon.realestatemanager.databinding.ActivityMainBinding
+import anthony.brenon.realestatemanager.utils.EstateStatus
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
     private val viewModel: MainViewModel by viewModels {
         MainViewModelFactory((application as RealEstateManagerApp).agentRepository, (application as RealEstateManagerApp).estateRepository)
     }
-
-    // drawer init
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
+
+    //TODO implement content provider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,16 +35,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         initDrawer()
-        addImageEstate()
-    }
-
-    //todo delete this inject after
-    private fun addImageEstate() {
-        //val imageBitmap = BitmapFactory.decodeResource(resources, R.drawable.img_estate_test_2)
     }
 
     private fun initDrawer() {
-
         drawerLayout = binding.myDrawerLayout
         actionBarDrawerToggle =
             ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close)
@@ -63,20 +56,9 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        binding.headerNavigationView.setNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.item_login -> {
-                    Navigation.findNavController(binding.root.findViewById(R.id.nav_host_fragment))
-                        .navigate(R.id.item_connect_fragment)
-                    drawerLayout.close()
-                }
-                R.id.item_exit -> finishAndRemoveTask()
-            }
-            true
-        }
+        drawerMenuListener()
     }
 
-    // add custom menu toolbar
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar_menu, menu)
         return true
@@ -88,13 +70,35 @@ class MainActivity : AppCompatActivity() {
             return true
         }
         return when (item.itemId) {
+            R.id.item_search -> {
+                Navigation.findNavController(binding.root.findViewById(R.id.nav_host_fragment)).navigate(R.id.item_filter_fragment)
+                return true
+            }
             R.id.item_add -> {
+                viewModel.selectThisEstateStatus(EstateStatus.ADD_NEWS_ESTATE)
                 Navigation.findNavController(binding.root.findViewById(R.id.nav_host_fragment)).navigate(R.id.item_add_fragment)
                 return true
             }
             else -> {
                 super.onOptionsItemSelected(item)
             }
+        }
+    }
+
+    private fun drawerMenuListener() {
+        binding.headerNavigationView.setNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.item_settings -> {
+                    Navigation.findNavController(binding.root.findViewById(R.id.nav_host_fragment)).navigate(R.id.item_settings_fragment)
+                    drawerLayout.close()
+                }
+                R.id.item_login -> {
+                    Navigation.findNavController(binding.root.findViewById(R.id.nav_host_fragment)).navigate(R.id.item_connect_fragment)
+                    drawerLayout.close()
+                }
+                R.id.item_exit -> finishAndRemoveTask()
+            }
+            true
         }
     }
 }

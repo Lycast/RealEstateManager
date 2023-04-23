@@ -5,10 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import anthony.brenon.realestatemanager.R
+import anthony.brenon.realestatemanager.databinding.FragmentFilterBinding
 
 
 class FilterFragment : Fragment() {
+
+    private var _binding: FragmentFilterBinding? = null
+    private val binding get() = _binding!!
 
     /*
     L’agent immobilier peut effectuer une recherche multi-critères sur l’ensemble des biens immobiliers de la base.
@@ -22,11 +27,21 @@ class FilterFragment : Fragment() {
     avec au moins trois photos, pour un prix compris entre $1,500,000 et $2,000,000.
     */
 
+    //TODO implement filter fragment
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_filter, container, false)
+    ): View {
+        _binding = FragmentFilterBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.ivFilterFragBack.setOnClickListener {
+            Navigation.findNavController(binding.root).navigate(R.id.item_list_fragment)
+        }
     }
 }

@@ -28,7 +28,7 @@ class ConnectionFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private var name = ""
     private var email = ""
 
-
+    //todo update agent
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,6 +56,7 @@ class ConnectionFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         viewModel.allAgents.observe(requireActivity()) { agents ->
             // access the items of the list
+            agentsData.clear()
             agentsData.addAll(agents)
             adapter.notifyDataSetChanged()
         }
@@ -69,13 +70,16 @@ class ConnectionFragment : Fragment(), AdapterView.OnItemSelectedListener {
         binding.btnCreateAgent.setOnClickListener {
             name = binding.createDialEtName.text.toString()
             email = binding.createDialEtEmail.text.toString()
+            binding.createDialEtName.setText("")
+            binding.createDialEtEmail.setText("")
             createAgent(name, email)
         }
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         agentSelected = agentsData[position]
-        binding.createDialEtName.setText(agentSelected.nameAgent)
+        binding.createDialEtName.hint = agentSelected.nameAgent
+        binding.createDialEtEmail.hint = agentSelected.emailAgent
         binding.btnDeleteAgent.isEnabled = true
     }
     override fun onNothingSelected(parent: AdapterView<*>?) {}

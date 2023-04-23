@@ -14,15 +14,17 @@ import anthony.brenon.realestatemanager.databinding.FragmentDetailsBinding
 import anthony.brenon.realestatemanager.models.Estate
 import anthony.brenon.realestatemanager.ui.MainViewModel
 import anthony.brenon.realestatemanager.ui.adapter.RecyclerViewImage
+import anthony.brenon.realestatemanager.utils.EstateStatus
 
 class DetailsFragment : Fragment() {
 
     private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
-
     private val viewModel by activityViewModels<MainViewModel>()
+
     private lateinit var adapter : RecyclerViewImage
 
+    //TODO implement all data we needed to see in view
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -74,9 +76,15 @@ class DetailsFragment : Fragment() {
         binding.imgAddEstateBack?.setOnClickListener {
             Navigation.findNavController(binding.root).navigate(R.id.item_list_fragment)
         }
+
         binding.imgImageClose?.setOnClickListener {
             binding.layoutDetails?.visibility = View.VISIBLE
             binding.layoutImage?.visibility = View.GONE
+        }
+
+        binding.imgEstateEdit?.setOnClickListener {
+            viewModel.selectThisEstateStatus(EstateStatus.UPDATE_EXISTING_ESTATE)
+            Navigation.findNavController(binding.root).navigate(R.id.item_add_fragment)
         }
     }
 }

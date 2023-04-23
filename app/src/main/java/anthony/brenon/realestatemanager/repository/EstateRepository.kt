@@ -24,12 +24,6 @@ class EstateRepository(private val estateDAO: EstateDAO, private val pictureDAO:
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun deleteEstate(estate: Estate) {
-        estateDAO.delete(estate)
-    }
-
-    @Suppress("RedundantSuspendModifier")
-    @WorkerThread
     suspend fun updateEstate(estate: Estate) {
         estateDAO.update(estate)
     }

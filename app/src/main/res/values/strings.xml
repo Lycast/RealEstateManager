@@ -30,7 +30,7 @@
     <string name="room">room</string>
     <string name="address">address</string>
     <string name="interesting_point">interesting point</string>
-    <string name="end_sale">end sale</string>
+    <string name="estate_sold">estate sold</string>
     <string name="start_sale">start sale</string>
     <string name="status">status</string>
     <string name="agent">agent</string>
@@ -42,10 +42,12 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="delete">delete</string>
-    <string name="select_agent">Select Agent</string>
+    <string name="update">update</string>
+    <string name="select_agent">agent in charge</string>
     <string name="add_photo_from_folder">add photo from folder</string>
     <string name="autocomplete_hint">reseach address</string>
     <string name="picture">picture</string>
     <string name="add_picture">add picture</string>
     <string name="select_resource_for_add_picture">select resource for add picture</string>
+    <string name="select_address">select address</string>
 </resources>

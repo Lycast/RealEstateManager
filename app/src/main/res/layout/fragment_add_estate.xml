@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -64,9 +65,10 @@
             android:id="@+id/add_estate_btn_picture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="7dp"
             android:backgroundTint="@android:color/transparent"
             android:minHeight="48dp"
-            android:text="@string/picture"
+            android:text="@string/add_picture"
             android:textAllCaps="false"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -74,14 +76,13 @@
 
         <Button
             android:id="@+id/btn_add_estate_address"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/transparent"
-            android:layout_marginHorizontal="10dp"
             android:minHeight="48dp"
-            android:text="@string/address"
+            android:text="@string/select_address"
             android:textAllCaps="false"
-            android:paddingHorizontal="10dp"
+            app:layout_constraintLeft_toRightOf="@id/img_add_estate_back"
             app:layout_constraintRight_toLeftOf="@id/add_estate_btn_picture"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -89,12 +90,13 @@
             android:id="@+id/recyclerView_image"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
             android:layout_marginTop="15dp"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/img_add_estate_back" />
+            app:layout_constraintTop_toBottomOf="@id/card_spinner" />
 
         <EditText
             android:id="@+id/add_estate_et_type"
@@ -172,58 +174,64 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/add_estate_et_nb_room" />
 
-        <EditText
-            android:id="@+id/add_estate_et_status"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_spinner"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="10dp"
-            android:minHeight="48dp"
-            android:autofillHints=""
-            android:hint="@string/status"
-            android:inputType="text"
-            android:paddingHorizontal="10dp"
-            app:layout_constraintEnd_toStartOf="@id/agent_spinner"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/add_estate_btn_start_sale" />
-
-        <Spinner
-            android:id="@+id/agent_spinner"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="10dp"
-            android:minHeight="48dip"
-            android:contentDescription="@string/select_agent"
-            app:layout_constraintLeft_toRightOf="@id/add_estate_et_status"
+            android:layout_marginTop="5dp"
+            app:strokeWidth="1dp"
+            android:elevation="0dp"
+            app:strokeColor="@color/colorPrimaryDark"
+            app:cardCornerRadius="4dp"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/add_estate_btn_end_sale"/>
+            app:layout_constraintTop_toBottomOf="@id/img_add_estate_back">
 
-        <Button
-            android:id="@+id/add_estate_btn_start_sale"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="@android:color/transparent"
-            android:text="@string/start_sale"
-            android:textAllCaps="false"
-            app:layout_constraintEnd_toStartOf="@id/add_estate_btn_end_sale"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/add_estate_et_interesting_point" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="1dp"
+                android:background="@drawable/spinner_background">
 
-        <Button
-            android:id="@+id/add_estate_btn_end_sale"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="@android:color/transparent"
-            android:text="@string/end_sale"
-            android:textAllCaps="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/add_estate_btn_start_sale"
-            app:layout_constraintTop_toBottomOf="@id/add_estate_et_interesting_point" />
+                <TextView
+                    android:id="@+id/tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginVertical="7dp"
+                    android:textSize="17sp"
+                    android:text="@string/select_agent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/iv"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <Spinner
+                    android:id="@+id/agent_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:contentDescription="@string/select_agent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/tv"/>
+
+                <ImageView
+                    android:id="@+id/iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="5dp"
+                    android:src="@drawable/baseline_person_24"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/tv"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
 
         <EditText
             android:id="@+id/add_estate_et_description"
@@ -241,17 +249,30 @@
             app:layout_constraintBottom_toTopOf="@id/btn_add_estate_create"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/add_estate_et_status" />
+            app:layout_constraintTop_toBottomOf="@id/add_estate_et_interesting_point" />
 
+        <Button
+            android:id="@+id/add_estate_btn_sale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginStart="10dp"
+            android:paddingHorizontal="15dp"
+            android:backgroundTint="@android:color/transparent"
+            android:text="@string/estate_sold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/btn_add_estate_create"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <Button
             android:id="@+id/btn_add_estate_create"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
             android:backgroundTint="@android:color/transparent"
             android:text="@string/create"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/add_estate_btn_sale"
             app:layout_constraintRight_toRightOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,12 +28,12 @@ import anthony.brenon.realestatemanager.models.Estate
 import anthony.brenon.realestatemanager.models.Picture
 import anthony.brenon.realestatemanager.ui.MainViewModel
 import anthony.brenon.realestatemanager.ui.adapter.RecyclerViewImage
+import anthony.brenon.realestatemanager.utils.EstateStatus
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import java.util.*
-
 
 class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener, AdapterView.OnItemSelectedListener {
 
@@ -45,12 +45,24 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener, Adapte
     private lateinit var estate: Estate
     private val agentsData: MutableList<Agent> = mutableListOf()
     private val images = mutableListOf<Bitmap>()
+    private lateinit var image: Bitmap
     private val calendar = Calendar.getInstance()
-    private lateinit var date : String
+    private lateinit var estateStatus: EstateStatus
 
     private val AUTOCOMPLETE_REQUEST_CODE = 1
     private val CAMERA_REQUEST_CODE = 101
     private val FOLDER_REQUEST_CODE = 120
+
+    //TODO address button need improve
+
+    //TODO implement status 'sold' for estate sold  -add background sold
+
+    //TODO surface/price/room must be numbers not string
+    //TODO fix why we need 2 click for open address/picture
+
+    //TODO we can't create or update an estate if we don't have all data we needed
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -70,10 +82,22 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener, Adapte
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.estateStatus.observe(requireActivity()) {
+            estateStatus = it
+            if (estateStatus == EstateStatus.UPDATE_EXISTING_ESTATE) setUpdateEstate()
+        }
 
         initRecyclerViewImage()
         initSpinnerAgents()
         listenerClickView()
+    }
+
+    private fun setUpdateEstate() {
+        viewModel.estateSelected.observe(requireActivity()) {
+            estate = it
+            populateView()
+        }
+        binding.btnAddEstateCreate.setText(R.string.update)
     }
 
     private fun autoCompleteLauncher() {
@@ -104,6 +128,29 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener, Adapte
         } else {
             val i = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             startActivityForResult(i, CAMERA_REQUEST_CODE)
+        }
+    }
+
+    private fun populateView() {
+
+        viewModel.getPicturesByEstate(estate.id).observe(requireActivity()) {
+            for (picture in it) {
+                images.add(picture.picture)
+            }
+            adapter.setData(images)
+        }
+
+        binding.apply {
+            btnAddEstateAddress.text = estate.address
+            //agent
+            addEstateEtType.setText(estate.type)
+            addEstateEtSurface.setText(estate.surface)
+            addEstateEtPrice.setText(estate.price)
+            addEstateEtNbRoom.setText(estate.roomsNumber)
+            addEstateEtInterestingPoint.setText(estate.interestingPoint)
+            addEstateEtDescription.setText(estate.description)
+
+            addEstateBtnSale.visibility = View.VISIBLE
         }
     }
 
@@ -171,23 +218,10 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener, Adapte
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
         calendar.set(year,month,dayOfMonth)
-        setDate()
-    }
-
-    private fun setDate() {
-        val text: String
-        when(date) {
-            "Start of sale" -> {
-                    text = "${calendar.get(Calendar.DAY_OF_MONTH)}/${calendar.get(Calendar.MONTH)}/${calendar.get(Calendar.YEAR)}"
-                    estate.onSaleDate = text
-                    binding.addEstateBtnStartSale.text = text
-                }
-            "End of sale" -> {
-                    text = "${calendar.get(Calendar.DAY_OF_MONTH)}/${calendar.get(Calendar.MONTH)}/${calendar.get(Calendar.YEAR)}"
-                    estate.dateOfSale = text
-                    binding.addEstateBtnEndSale.text = text
-                }
-        }
+        val text = "${calendar.get(Calendar.DAY_OF_MONTH)}/${calendar.get(Calendar.MONTH)}/${calendar.get(Calendar.YEAR)}"
+        estate.dateOfSale = text
+        binding.addEstateBtnSale.text = text
+        estate.isSale = true
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -197,7 +231,7 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener, Adapte
 
     private fun listenerClickView() {
         binding.addEstateBtnPicture.setOnClickListener {
-            //todo add dialog select folder or camera
+            //TODO add dialog select folder or camera
             addImageFromCamera()
         }
         binding.btnAddEstateAddress.setOnClickListener { autoCompleteLauncher() }
@@ -206,13 +240,21 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener, Adapte
             insertEstateData()
             Navigation.findNavController(binding.root).navigate(R.id.item_list_fragment)
         }
-        binding.addEstateBtnStartSale.setOnClickListener {date = "Start of sale"
-            DatePickerDialog(requireContext(), this, calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show()
-        }
-        binding.addEstateBtnEndSale.setOnClickListener {date = "End of sale"
-            DatePickerDialog(requireContext(), this, calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show()
+        binding.addEstateBtnSale.setOnClickListener {
+            if (!estate.isSale) DatePickerDialog(requireContext(), this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
+            else {
+                estate.isSale = false
+                estate.dateOfSale = ""
+                binding.addEstateBtnSale.setText(R.string.estate_sold)
+            }
         }
         binding.imgImageClose.setOnClickListener {
+            binding.layoutMainAdd.visibility = View.VISIBLE
+            binding.layoutImage.visibility = View.GONE
+        }
+        binding.dialIvDelete.setOnClickListener {
+            images.remove(image)
+            adapter.setData(images)
             binding.layoutMainAdd.visibility = View.VISIBLE
             binding.layoutImage.visibility = View.GONE
         }
@@ -236,6 +278,7 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener, Adapte
         */
 
         binding.apply {
+            val date = "${Calendar.DAY_OF_MONTH}/${Calendar.MONTH}/${Calendar.YEAR}"
             val type = addEstateEtType.text.toString()
             val price = addEstateEtPrice.text.toString()
             val surface = addEstateEtSurface.text.toString()
@@ -252,13 +295,13 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener, Adapte
             estate.description = description
             estate.interestingPoint = interesting
             estate.isSale = isSale
+            estate.dateOfSale = date
         }
 
-        viewModel.insertEstate(requireContext(),estate).observe(requireActivity()) {
+        viewModel.insertEstate(requireContext(), estate).observe(requireActivity()) {
             estate.id = it
-
             for (image in images) {
-                viewModel.insertPicture(Picture(image,it))
+                viewModel.insertPicture(Picture(image, it))
             }
         }
     }
@@ -286,6 +329,7 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener, Adapte
         adapter = RecyclerViewImage {
             binding.layoutMainAdd.visibility = View.GONE
             binding.layoutImage.visibility = View.VISIBLE
+            if (it != null) { image = it }
             binding.ivDetails.setImageBitmap(it)
         }
         binding.recyclerViewImage.adapter = adapter
