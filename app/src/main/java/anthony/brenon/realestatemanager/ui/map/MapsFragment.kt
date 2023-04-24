@@ -27,8 +27,8 @@ class MapsFragment : Fragment() {
         viewModel.estateSelected.observe(requireActivity()) {
             val latLng = LatLng(it.lat, it.lng)
             callback = OnMapReadyCallback { googleMap ->
-                googleMap.addMarker(MarkerOptions().position(latLng).title(it.address))
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10.0f))
+                googleMap.addMarker(MarkerOptions().position(latLng).title(it.addressStreet))
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 11.0f))
             }
         }
     }
@@ -46,18 +46,4 @@ class MapsFragment : Fragment() {
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
     }
-
-
-
-
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera.
-     * In this case, we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to
-     * install it inside the SupportMapFragment. This method will only be triggered once the
-     * user has installed Google Play services and returned to the app.
-     */
 }

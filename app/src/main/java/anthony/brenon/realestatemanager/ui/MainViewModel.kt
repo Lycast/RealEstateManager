@@ -18,8 +18,12 @@ class MainViewModel(private val agentRepository : AgentRepository, private val e
     var estateStatus = MutableLiveData<EstateStatus>()
     var monetaryUnit = MutableLiveData<MonetaryUnit>()
 
-    fun selectThisEstate(estate: Estate) { estateSelected.value = estate }
+
     fun selectThisAgent(agent: Agent) { agentSelected.value = agent }
+
+    fun agentIsConnected() : Boolean { return agentSelected.value != null }
+
+    fun selectThisEstate(estate: Estate) { estateSelected.value = estate }
     fun selectThisEstateStatus(status: EstateStatus) { estateStatus.value = status }
     fun selectThisMonetaryUnit(unity: MonetaryUnit) { monetaryUnit.value = unity }
 

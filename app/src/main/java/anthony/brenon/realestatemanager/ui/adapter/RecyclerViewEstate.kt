@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.databinding.ItemEstateBinding
 import anthony.brenon.realestatemanager.models.Estate
 import java.text.DecimalFormat
@@ -44,19 +45,20 @@ class RecyclerViewEstate (
             var price = ""
             val dec = DecimalFormat("#,###")
             if (estate.price.isNotEmpty()) {
-                price = dec.format(estate.price.toInt())
+                price = "${dec.format(estate.price.toInt())}$"
             }
 
 
             itemBinding.apply {
-                cardLayoutImageView.setImageBitmap(estate.picture)
+                if (estate.isSold()) cardLayoutImageView.setImageResource(R.drawable.sold)
+                else cardLayoutImageView.setImageBitmap(estate.picture)
                 cardLayoutTextView1.text = estate.type
-                cardLayoutTextView2.text = estate.address
                 cardLayoutTextView3.text = price
-            }
-            // bind your view here
-            binding.root.setOnClickListener {
-                onSelect(estate)
+                cardLayoutTextView2.text = estate.addressCity
+                // bind your view here
+                binding.root.setOnClickListener {
+                    onSelect(estate)
+                }
             }
         }
     }

@@ -15,6 +15,8 @@ import anthony.brenon.realestatemanager.models.Estate
 import anthony.brenon.realestatemanager.ui.MainViewModel
 import anthony.brenon.realestatemanager.ui.adapter.RecyclerViewImage
 import anthony.brenon.realestatemanager.utils.EstateStatus
+import com.google.android.material.snackbar.Snackbar
+import java.text.DecimalFormat
 
 class DetailsFragment : Fragment() {
 
@@ -45,11 +47,28 @@ class DetailsFragment : Fragment() {
     }
 
     private fun populateView(estate: Estate ) {
+
+        var price = ""
+        val dec = DecimalFormat("#,###")
+        if (estate.price.isNotEmpty()) {
+            price = "${dec.format(estate.price.toInt())}$"
+        }
+
         binding.apply {
             detailsActivityTvDescription.text = estate.description
+            detailsActivityTvType?.text = estate.type
+            detailsActivityTvPrice?.text = price
             detailsActivityTvSurface.text = estate.surface
-            detailsActivityTvRoomNumber.text = estate.roomsNumber
-            detailsActivityTvLocation.text = estate.address
+            detailsActivityTvRoom?.text = estate.roomsNumber
+            detailsActivityTvInteresting?.text = estate.interestingPoint
+            detailsActivityTvOnSaleDate?.text = estate.onSaleDate
+            detailsActivityTvSold?.text = estate.dateOfSale
+            detailsActivityTvAgent?.text = estate.agentInChargeName
+
+            val loc2 = "${estate.addressCode} ${estate.addressCity}"
+            detailsActivityTvLoc1?.text = estate.addressStreet
+            detailsActivityTvLoc2?.text = loc2
+            detailsActivityTvLoc3?.text = estate.addressCountry
         }
     }
 
@@ -83,8 +102,10 @@ class DetailsFragment : Fragment() {
         }
 
         binding.imgEstateEdit?.setOnClickListener {
-            viewModel.selectThisEstateStatus(EstateStatus.UPDATE_EXISTING_ESTATE)
-            Navigation.findNavController(binding.root).navigate(R.id.item_add_fragment)
+            if(viewModel.agentIsConnected()) {
+                viewModel.selectThisEstateStatus(EstateStatus.UPDATE_EXISTING_ESTATE)
+                Navigation.findNavController(binding.root).navigate(R.id.item_add_fragment)
+            } else Snackbar.make(binding.root, "You need to be logged in for edit an estate", Snackbar.LENGTH_SHORT).show()
         }
     }
 }

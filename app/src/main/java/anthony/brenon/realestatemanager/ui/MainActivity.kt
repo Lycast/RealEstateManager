@@ -2,7 +2,6 @@ package anthony.brenon.realestatemanager.ui
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -16,6 +15,7 @@ import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.RealEstateManagerApp
 import anthony.brenon.realestatemanager.databinding.ActivityMainBinding
 import anthony.brenon.realestatemanager.utils.EstateStatus
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
 
@@ -44,7 +44,6 @@ class MainActivity : AppCompatActivity() {
 
         val header: View = binding.headerNavigationView.getHeaderView(0)
         viewModel.agentSelected.observe(this) {
-            Log.i("MY_LOG", "observe $it")
             val name: TextView = header.findViewById(R.id.name_header)
             val email: TextView = header.findViewById(R.id.email_header)
             name.text = it.nameAgent
@@ -75,8 +74,11 @@ class MainActivity : AppCompatActivity() {
                 return true
             }
             R.id.item_add -> {
-                viewModel.selectThisEstateStatus(EstateStatus.ADD_NEWS_ESTATE)
-                Navigation.findNavController(binding.root.findViewById(R.id.nav_host_fragment)).navigate(R.id.item_add_fragment)
+                if (viewModel.agentIsConnected()) {
+                    viewModel.selectThisEstateStatus(EstateStatus.ADD_NEWS_ESTATE)
+                    Navigation.findNavController(binding.root.findViewById(R.id.nav_host_fragment))
+                        .navigate(R.id.item_add_fragment)
+                } else Snackbar.make(binding.root, "You need to be logged in for create an estate", Snackbar.LENGTH_SHORT).show()
                 return true
             }
             else -> {

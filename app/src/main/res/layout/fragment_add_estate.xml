@@ -61,9 +61,27 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
+        <TextView
+            android:id="@+id/agent_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:background="@drawable/bordered_background"
+            android:layout_marginVertical="6dp"
+            android:paddingHorizontal="15dp"
+            android:textSize="17sp"
+            android:gravity="center_vertical"
+            app:drawableStartCompat="@drawable/baseline_person_24"
+            android:drawablePadding="10dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/img_add_estate_back"
+            app:layout_constraintTop_toTopOf="@id/img_add_estate_back"
+            app:layout_constraintBottom_toBottomOf="@id/img_add_estate_back"/>
+
+
         <Button
             android:id="@+id/add_estate_btn_picture"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="7dp"
             android:backgroundTint="@android:color/transparent"
@@ -71,7 +89,8 @@
             android:text="@string/add_picture"
             android:textAllCaps="false"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/btn_add_estate_address"
+            app:layout_constraintTop_toBottomOf="@id/img_add_estate_back"
             android:contentDescription="@string/add_picture" />
 
         <Button
@@ -82,9 +101,9 @@
             android:minHeight="48dp"
             android:text="@string/select_address"
             android:textAllCaps="false"
-            app:layout_constraintLeft_toRightOf="@id/img_add_estate_back"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/add_estate_btn_picture"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/img_add_estate_back" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView_image"
@@ -96,7 +115,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card_spinner" />
+            app:layout_constraintTop_toBottomOf="@id/btn_add_estate_address" />
 
         <EditText
             android:id="@+id/add_estate_et_type"
@@ -122,7 +141,7 @@
             android:minHeight="48dp"
             android:autofillHints=""
             android:hint="@string/surface"
-            android:inputType="text"
+            android:inputType="number"
             android:paddingHorizontal="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/add_estate_et_type"
@@ -138,7 +157,7 @@
             android:minHeight="48dp"
             android:autofillHints=""
             android:hint="@string/price"
-            android:inputType="text"
+            android:inputType="number"
             android:paddingHorizontal="10dp"
             app:layout_constraintEnd_toStartOf="@id/add_estate_et_nb_room"
             app:layout_constraintStart_toStartOf="parent"
@@ -153,7 +172,7 @@
             android:minHeight="48dp"
             android:autofillHints=""
             android:hint="@string/room"
-            android:inputType="text"
+            android:inputType="number"
             android:paddingHorizontal="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/add_estate_et_price"
@@ -174,63 +193,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/add_estate_et_nb_room" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_spinner"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="5dp"
-            app:strokeWidth="1dp"
-            android:elevation="0dp"
-            app:strokeColor="@color/colorPrimaryDark"
-            app:cardCornerRadius="4dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/img_add_estate_back">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="1dp"
-                android:background="@drawable/spinner_background">
-
-                <TextView
-                    android:id="@+id/tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginVertical="7dp"
-                    android:textSize="17sp"
-                    android:text="@string/select_agent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintLeft_toRightOf="@id/iv"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
-
-                <Spinner
-                    android:id="@+id/agent_spinner"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textAlignment="center"
-                    android:contentDescription="@string/select_agent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintLeft_toRightOf="@id/tv"/>
-
-                <ImageView
-                    android:id="@+id/iv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="5dp"
-                    android:src="@drawable/baseline_person_24"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toLeftOf="@id/tv"
-                    app:layout_constraintLeft_toLeftOf="parent"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
 
 
         <EditText

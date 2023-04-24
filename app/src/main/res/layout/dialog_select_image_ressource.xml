@@ -8,6 +8,7 @@
         android:id="@+id/tv_select_resource"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:text="@string/select_resource_for_add_picture"
         android:textSize="20sp"
         app:layout_constraintTop_toTopOf="parent"
@@ -19,28 +20,32 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_marginVertical="5dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_select_resource"/>
 
     <ImageButton
-        android:id="@+id/add_estate_btn_picture_from_folder"
+        android:id="@+id/dialog_btn_picture_from_folder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="48dp"
         android:layout_marginHorizontal="25dp"
         android:src="@drawable/baseline_folder_24"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/divider"
         android:contentDescription="@string/add_picture" />
 
     <ImageButton
-        android:id="@+id/add_estate_btn_picture_from_camera"
+        android:id="@+id/dialog_btn_picture_from_camera"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="48dp"
         android:layout_marginHorizontal="25dp"
         android:src="@drawable/baseline_photo_camera_24"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/add_estate_btn_picture_from_folder"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dialog_btn_picture_from_folder"
         android:contentDescription="@string/add_picture" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

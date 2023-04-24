@@ -21,14 +21,18 @@ data class Estate(
     var surface: String,
     var roomsNumber: String,
     var description: String,
-    var address: String,
+    var addressStreet: String,
+    var addressCity: String,
+    var addressCode: String,
+    var addressCountry: String,
     var lng: Double,
     var lat: Double,
     var interestingPoint: String,
-    var isSale: Boolean,
     var onSaleDate: String,
     var dateOfSale: String,
     var agentInChargeName: String,
     @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
     var picture: Bitmap
-    )
+    ) {
+    fun isSold() = dateOfSale.isNotEmpty()
+}
