@@ -1,5 +1,6 @@
 package anthony.brenon.realestatemanager.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.wifi.WifiManager
 import java.text.DateFormat
@@ -27,8 +28,9 @@ object Utils {
      * @return
      */
     val todayDate: String
+        @SuppressLint("SimpleDateFormat")
         get() {
-            val dateFormat: DateFormat = SimpleDateFormat("yyyy/MM/dd")
+            val dateFormat: DateFormat = SimpleDateFormat("dd/MM/yyyy")
             return dateFormat.format(Date())
         }
 

@@ -27,6 +27,7 @@ class DetailsFragment : Fragment() {
     private lateinit var adapter : RecyclerViewImage
 
     //TODO implement all data we needed to see in view
+    //TODO Cette carte est dynamique : l'agent peut zoomer, dézoomer, se déplacer, et afficher le détail d'un bien en cliquant sur la punaise correspondante.
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -61,7 +61,6 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
         <TextView
             android:id="@+id/agent_name_tv"
             android:layout_width="wrap_content"
@@ -78,21 +77,6 @@
             app:layout_constraintTop_toTopOf="@id/img_add_estate_back"
             app:layout_constraintBottom_toBottomOf="@id/img_add_estate_back"/>
 
-
-        <Button
-            android:id="@+id/add_estate_btn_picture"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="7dp"
-            android:backgroundTint="@android:color/transparent"
-            android:minHeight="48dp"
-            android:text="@string/add_picture"
-            android:textAllCaps="false"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/btn_add_estate_address"
-            app:layout_constraintTop_toBottomOf="@id/img_add_estate_back"
-            android:contentDescription="@string/add_picture" />
-
         <Button
             android:id="@+id/btn_add_estate_address"
             android:layout_width="0dp"
@@ -103,14 +87,28 @@
             android:textAllCaps="false"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/add_estate_btn_picture"
-            app:layout_constraintTop_toBottomOf="@id/img_add_estate_back" />
+            app:layout_constraintTop_toBottomOf="@id/img_add_estate_back"
+            app:layout_constraintBottom_toTopOf="@id/recyclerView_image"/>
+
+        <Button
+            android:id="@+id/add_estate_btn_picture"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            android:minHeight="48dp"
+            android:text="@string/add_picture"
+            android:textAllCaps="false"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/btn_add_estate_address"
+            app:layout_constraintTop_toTopOf="@id/btn_add_estate_address"
+            app:layout_constraintBottom_toBottomOf="@id/btn_add_estate_address"
+            android:contentDescription="@string/add_picture" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView_image"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="15dp"
+            android:paddingVertical="5dp"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -121,120 +119,111 @@
             android:id="@+id/add_estate_et_type"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="10dp"
             android:minHeight="48dp"
             android:autofillHints=""
             android:hint="@string/type"
             android:inputType="text"
             android:paddingHorizontal="10dp"
-            app:layout_constraintEnd_toStartOf="@id/add_estate_et_surface"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recyclerView_image" />
+            app:layout_constraintRight_toLeftOf="@id/add_estate_et_surface"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recyclerView_image"
+            app:layout_constraintBottom_toTopOf="@id/add_estate_et_price"/>
 
         <EditText
             android:id="@+id/add_estate_et_surface"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="10dp"
             android:minHeight="48dp"
             android:autofillHints=""
             android:hint="@string/surface"
             android:inputType="number"
             android:paddingHorizontal="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/add_estate_et_type"
-            app:layout_constraintTop_toBottomOf="@id/recyclerView_image" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/add_estate_et_type"
+            app:layout_constraintBottom_toBottomOf="@id/add_estate_et_type"
+            app:layout_constraintTop_toTopOf="@id/add_estate_et_type" />
 
 
         <EditText
             android:id="@+id/add_estate_et_price"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="10dp"
             android:minHeight="48dp"
             android:autofillHints=""
             android:hint="@string/price"
             android:inputType="number"
             android:paddingHorizontal="10dp"
-            app:layout_constraintEnd_toStartOf="@id/add_estate_et_nb_room"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/add_estate_et_type" />
+            app:layout_constraintRight_toLeftOf="@id/add_estate_et_nb_room"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/add_estate_et_type"
+            app:layout_constraintBottom_toTopOf="@id/add_estate_et_interesting_point"/>
 
         <EditText
             android:id="@+id/add_estate_et_nb_room"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="10dp"
             android:minHeight="48dp"
             android:autofillHints=""
             android:hint="@string/room"
             android:inputType="number"
             android:paddingHorizontal="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/add_estate_et_price"
-            app:layout_constraintTop_toBottomOf="@id/add_estate_et_type" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/add_estate_et_price"
+            app:layout_constraintTop_toTopOf="@id/add_estate_et_price"
+            app:layout_constraintBottom_toBottomOf="@id/add_estate_et_price"/>
 
         <EditText
             android:id="@+id/add_estate_et_interesting_point"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="10dp"
             android:minHeight="48dp"
             android:autofillHints=""
             android:hint="@string/interesting_point"
             android:inputType="text"
             android:paddingHorizontal="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/add_estate_et_description"
             app:layout_constraintTop_toBottomOf="@id/add_estate_et_nb_room" />
-
-
-
 
         <EditText
             android:id="@+id/add_estate_et_description"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="10dp"
-            android:autofillHints=""
             android:gravity="top"
             android:hint="@string/description"
             android:inputType="text"
             android:lineSpacingMultiplier="1.8"
             android:maxLines="10"
+            android:selectAllOnFocus="true"
             android:paddingHorizontal="10dp"
             app:layout_constraintBottom_toTopOf="@id/btn_add_estate_create"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/add_estate_et_interesting_point" />
+            app:layout_constraintTop_toBottomOf="@id/add_estate_et_interesting_point"
+            android:autofillHints="" />
 
         <Button
             android:id="@+id/add_estate_btn_sale"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            android:layout_marginStart="10dp"
             android:paddingHorizontal="15dp"
             android:backgroundTint="@android:color/transparent"
             android:text="@string/estate_sold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/btn_add_estate_create"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/add_estate_et_description"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <Button
             android:id="@+id/btn_add_estate_create"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
             android:backgroundTint="@android:color/transparent"
             android:text="@string/create"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/add_estate_et_description"
             app:layout_constraintLeft_toRightOf="@id/add_estate_btn_sale"
             app:layout_constraintRight_toRightOf="parent" />
 
