@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
-import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.databinding.FragmentFilterBinding
 
 
@@ -41,7 +40,7 @@ class FilterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.ivFilterFragBack.setOnClickListener {
-            Navigation.findNavController(binding.root).navigate(R.id.item_list_fragment)
+            Navigation.findNavController(binding.root).popBackStack()
         }
     }
 }

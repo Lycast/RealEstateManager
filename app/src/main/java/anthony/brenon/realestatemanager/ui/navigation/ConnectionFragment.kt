@@ -11,7 +11,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
-import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.databinding.FragmentConnectionBinding
 import anthony.brenon.realestatemanager.models.Agent
 import anthony.brenon.realestatemanager.ui.MainViewModel
@@ -62,11 +61,14 @@ class ConnectionFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
 
         binding.btnDeleteAgent.setOnClickListener { deleteAgent() }
-        binding.ivBack.setOnClickListener { Navigation.findNavController(binding.root).navigate(R.id.item_list_fragment) }
+
+        binding.ivBack.setOnClickListener { Navigation.findNavController(binding.root).popBackStack() }
+
         binding.btnConnectAgent.setOnClickListener {
             viewModel.selectThisAgent(agentSelected)
-            Navigation.findNavController(binding.root).navigate(R.id.item_list_fragment)
+            Navigation.findNavController(binding.root).popBackStack()
         }
+
         binding.btnCreateAgent.setOnClickListener {
             name = binding.createDialEtName.text.toString()
             email = binding.createDialEtEmail.text.toString()

@@ -59,4 +59,8 @@
     <string name="sold_details">Sold on :</string>
     <string name="on_sale_date_details">on-sale date :</string>
     <string name="agent_in_charge_details">agent in charge :</string>
+    <string name="change_unity_monetary">Change unity monetary</string>
+    <string name="dollars">Dollars</string>
+    <string name="euro">Euro</string>
+    <string name="change_color_of_your_application">Change color of your application</string>
 </resources>

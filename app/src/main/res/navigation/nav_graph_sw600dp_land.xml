@@ -2,25 +2,44 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph_details"
-    app:startDestination="@id/item_list_fragment">
-
+    app:startDestination="@id/item_detail_fragment">
 
 
     <fragment
-        android:id="@+id/item_list_fragment"
-        android:name="anthony.brenon.realestatemanager.ui.navigation.ListFragment">
-        <action
-        android:id="@+id/item_add_fragment"
-        app:destination="@id/item_add_fragment" />
-
+        android:id="@+id/item_detail_fragment"
+        android:name="anthony.brenon.realestatemanager.ui.navigation.DetailsFragment">
     </fragment>
 
     <fragment
         android:id="@+id/item_add_fragment"
         android:name="anthony.brenon.realestatemanager.ui.navigation.AddEstateFragment">
         <action
-            android:id="@+id/fragment_nav_list_land"
-            app:destination="@id/fragment_nav_list_land" />
+            android:id="@+id/action_item_add_fragment_to_item_detail_fragment"
+            app:destination="@id/item_detail_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/item_filter_fragment"
+        android:name="anthony.brenon.realestatemanager.ui.navigation.FilterFragment">
+        <action
+            android:id="@+id/action_item_filter_fragment_to_item_detail_fragment"
+            app:destination="@id/item_detail_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/item_connect_fragment"
+        android:name="anthony.brenon.realestatemanager.ui.navigation.ConnectionFragment">
+        <action
+            android:id="@+id/action_item_connect_fragment_to_item_detail_fragment"
+            app:destination="@id/item_detail_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/item_settings_fragment"
+        android:name="anthony.brenon.realestatemanager.ui.navigation.SettingsFragment">
+        <action
+            android:id="@+id/action_item_settings_fragment_to_item_detail_fragment"
+            app:destination="@id/item_detail_fragment" />
     </fragment>
 
 </navigation>

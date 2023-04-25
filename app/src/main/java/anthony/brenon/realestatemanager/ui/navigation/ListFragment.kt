@@ -40,7 +40,7 @@ class ListFragment : Fragment() {
 
         adapter = RecyclerViewEstate {
             viewModel.selectThisEstate(it!!)
-            if (binding.navDetailSw600dpLand == null) Navigation.findNavController(binding.root).navigate(R.id.item_detail_fragment)
+            if (binding.navHostFragment == null) Navigation.findNavController(binding.root).navigate(R.id.item_detail_fragment)
         }
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireActivity())

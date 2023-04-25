@@ -84,7 +84,6 @@
             android:id="@+id/tv_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:text="@string/description_details"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -104,7 +103,6 @@
             android:id="@+id/tv_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:text="@string/type_details"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -125,13 +123,13 @@
             android:id="@+id/tv_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginHorizontal="5dp"
             android:text="@string/price_details"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintRight_toLeftOf="@id/details_activity_tv_price"
-            app:layout_constraintTop_toBottomOf="@id/details_activity_tv_description" />
+            app:layout_constraintTop_toTopOf="@id/tv_type"
+            app:layout_constraintBottom_toBottomOf="@id/tv_type"/>
 
         <TextView
             android:id="@+id/details_activity_tv_price"
@@ -139,7 +137,8 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/tv_price"/>
+            app:layout_constraintBottom_toBottomOf="@id/tv_price"
+            app:layout_constraintTop_toTopOf="@id/tv_price"/>
 
         <!-- surface -->
         <TextView
@@ -186,7 +185,6 @@
             android:id="@+id/tv_interesting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:text="@string/interesting_point_details"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -206,7 +204,6 @@
             android:id="@+id/tv_on_sale_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:text="@string/on_sale_date_details"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -228,7 +225,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            android:layout_marginTop="10dp"
             android:text="@string/sold_details"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -266,6 +262,15 @@
             app:layout_constraintBottom_toBottomOf="@id/tv_agent"/>
 
         <!-- Location -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/frag_container"
+            app:layout_constraintTop_toTopOf="@id/frag_container">
+
         <TextView
             android:id="@+id/details_activity_tv_location_title"
             android:layout_width="wrap_content"
@@ -277,7 +282,8 @@
             android:textStyle="bold"
             app:drawableStartCompat="@drawable/ic_location_on_18"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="@id/frag_container" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/details_activity_tv_loc1"
@@ -286,7 +292,7 @@
             android:layout_marginVertical="10dp"
             android:textSize="12sp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/frag_container"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/details_activity_tv_location_title"/>
 
         <TextView
@@ -296,7 +302,7 @@
             android:layout_marginVertical="10dp"
             android:textSize="12sp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/frag_container"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/details_activity_tv_loc1"/>
 
         <TextView
@@ -306,15 +312,17 @@
             android:layout_marginVertical="10dp"
             android:textSize="12sp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/frag_container"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/details_activity_tv_loc2"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/frag_container"
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:name="anthony.brenon.realestatemanager.ui.map.MapsFragment"
-            tools:layout="@layout/fragment_list"
+            tools:layout="@layout/item_image"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
 

@@ -20,16 +20,22 @@ class MapsFragment : Fragment() {
 
     private val viewModel by activityViewModels<MainViewModel>()
     private lateinit var callback: OnMapReadyCallback
+    private var latLng = LatLng(0.00, 0.00)
+    private var title = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        setMap()
         viewModel.estateSelected.observe(requireActivity()) {
-            val latLng = LatLng(it.lat, it.lng)
-            callback = OnMapReadyCallback { googleMap ->
-                googleMap.addMarker(MarkerOptions().position(latLng).title(it.addressStreet))
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 11.0f))
-            }
+            latLng = LatLng(it.lat, it.lng)
+            setMap()
+        }
+    }
+
+    private fun setMap() {
+        callback = OnMapReadyCallback { googleMap ->
+            googleMap.addMarker(MarkerOptions().position(latLng).title(title))
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 11.0f))
         }
     }
 

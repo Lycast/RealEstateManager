@@ -254,8 +254,7 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
             viewModel.insertEstate(requireContext(), estate).observe(requireActivity()) {
                 estate.id = it
                 for (image in images) { viewModel.insertPicture(Picture(image, it)) }
-                Navigation.findNavController(binding.root)
-                    .navigate(R.id.item_list_fragment)
+                Navigation.findNavController(binding.root).popBackStack()
             }
         } else {
             Snackbar.make(binding.root, "please enter all information", Snackbar.LENGTH_SHORT)
@@ -376,7 +375,7 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         binding.btnAddEstateAddress.setOnClickListener { autoCompleteLauncher() }
 
         binding.imgAddEstateBack.setOnClickListener {
-            Navigation.findNavController(binding.root).navigate(R.id.item_list_fragment)
+            Navigation.findNavController(binding.root).popBackStack()
         }
 
         binding.btnAddEstateCreate.setOnClickListener {

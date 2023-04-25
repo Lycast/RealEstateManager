@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
-import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.databinding.FragmentSettingsBinding
 
 
@@ -29,7 +28,7 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.ivSettingsFragBack.setOnClickListener {
-            Navigation.findNavController(binding.root).navigate(R.id.item_list_fragment)
+            Navigation.findNavController(binding.root).popBackStack()
         }
     }
 }
