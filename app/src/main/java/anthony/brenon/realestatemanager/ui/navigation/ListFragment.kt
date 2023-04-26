@@ -1,5 +1,6 @@
 package anthony.brenon.realestatemanager.ui.navigation
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,17 +11,24 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.databinding.FragmentListBinding
+import anthony.brenon.realestatemanager.ui.MainActivity
 import anthony.brenon.realestatemanager.ui.MainViewModel
 import anthony.brenon.realestatemanager.ui.adapter.RecyclerViewEstate
 
 
 class ListFragment : Fragment() {
 
+    private lateinit var activity: MainActivity
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel by activityViewModels<MainViewModel>()
     private lateinit var adapter: RecyclerViewEstate
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        activity = context as MainActivity
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,7 +54,7 @@ class ListFragment : Fragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         binding.recyclerView.adapter = adapter
 
-        viewModel.allEstates.observe(requireActivity()) {
+        viewModel.allEstates.observe(activity) {
             adapter.setData(it)
         }
     }

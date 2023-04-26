@@ -1,5 +1,6 @@
 package anthony.brenon.realestatemanager.ui.navigation
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
@@ -13,10 +14,12 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import anthony.brenon.realestatemanager.databinding.FragmentConnectionBinding
 import anthony.brenon.realestatemanager.models.Agent
+import anthony.brenon.realestatemanager.ui.MainActivity
 import anthony.brenon.realestatemanager.ui.MainViewModel
 
 class ConnectionFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
+    private lateinit var activity: MainActivity
     private var _binding: FragmentConnectionBinding? = null
     private val binding get() = _binding!!
 
@@ -27,7 +30,13 @@ class ConnectionFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private var name = ""
     private var email = ""
 
-    //todo update agent
+    //TODO update agent
+    //TODO clean code
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        activity = context as MainActivity
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,7 +62,7 @@ class ConnectionFragment : Fragment(), AdapterView.OnItemSelectedListener {
         binding.agentSpinner.onItemSelectedListener = this
 
 
-        viewModel.allAgents.observe(requireActivity()) { agents ->
+        viewModel.allAgents.observe(activity) { agents ->
             // access the items of the list
             agentsData.clear()
             agentsData.addAll(agents)
@@ -76,6 +85,11 @@ class ConnectionFragment : Fragment(), AdapterView.OnItemSelectedListener {
             binding.createDialEtEmail.setText("")
             createAgent(name, email)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

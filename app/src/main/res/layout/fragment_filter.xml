@@ -7,6 +7,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.navigation.FilterFragment">
 
+    <!--
+    - prix min max
+    - surface min max
+    - points d'interets
+    - depuis une date de mise sur le marcher
+    - depuis une date de vente
+    - par ville
+    - par nombre de photos mini
+    -->
+
     <ImageView
         android:id="@+id/iv_filter_frag_back"
         android:layout_width="wrap_content"
@@ -16,5 +26,255 @@
         android:src="@drawable/baseline_arrow_back_ios_24"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_title_filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:gravity="center_vertical"
+        android:text="@string/filter_by"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_predict_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:gravity="center_vertical"
+        android:text="@string/_0"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <!-- by price -->
+    <TextView
+        android:id="@+id/tv_title_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:minHeight="48dp"
+        android:gravity="center_vertical"
+        android:text="@string/price_details"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/tv_title_filter"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <EditText
+        android:id="@+id/et_price_min"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:hint="@string/min"
+        android:paddingHorizontal="10dp"
+        android:inputType="number"
+        app:layout_constraintTop_toTopOf="@id/tv_title_price"
+        app:layout_constraintBottom_toBottomOf="@id/tv_title_price"
+        app:layout_constraintLeft_toRightOf="@id/tv_title_price"
+        tools:ignore="Autofill"/>
+
+    <EditText
+        android:id="@+id/et_price_max"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:hint="@string/max"
+        android:paddingHorizontal="10dp"
+        android:inputType="number"
+        app:layout_constraintTop_toTopOf="@id/tv_title_price"
+        app:layout_constraintBottom_toBottomOf="@id/tv_title_price"
+        app:layout_constraintLeft_toRightOf="@id/et_price_min"
+        tools:ignore="Autofill"/>
+
+    <!-- by surface -->
+    <TextView
+        android:id="@+id/tv_title_surface"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:minHeight="48dp"
+        android:gravity="center_vertical"
+        android:text="@string/surface_details"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/tv_title_price"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <EditText
+        android:id="@+id/et_surface_min"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:hint="@string/min"
+        android:paddingHorizontal="10dp"
+        android:inputType="number"
+        app:layout_constraintTop_toTopOf="@id/tv_title_surface"
+        app:layout_constraintBottom_toBottomOf="@id/tv_title_surface"
+        app:layout_constraintLeft_toRightOf="@id/tv_title_surface"
+        tools:ignore="Autofill"/>
+
+    <EditText
+        android:id="@+id/et_surface_max"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:hint="@string/max"
+        android:paddingHorizontal="10dp"
+        android:inputType="number"
+        app:layout_constraintTop_toTopOf="@id/tv_title_surface"
+        app:layout_constraintBottom_toBottomOf="@id/tv_title_surface"
+        app:layout_constraintLeft_toRightOf="@id/et_surface_min"
+        tools:ignore="Autofill"/>
+
+    <!-- by interesting point -->
+    <TextView
+        android:id="@+id/tv_title_interesting_point"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:minHeight="48dp"
+        android:gravity="center_vertical"
+        android:text="@string/interesting_point_details"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/tv_title_surface"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <EditText
+        android:id="@+id/et_interesting_point"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:hint="@string/enter_interesting_point"
+        android:paddingHorizontal="10dp"
+        android:inputType="text"
+        app:layout_constraintTop_toTopOf="@id/tv_title_interesting_point"
+        app:layout_constraintBottom_toBottomOf="@id/tv_title_interesting_point"
+        app:layout_constraintLeft_toRightOf="@id/tv_title_interesting_point"
+        tools:ignore="Autofill"/>
+
+    <!-- Since the date of sale -->
+    <TextView
+        android:id="@+id/tv_title_date_of_sale"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:minHeight="48dp"
+        android:gravity="center_vertical"
+        android:text="@string/date_of_sale"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/tv_title_interesting_point"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <EditText
+        android:id="@+id/et_date_of_sale"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:hint="@string/date"
+        android:paddingHorizontal="10dp"
+        android:inputType="date"
+        app:layout_constraintTop_toTopOf="@+id/tv_title_date_of_sale"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_title_date_of_sale"
+        app:layout_constraintLeft_toRightOf="@+id/tv_title_date_of_sale"
+        tools:ignore="Autofill"/>
+
+    <!-- Since date sold -->
+    <TextView
+        android:id="@+id/tv_title_sold_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:minHeight="48dp"
+        android:gravity="center_vertical"
+        android:text="@string/sold_date"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/tv_title_date_of_sale"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <EditText
+        android:id="@+id/et_sold_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:hint="@string/date"
+        android:paddingHorizontal="10dp"
+        android:inputType="date"
+        app:layout_constraintTop_toTopOf="@+id/tv_title_sold_date"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_title_sold_date"
+        app:layout_constraintLeft_toRightOf="@+id/tv_title_sold_date"
+        tools:ignore="Autofill"/>
+
+    <!-- by city -->
+    <TextView
+        android:id="@+id/tv_title_town"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:minHeight="48dp"
+        android:gravity="center_vertical"
+        android:text="@string/town_details"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/tv_title_sold_date"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <EditText
+        android:id="@+id/et_city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:hint="@string/town"
+        android:paddingHorizontal="10dp"
+        android:inputType="text"
+        app:layout_constraintTop_toTopOf="@+id/tv_title_town"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_title_town"
+        app:layout_constraintLeft_toRightOf="@+id/tv_title_town"
+        tools:ignore="Autofill"/>
+
+    <!-- by number of picture -->
+    <TextView
+        android:id="@+id/tv_title_pictures"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:minHeight="48dp"
+        android:gravity="center_vertical"
+        android:text="@string/picture"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/tv_title_town"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <EditText
+        android:id="@+id/et_pictures"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:hint="@string/number_of_picture_min"
+        android:paddingHorizontal="10dp"
+        android:inputType="number"
+        app:layout_constraintTop_toTopOf="@+id/tv_title_pictures"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_title_pictures"
+        app:layout_constraintLeft_toRightOf="@+id/tv_title_pictures"
+        tools:ignore="Autofill"/>
+
+    <Button
+        android:id="@+id/btn_validation_filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/transparent"
+        android:text="@string/display_estates_filtered"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -24,6 +25,7 @@ import anthony.brenon.realestatemanager.databinding.FragmentAddEstateBinding
 import anthony.brenon.realestatemanager.models.Agent
 import anthony.brenon.realestatemanager.models.Estate
 import anthony.brenon.realestatemanager.models.Picture
+import anthony.brenon.realestatemanager.ui.MainActivity
 import anthony.brenon.realestatemanager.ui.MainViewModel
 import anthony.brenon.realestatemanager.ui.adapter.RecyclerViewImage
 import anthony.brenon.realestatemanager.utils.EstateStatus
@@ -50,6 +52,7 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         const val RESULT_CODE_FOLDER = 22
     }
 
+    private lateinit var activity: MainActivity
     private var _binding: FragmentAddEstateBinding? = null
     private val binding get() = _binding!!
 
@@ -64,6 +67,11 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
     private lateinit var currentAgent: Agent
 
     //TODO fix bug possible (permissions?)
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        activity = context as MainActivity
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -117,10 +125,14 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         listenerClickView()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
     private fun observerEstateStatus() {
         // observer estate status
-        viewModel.estateStatus.observe(requireActivity()) { status ->
+        viewModel.estateStatus.observe(activity) { status ->
             estateStatus = status
             if (estateStatus == EstateStatus.UPDATE_EXISTING_ESTATE) {
                 viewModel.estateSelected.observe(requireActivity()) {
@@ -132,7 +144,7 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
 
     private fun observerAgentSelected() {
         // observer agent selected
-        viewModel.agentSelected.observe(requireActivity()) {
+        viewModel.agentSelected.observe(activity) {
             currentAgent = it
             estate.agentInChargeName = it.nameAgent
         }
@@ -251,7 +263,7 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
             estate.interestingPoint.isNotEmpty() &&
             images.isNotEmpty()
         ) {
-            viewModel.insertEstate(requireContext(), estate).observe(requireActivity()) {
+            viewModel.insertEstate(requireContext(), estate).observe(activity) {
                 estate.id = it
                 for (image in images) { viewModel.insertPicture(Picture(image, it)) }
                 Navigation.findNavController(binding.root).popBackStack()
@@ -274,7 +286,7 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         binding.recyclerViewImage.adapter = adapter
 
         // observer get pictures by estate
-        viewModel.getPicturesByEstate(estate.id).observe(requireActivity()) {
+        viewModel.getPicturesByEstate(estate.id).observe(activity) {
             images.clear()
             for (picture in it) {
                 images.add(picture.picture)
@@ -285,8 +297,8 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
 
     // ADD PICTURE DIALOG START
     private fun showCustomBuilder() {
-        val builder = AlertDialog.Builder(requireActivity())
-        val customView = LayoutInflater.from(requireActivity())
+        val builder = AlertDialog.Builder(activity)
+        val customView = LayoutInflater.from(activity)
             .inflate(R.layout.dialog_select_image_ressource, null)
         builder.setView(customView)
         val dialog = builder.create()
@@ -328,7 +340,7 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
     // PERMISSIONS START
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
         if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            SettingsDialog.Builder(requireActivity()).build().show()
+            SettingsDialog.Builder(activity).build().show()
         } else {
             requestPermissions()
         }
@@ -342,14 +354,14 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
 
     private fun hasPermission() =
         EasyPermissions.hasPermissions(
-            requireActivity(),
+            activity,
             android.Manifest.permission.CAMERA,
             android.Manifest.permission.READ_EXTERNAL_STORAGE
         )
 
     private fun requestPermissions() {
         EasyPermissions.requestPermissions(
-            requireActivity(),
+            activity,
             "These permission are required for this application",
             PERMISSIONS_REQUEST_CODE,
             android.Manifest.permission.CAMERA, android.Manifest.permission.READ_EXTERNAL_STORAGE

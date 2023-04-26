@@ -63,4 +63,16 @@
     <string name="dollars">Dollars</string>
     <string name="euro">Euro</string>
     <string name="change_color_of_your_application">Change color of your application</string>
+    <string name="filter_by">Filter by</string>
+    <string name="min">min</string>
+    <string name="max">max</string>
+    <string name="enter_interesting_point">Enter interesting point</string>
+    <string name="date_of_sale">date of sale :</string>
+    <string name="date">date</string>
+    <string name="sold_date">sold date :</string>
+    <string name="town_details">town :</string>
+    <string name="number_of_picture_min">min number of picture</string>
+    <string name="town">town</string>
+    <string name="display_estates_filtered">display estates filtered</string>
+    <string name="_0">0</string>
 </resources>
