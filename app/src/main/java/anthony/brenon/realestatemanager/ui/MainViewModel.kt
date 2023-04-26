@@ -17,20 +17,20 @@ class MainViewModel(private val agentRepository : AgentRepository, private val e
     var agentSelected = MutableLiveData<Agent>()
     var estateStatus = MutableLiveData<EstateStatus>()
     var monetaryUnit = MutableLiveData<MonetaryUnit>()
+    var sortListEstate = MutableLiveData<List<Estate>>()
 
+    val allAgents: LiveData<List<Agent>> = agentRepository.allAgents.asLiveData()
+    val allEstates: LiveData<List<Estate>> = estateRepository.allEstates.asLiveData()
 
+    fun selectThisEstate(estate: Estate) { estateSelected.value = estate }
     fun selectThisAgent(agent: Agent) { agentSelected.value = agent }
+    fun selectThisEstateStatus(status: EstateStatus) { estateStatus.value = status }
+    fun selectThisMonetaryUnit(unity: MonetaryUnit) { monetaryUnit.value = unity }
+    fun updateSortListEstate(list: List<Estate>) { sortListEstate.value = list }
 
     fun agentIsConnected() : Boolean { return agentSelected.value != null }
 
-    fun selectThisEstate(estate: Estate) { estateSelected.value = estate }
-    fun selectThisEstateStatus(status: EstateStatus) { estateStatus.value = status }
-    fun selectThisMonetaryUnit(unity: MonetaryUnit) { monetaryUnit.value = unity }
-
-
     // AGENT ROOM
-    val allAgents: LiveData<List<Agent>> = agentRepository.allAgents.asLiveData()
-
     fun insertAgent(agent: Agent) = viewModelScope.launch {
         agentRepository.insertAgent(agent)
     }
@@ -40,8 +40,6 @@ class MainViewModel(private val agentRepository : AgentRepository, private val e
     }
 
     // ESTATES ROOM
-    val allEstates: LiveData<List<Estate>> = estateRepository.allEstates.asLiveData()
-
     fun insertEstate(context: Context,estate: Estate) = liveData {
         try {
             val response = estateRepository.insertEstate(context, estate)

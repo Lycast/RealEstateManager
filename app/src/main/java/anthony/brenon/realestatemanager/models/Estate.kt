@@ -32,7 +32,8 @@ data class Estate(
     var dateOfSale: String,
     var agentInChargeName: String,
     @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
-    var picture: Bitmap
+    var picture: Bitmap,
+    var numberOfPicture: Int
     ) {
     fun isSold() = dateOfSale.isNotEmpty()
 }

@@ -97,7 +97,8 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
             "",
             "",
             "",
-            BitmapFactory.decodeResource(resources, R.drawable.img_estate_test_1)
+            BitmapFactory.decodeResource(resources, R.drawable.img_estate_test_1),
+            0
         )
 
         observerEstateStatus()
@@ -252,6 +253,7 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
             estate.roomsNumber = roomNb
             estate.description = description
             estate.interestingPoint = interesting
+            estate.numberOfPicture = images.size
         }
 
         // Condition for create or update estate

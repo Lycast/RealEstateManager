@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
+        viewModel.allEstates.observe(this) { viewModel.updateSortListEstate(it) }
         initDrawer()
     }
 

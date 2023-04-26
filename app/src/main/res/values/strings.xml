@@ -39,8 +39,6 @@
     <string name="enter_email">enter email</string>
     <string name="details_fragment">details fragment</string>
     <string name="media">Media</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="delete">delete</string>
     <string name="update">update</string>
     <string name="select_agent">agent in charge</string>

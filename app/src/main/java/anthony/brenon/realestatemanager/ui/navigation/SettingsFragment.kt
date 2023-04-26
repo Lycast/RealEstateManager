@@ -39,9 +39,4 @@ class SettingsFragment : Fragment() {
             Navigation.findNavController(binding.root).popBackStack()
         }
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }

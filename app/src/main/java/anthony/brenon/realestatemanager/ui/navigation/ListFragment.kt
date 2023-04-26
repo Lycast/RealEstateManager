@@ -54,7 +54,7 @@ class ListFragment : Fragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         binding.recyclerView.adapter = adapter
 
-        viewModel.allEstates.observe(activity) {
+        viewModel.sortListEstate.observe(activity) {
             adapter.setData(it)
         }
     }

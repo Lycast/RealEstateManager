@@ -2,7 +2,6 @@ package anthony.brenon.realestatemanager.ui.navigation
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -22,16 +21,14 @@ class ConnectionFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private lateinit var activity: MainActivity
     private var _binding: FragmentConnectionBinding? = null
     private val binding get() = _binding!!
-
     private val viewModel by activityViewModels<MainViewModel>()
-    private val agentsData: MutableList<Agent> = mutableListOf()
 
+    private val agentsData: MutableList<Agent> = mutableListOf()
     private var agentSelected = Agent("","")
     private var name = ""
     private var email = ""
 
-    //TODO update agent
-    //TODO clean code
+    //TODO add password for connection ? / add update agent ?
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -48,48 +45,41 @@ class ConnectionFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setListenerView()
+        setSpinnerAgents()
         binding.btnDeleteAgent.isEnabled = false
-
-        // access the spinner
-        val adapter = ArrayAdapter(
-            requireActivity(),
-            android.R.layout.simple_spinner_item,
-            agentsData
-        )
-
-        binding.agentSpinner.adapter = adapter
-        binding.agentSpinner.onItemSelectedListener = this
+    }
 
 
+
+    private fun setSpinnerAgents() {
+        val adapter = ArrayAdapter(activity, android.R.layout.simple_spinner_item, agentsData )
         viewModel.allAgents.observe(activity) { agents ->
-            // access the items of the list
+            // access list of agents
             agentsData.clear()
             agentsData.addAll(agents)
             adapter.notifyDataSetChanged()
         }
-
-        binding.btnDeleteAgent.setOnClickListener { deleteAgent() }
-
-        binding.ivBack.setOnClickListener { Navigation.findNavController(binding.root).popBackStack() }
-
-        binding.btnConnectAgent.setOnClickListener {
-            viewModel.selectThisAgent(agentSelected)
-            Navigation.findNavController(binding.root).popBackStack()
-        }
-
-        binding.btnCreateAgent.setOnClickListener {
-            name = binding.createDialEtName.text.toString()
-            email = binding.createDialEtEmail.text.toString()
-            binding.createDialEtName.setText("")
-            binding.createDialEtEmail.setText("")
-            createAgent(name, email)
-        }
+        binding.agentSpinner.adapter = adapter
+        binding.agentSpinner.onItemSelectedListener = this
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    private fun setListenerView() {
+        binding.apply {
+            btnDeleteAgent.setOnClickListener { deleteAgent() }
+            ivBack.setOnClickListener { Navigation.findNavController(root).popBackStack() }
+            btnConnectAgent.setOnClickListener {
+                viewModel.selectThisAgent(agentSelected)
+                Navigation.findNavController(root).popBackStack()
+            }
+            btnCreateAgent.setOnClickListener {
+                name = createDialEtName.text.toString()
+                email = createDialEtEmail.text.toString()
+                createDialEtName.setText("")
+                createDialEtEmail.setText("")
+                createAgent(name, email)
+            }
+        }
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -98,12 +88,11 @@ class ConnectionFragment : Fragment(), AdapterView.OnItemSelectedListener {
         binding.createDialEtEmail.hint = agentSelected.emailAgent
         binding.btnDeleteAgent.isEnabled = true
     }
+
     override fun onNothingSelected(parent: AdapterView<*>?) {}
 
     private fun createAgent(nameP: String, emailP: String) {
-        Log.i("MY_TAG", "name = $nameP - mail = $emailP")
-        if (
-            nameP.isNotEmpty() && // check not empty data
+        if ( nameP.isNotEmpty() && // check not empty data
             emailP.isNotEmpty() &&  // check not empty data
             Patterns.EMAIL_ADDRESS.matcher(emailP).matches() && // check valid mail
             nameP != agentSelected.nameAgent  // check it's not current selected agent
