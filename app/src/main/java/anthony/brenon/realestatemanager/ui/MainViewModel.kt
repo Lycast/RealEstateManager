@@ -47,17 +47,9 @@ class MainViewModel(private val agentRepository : AgentRepository, private val e
         } catch (e: Exception) { e.printStackTrace() }
     }
 
-    fun updateEstate(estate: Estate) = viewModelScope.launch {
-        estateRepository.updateEstate(estate)
-    }
-
     // PICTURES ROOM
     fun insertPicture(picture: Picture) = viewModelScope.launch {
         estateRepository.insertPicture(picture)
-    }
-
-    fun deletePicture(picture: Picture) = viewModelScope.launch {
-        estateRepository.deletePicture(picture)
     }
 
     fun getPicturesByEstate(estateId: Long) : LiveData<List<Picture>> { return estateRepository.getPicturesByEstate(estateId).asLiveData() }
