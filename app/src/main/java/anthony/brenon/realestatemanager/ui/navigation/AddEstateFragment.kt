@@ -136,7 +136,7 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         viewModel.estateStatus.observe(activity) { status ->
             estateStatus = status
             if (estateStatus == EstateStatus.UPDATE_EXISTING_ESTATE) {
-                viewModel.estateSelected.observe(requireActivity()) {
+                viewModel.estateSelected.observe(activity) {
                     estate = it
                 }
             }
@@ -325,8 +325,6 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         if (hasPermission()) {
             val i = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             startActivityForResult(i, RESULT_CODE_CAMERA)
-        } else {
-            requestPermissions()
         }
     }
 

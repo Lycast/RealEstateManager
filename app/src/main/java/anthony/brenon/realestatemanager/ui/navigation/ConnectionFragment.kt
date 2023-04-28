@@ -28,8 +28,6 @@ class ConnectionFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private var name = ""
     private var email = ""
 
-    //TODO add password for connection ? / add update agent ?
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         activity = context as MainActivity
@@ -50,7 +48,10 @@ class ConnectionFragment : Fragment(), AdapterView.OnItemSelectedListener {
         binding.btnDeleteAgent.isEnabled = false
     }
 
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
     private fun setSpinnerAgents() {
         val adapter = ArrayAdapter(activity, android.R.layout.simple_spinner_item, agentsData )

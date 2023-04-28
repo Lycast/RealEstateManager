@@ -1,6 +1,7 @@
 package anthony.brenon.realestatemanager.ui
 
 import android.content.Context
+import android.location.Location
 import androidx.lifecycle.*
 import anthony.brenon.realestatemanager.models.Agent
 import anthony.brenon.realestatemanager.models.Estate
@@ -18,6 +19,7 @@ class MainViewModel(private val agentRepository : AgentRepository, private val e
     var estateStatus = MutableLiveData<EstateStatus>()
     var monetaryUnit = MutableLiveData<MonetaryUnit>()
     var sortListEstate = MutableLiveData<List<Estate>>()
+    var locationLivedata = MutableLiveData<Location>()
 
     val allAgents: LiveData<List<Agent>> = agentRepository.allAgents.asLiveData()
     val allEstates: LiveData<List<Estate>> = estateRepository.allEstates.asLiveData()
@@ -27,6 +29,7 @@ class MainViewModel(private val agentRepository : AgentRepository, private val e
     fun selectThisEstateStatus(status: EstateStatus) { estateStatus.value = status }
     fun selectThisMonetaryUnit(unity: MonetaryUnit) { monetaryUnit.value = unity }
     fun updateSortListEstate(list: List<Estate>) { sortListEstate.value = list }
+    fun updateLocation(location: Location) { locationLivedata.value = location }
 
     fun agentIsConnected() : Boolean { return agentSelected.value != null }
 

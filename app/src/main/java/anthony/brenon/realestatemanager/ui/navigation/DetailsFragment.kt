@@ -17,6 +17,12 @@ import anthony.brenon.realestatemanager.ui.MainActivity
 import anthony.brenon.realestatemanager.ui.MainViewModel
 import anthony.brenon.realestatemanager.ui.adapter.RecyclerViewImage
 import anthony.brenon.realestatemanager.utils.EstateStatus
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
 import java.text.DecimalFormat
 
@@ -29,11 +35,18 @@ class DetailsFragment : Fragment() {
 
     private lateinit var adapter : RecyclerViewImage
 
-    //TODO Cette carte est dynamique : l'agent peut zoomer, dézoomer, se déplacer, et afficher le détail d'un bien en cliquant sur la punaise correspondante.
+    // MAP
+    private lateinit var callback: OnMapReadyCallback
+    private lateinit var googleMap: GoogleMap
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         activity = context as MainActivity
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setMap()
     }
 
     override fun onCreateView(
@@ -46,12 +59,30 @@ class DetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map_details) as SupportMapFragment?
+        mapFragment?.getMapAsync(callback)
+
+        binding.layoutDetails.visibility = View.GONE
         viewModel.estateSelected.observe(activity) {
+            binding.layoutDetails.visibility = View.VISIBLE
             populateView(it)
             initRVImage(it.id)
+            googleMap.addMarker(MarkerOptions().position(LatLng(it.lat, it.lng)).title(it.addressStreet))
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it.lat, it.lng), 11.0f))
         }
 
         listenerClickView()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun setMap() {
+        callback = OnMapReadyCallback {
+            googleMap = it
+        }
     }
 
     private fun populateView(estate: Estate ) {
@@ -100,20 +131,22 @@ class DetailsFragment : Fragment() {
     }
 
     private fun listenerClickView() {
-        binding.imgAddEstateBack?.setOnClickListener {
-            Navigation.findNavController(binding.root).popBackStack()
-        }
+        binding.apply {
+            imgAddEstateBack?.setOnClickListener {
+                Navigation.findNavController(binding.root).popBackStack()
+            }
 
-        binding.imgImageClose.setOnClickListener {
-            binding.layoutDetails.visibility = View.VISIBLE
-            binding.layoutImage.visibility = View.GONE
-        }
+            imgImageClose.setOnClickListener {
+                binding.layoutDetails.visibility = View.VISIBLE
+                binding.layoutImage.visibility = View.GONE
+            }
 
-        binding.imgEstateEdit.setOnClickListener {
-            if(viewModel.agentIsConnected()) {
-                viewModel.selectThisEstateStatus(EstateStatus.UPDATE_EXISTING_ESTATE)
-                Navigation.findNavController(binding.root).navigate(R.id.item_add_fragment)
-            } else Snackbar.make(binding.root, "You need to be logged in for edit an estate", Snackbar.LENGTH_SHORT).show()
+            imgEstateEdit.setOnClickListener {
+                if(viewModel.agentIsConnected()) {
+                    viewModel.selectThisEstateStatus(EstateStatus.UPDATE_EXISTING_ESTATE)
+                    Navigation.findNavController(binding.root).navigate(R.id.item_add_fragment)
+                } else Snackbar.make(binding.root, "You need to be logged in for edit an estate", Snackbar.LENGTH_SHORT).show()
+            }
         }
     }
 }

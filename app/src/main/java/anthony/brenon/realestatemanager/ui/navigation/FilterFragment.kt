@@ -25,6 +25,8 @@ class FilterFragment : Fragment() {
     avec au moins trois photos, pour un prix compris entre $1,500,000 et $2,000,000.
     */
 
+    //TODO ajouter message si list vide + ajouter carte (tab layout?)
+
     //TODO implement filter fragment
 
     private lateinit var activity: MainActivity
@@ -52,7 +54,11 @@ class FilterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setListenerView()
-        binding.tvPredictNumber.text = sortListEstate.size.toString()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 
@@ -93,11 +99,11 @@ class FilterFragment : Fragment() {
         val newSortListEstate = mutableListOf<Estate>()
         when ( filteredAttribute ) {
             "interesting" -> for (estate in sortListEstate) {
-                val normalizeCity = Normalizer.normalize(estate.interestingPoint, Normalizer.Form.NFD).replace("\\p{Mn}+".toRegex(), "")
+                val normalizeCity = Normalizer.normalize(estate.interestingPoint, Normalizer.Form.NFD).replace("\\p{Mn}+".toRegex(), "").replace(" ", "")
                 if (normalizeCity.contains(textValueNormalize, true)) newSortListEstate.add(estate)
             }
             "town" -> for (estate in sortListEstate) {
-                val normalizeCity = Normalizer.normalize(estate.addressCity, Normalizer.Form.NFD).replace("\\p{Mn}+".toRegex(), "")
+                val normalizeCity = Normalizer.normalize(estate.addressCity, Normalizer.Form.NFD).replace("\\p{Mn}+".toRegex(), "").replace(" ", "")
                 if (normalizeCity.contains(textValueNormalize, true)) newSortListEstate.add(estate)
             }
         }

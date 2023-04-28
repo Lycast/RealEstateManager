@@ -24,6 +24,14 @@
     </fragment>
 
     <fragment
+        android:id="@+id/item_map_fragment"
+        android:name="anthony.brenon.realestatemanager.ui.map.MapsFragment">
+        <action
+            android:id="@+id/show_item_list"
+            app:destination="@id/item_list_fragment" />
+    </fragment>
+
+    <fragment
         android:id="@+id/item_add_fragment"
         android:name="anthony.brenon.realestatemanager.ui.navigation.AddEstateFragment">
 
