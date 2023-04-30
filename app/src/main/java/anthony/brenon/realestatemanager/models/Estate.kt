@@ -16,24 +16,24 @@ import androidx.room.PrimaryKey
 data class Estate(
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0,
-    var type: String,
-    var price: String,
-    var surface: String,
-    var roomsNumber: String,
-    var description: String,
-    var addressStreet: String,
-    var addressCity: String,
-    var addressCode: String,
-    var addressCountry: String,
-    var lng: Double,
-    var lat: Double,
-    var interestingPoint: String,
-    var onSaleDate: String,
-    var dateOfSale: String,
-    var agentInChargeName: String,
+    var type: String = "",
+    var price: String = "",
+    var surface: String = "",
+    var roomsNumber: String = "",
+    var description: String = "",
+    var addressStreet: String = "",
+    var addressCity: String = "",
+    var addressCode: String = "",
+    var addressCountry: String = "",
+    var lng: Double = 0.00,
+    var lat: Double = 0.00,
+    var interestingPoint: String = "",
+    var onSaleDate: String = "",
+    var dateOfSale: String = "",
+    var agentInChargeName: String = "",
     @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
     var picture: Bitmap,
-    var numberOfPicture: Int
+    var numberOfPicture: Int = 0
     ) {
     fun isSold() = dateOfSale.isNotEmpty()
 }

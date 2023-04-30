@@ -22,13 +22,11 @@ import androidx.navigation.Navigation
 import anthony.brenon.realestatemanager.BuildConfig
 import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.databinding.FragmentAddEstateBinding
-import anthony.brenon.realestatemanager.models.Agent
 import anthony.brenon.realestatemanager.models.Estate
 import anthony.brenon.realestatemanager.models.Picture
 import anthony.brenon.realestatemanager.ui.MainActivity
 import anthony.brenon.realestatemanager.ui.MainViewModel
 import anthony.brenon.realestatemanager.ui.adapter.RecyclerViewImage
-import anthony.brenon.realestatemanager.utils.EstateStatus
 import anthony.brenon.realestatemanager.utils.Utils
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
@@ -52,25 +50,26 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         const val RESULT_CODE_FOLDER = 22
     }
 
-    private lateinit var activity: MainActivity
     private var _binding: FragmentAddEstateBinding? = null
     private val binding get() = _binding!!
-
     private val viewModel by activityViewModels<MainViewModel>()
+
+    private lateinit var activity: MainActivity
     private lateinit var adapter: RecyclerViewImage
-    private val calendar = Calendar.getInstance()
-
     private lateinit var estate: Estate
-    private lateinit var estateStatus: EstateStatus
-    private val images = mutableListOf<Bitmap>()
     private lateinit var image: Bitmap
-    private lateinit var currentAgent: Agent
-
-    //TODO fix bug possible (permissions?)
+    private val calendar = Calendar.getInstance()
+    private var isNewEstate = true
+    private val images = mutableListOf<Bitmap>()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         activity = context as MainActivity
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        set()
     }
 
     override fun onCreateView(
@@ -79,51 +78,12 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAddEstateBinding.inflate(inflater, container, false)
-
-        estate = Estate(
-            0,
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            0.00,
-            0.00,
-            "",
-            "",
-            "",
-            "",
-            BitmapFactory.decodeResource(resources, R.drawable.img_estate_test_1),
-            0
-        )
-
-        observerEstateStatus()
-        observerAgentSelected()
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        if (!hasPermission()) requestPermissions()
-        if (!Places.isInitialized()) Places.initialize(requireActivity(), BuildConfig.MAPS_API_KEY)
-
-        if (estateStatus == EstateStatus.UPDATE_EXISTING_ESTATE) {
-            populateView()
-        } else {
-            val date = Utils.todayDate
-            estate.onSaleDate = date
-        }
-
-        binding.agentNameTv.text = estate.agentInChargeName
-
-        initRecyclerViewImage()
-        listenerClickView()
+        observe(); initRecyclerViewImage(); listenerClickView()
     }
 
     override fun onDestroyView() {
@@ -131,96 +91,118 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         _binding = null
     }
 
-    private fun observerEstateStatus() {
-        // observer estate status
-        viewModel.estateStatus.observe(activity) { status ->
-            estateStatus = status
-            if (estateStatus == EstateStatus.UPDATE_EXISTING_ESTATE) {
-                viewModel.estateSelected.observe(activity) {
-                    estate = it
-                }
-            }
-        }
+    private fun set() {
+        isNewEstate = viewModel.isNewEstate
+        estate = Estate(picture = BitmapFactory.decodeResource(resources, R.drawable.img_estate_test_1))
+
+        if (!hasPermission()) requestPermissions()
+        if (!Places.isInitialized()) Places.initialize(requireContext(), BuildConfig.MAPS_API_KEY)
     }
 
-    private fun observerAgentSelected() {
-        // observer agent selected
-        viewModel.agentSelected.observe(activity) {
-            currentAgent = it
-            estate.agentInChargeName = it.nameAgent
-        }
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        binding.layoutMainAdd.visibility = View.VISIBLE
-
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
-                data?.let {
-                    val place = Autocomplete.getPlaceFromIntent(data)
-                    estate.lat = place.latLng?.latitude ?: 0.00
-                    estate.lng = place.latLng?.longitude ?: 0.00
-                    place.addressComponents?.let {
-                        binding.btnAddEstateAddress.text = it.asList()[1].name
-                        estate.addressStreet = it.asList()[0].name
-                        estate.addressCity = it.asList()[1].name
-                        estate.addressCode = it.asList()[5].name
-                        estate.addressCountry = it.asList()[4].name
-                    }
+    private fun observe() {
+        when {
+            isNewEstate -> {
+                estate.onSaleDate = Utils.todayDate
+                viewModel.agentSelected.observe(viewLifecycleOwner) {
+                    estate.agentInChargeName = it.nameAgent
+                    binding.agentNameTv.text = it.nameAgent
                 }
             }
-
-            val pic: Bitmap? =
-                when (requestCode) {
-                    RESULT_CODE_CAMERA -> data?.getParcelableExtra("data")
-                    RESULT_CODE_FOLDER -> MediaStore.Images.Media.getBitmap(
-                        requireActivity().contentResolver,
-                        data?.data
-                    )
-                    else -> null
-                }
-            pic?.let {
-                val newImage = it
-                images.add(newImage)
-                adapter.setData(images)
-            }
-        }
-    }
-
-    private fun autoCompleteLauncher() {
-        if (!Places.isInitialized()) {
-            Places.initialize(requireActivity(), BuildConfig.MAPS_API_KEY)
-        } else {
-            val fields: List<Place.Field> =
-                listOf(Place.Field.ADDRESS_COMPONENTS, Place.Field.LAT_LNG)
-            val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
-                .setHint(getString(R.string.autocomplete_hint))
-                .setCountry("FR")
-                .build(requireActivity())
-            startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
-            binding.layoutMainAdd.visibility = View.GONE
+            else -> viewModel.estateSelected.observe(viewLifecycleOwner) { estate = it; populateView(); initRecyclerViewImage() }
         }
     }
 
     // populate view when edit estate
     private fun populateView() {
-
         binding.btnAddEstateCreate.setText(R.string.update)
-
         binding.apply {
-            btnAddEstateAddress.text = estate.addressCity
+            agentNameTv.text = estate.agentInChargeName
+            btnAddAddress.text = estate.addressCity
+
             addEstateEtType.setText(estate.type)
             addEstateEtSurface.setText(estate.surface)
             addEstateEtPrice.setText(estate.price)
             addEstateEtNbRoom.setText(estate.roomsNumber)
             addEstateEtInterestingPoint.setText(estate.interestingPoint)
             addEstateEtDescription.setText(estate.description)
-
             addEstateBtnSale.visibility = View.VISIBLE
             if (estate.isSold()) addEstateBtnSale.text = estate.dateOfSale
+        }
+    }
+
+    // insert new date when click on create/update estate
+    private fun insertEstateData() {
+        binding.apply {
+            val type = addEstateEtType.text.toString()
+            val price = addEstateEtPrice.text.toString()
+            val surface = addEstateEtSurface.text.toString()
+            val roomNb = addEstateEtNbRoom.text.toString()
+            val description = addEstateEtDescription.text.toString()
+            val interesting = addEstateEtInterestingPoint.text.toString()
+            if (images.isNotEmpty()) estate.picture = images[0]
+            estate.type = type
+            estate.price = price
+            estate.surface = surface
+            estate.roomsNumber = roomNb
+            estate.description = description
+            estate.interestingPoint = interesting
+            estate.numberOfPicture = images.size
+        }
+        // Condition for create or update estate
+        if (listOf(
+                estate.type,
+                estate.price,
+                estate.surface,
+                estate.roomsNumber,
+                estate.description,
+                estate.interestingPoint
+            ).any { it.isNotEmpty() } || images.isNotEmpty()
+        ) {
+            viewModel.insertEstate(requireContext(), estate).observe(viewLifecycleOwner) {
+                estate.id = it
+                for (image in images) {
+                    viewModel.insertPicture(Picture(image, it))
+                }
+                Navigation.findNavController(binding.root).popBackStack()
+            }
+        } else {
+            Snackbar.make(
+                binding.root,
+                getString(R.string.please_enter_all_information),
+                Snackbar.LENGTH_SHORT
+            )
+                .show()
+        }
+    }
+
+    private fun initRecyclerViewImage() {
+        adapter = RecyclerViewImage {
+            binding.layoutMainAdd.visibility = View.GONE
+            binding.layoutImage.visibility = View.VISIBLE
+            it?.let { image = it }
+            binding.ivDetails.setImageBitmap(it)
+        }
+        binding.recyclerViewImage.adapter = adapter
+
+        viewModel.getPicturesByEstate(estate.id).observe(viewLifecycleOwner) { pictures ->
+            images.clear()
+            for (picture in pictures) { images.add(picture.picture) }
+            adapter.setData(images)
+        }
+    }
+
+    private fun autoCompleteLauncher() {
+        if (!Places.isInitialized()) {
+            Places.initialize(requireContext(), BuildConfig.MAPS_API_KEY)
+        } else {
+            val fields: List<Place.Field> =
+                listOf(Place.Field.ADDRESS_COMPONENTS, Place.Field.LAT_LNG)
+            val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
+                .setHint(getString(R.string.autocomplete_hint))
+                .setCountry("FR")
+                .build(requireContext())
+            startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
+            binding.layoutMainAdd.visibility = View.GONE
         }
     }
 
@@ -234,66 +216,39 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         binding.addEstateBtnSale.text = text
     }
 
-    // insert new date when click on create/update estate
-    private fun insertEstateData() {
-
-        binding.apply {
-
-            val type = addEstateEtType.text.toString()
-            val price = addEstateEtPrice.text.toString()
-            val surface = addEstateEtSurface.text.toString()
-            val roomNb = addEstateEtNbRoom.text.toString()
-            val description = addEstateEtDescription.text.toString()
-            val interesting = addEstateEtInterestingPoint.text.toString()
-
-            if (images.isNotEmpty()) estate.picture = images[0]
-            estate.type = type
-            estate.price = price
-            estate.surface = surface
-            estate.roomsNumber = roomNb
-            estate.description = description
-            estate.interestingPoint = interesting
-            estate.numberOfPicture = images.size
-        }
-
-        // Condition for create or update estate
-        if (estate.type.isNotEmpty() &&
-            estate.price.isNotEmpty() &&
-            estate.surface.isNotEmpty() &&
-            estate.roomsNumber.isNotEmpty() &&
-            estate.description.isNotEmpty() &&
-            estate.interestingPoint.isNotEmpty() &&
-            images.isNotEmpty()
-        ) {
-            viewModel.insertEstate(requireContext(), estate).observe(activity) {
-                estate.id = it
-                for (image in images) { viewModel.insertPicture(Picture(image, it)) }
-                Navigation.findNavController(binding.root).popBackStack()
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        binding.layoutMainAdd.visibility = View.VISIBLE
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                AUTOCOMPLETE_REQUEST_CODE -> {
+                    data?.let {
+                        val place = Autocomplete.getPlaceFromIntent(data)
+                        estate.lat = place.latLng?.latitude ?: 0.00
+                        estate.lng = place.latLng?.longitude ?: 0.00
+                        place.addressComponents?.let {
+                            binding.btnAddAddress.text = it.asList()[1].name
+                            estate.addressStreet = it.asList()[0].name
+                            estate.addressCity = it.asList()[1].name
+                            estate.addressCode = it.asList()[5].name
+                            estate.addressCountry = it.asList()[4].name
+                        }
+                    }
+                }
             }
-        } else {
-            Snackbar.make(binding.root, "please enter all information", Snackbar.LENGTH_SHORT)
-                .show()
-        }
-    }
-
-    private fun initRecyclerViewImage() {
-        adapter = RecyclerViewImage {
-            binding.layoutMainAdd.visibility = View.GONE
-            binding.layoutImage.visibility = View.VISIBLE
-            if (it != null) {
-                image = it
+            val newImage: Bitmap? = when (requestCode) {
+                RESULT_CODE_CAMERA -> data?.getParcelableExtra("data")
+                RESULT_CODE_FOLDER -> MediaStore.Images.Media.getBitmap(
+                    requireActivity().contentResolver,
+                    data?.data
+                )
+                else -> null
             }
-            binding.ivDetails.setImageBitmap(it)
-        }
-        binding.recyclerViewImage.adapter = adapter
-
-        // observer get pictures by estate
-        viewModel.getPicturesByEstate(estate.id).observe(activity) {
-            images.clear()
-            for (picture in it) {
-                images.add(picture.picture)
+            newImage?.let {
+                images.add(it)
+                adapter.setData(images)
             }
-            adapter.setData(images)
         }
     }
 
@@ -304,10 +259,8 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
             .inflate(R.layout.dialog_select_image_ressource, null)
         builder.setView(customView)
         val dialog = builder.create()
-
         val btnCamera = customView.findViewById<ImageButton>(R.id.dialog_btn_picture_from_camera)
         val btnFolder = customView.findViewById<ImageButton>(R.id.dialog_btn_picture_from_folder)
-
         btnCamera.setOnClickListener {
             addImageFromCamera()
             dialog.dismiss()
@@ -316,8 +269,6 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
             addImageFromFolder()
             dialog.dismiss()
         }
-
-
         dialog.show()
     }
 
@@ -338,20 +289,6 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
     // ADD PICTURE DIALOG END
 
     // PERMISSIONS START
-    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
-        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            SettingsDialog.Builder(activity).build().show()
-        } else {
-            requestPermissions()
-        }
-    }
-
-    override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
-        binding.apply {
-            addEstateBtnPicture.isEnabled = true
-        }
-    }
-
     private fun hasPermission() =
         EasyPermissions.hasPermissions(
             activity,
@@ -364,8 +301,21 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
             activity,
             "These permission are required for this application",
             PERMISSIONS_REQUEST_CODE,
-            android.Manifest.permission.CAMERA, android.Manifest.permission.READ_EXTERNAL_STORAGE
+            android.Manifest.permission.CAMERA,
+            android.Manifest.permission.READ_EXTERNAL_STORAGE
         )
+    }
+
+    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            SettingsDialog.Builder(requireContext()).build().show()
+        } else {
+            requestPermissions()
+        }
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
+        binding.addEstateBtnPicture.isEnabled = true
     }
 
     override fun onRequestPermissionsResult(
@@ -379,40 +329,33 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
     // PERMISSIONS END
 
     private fun listenerClickView() {
-
-        binding.addEstateBtnPicture.setOnClickListener {
-            showCustomBuilder()
-        }
-
-        binding.btnAddEstateAddress.setOnClickListener { autoCompleteLauncher() }
-
+        binding.addEstateBtnPicture.setOnClickListener { showCustomBuilder() }
+        binding.btnAddAddress.setOnClickListener { autoCompleteLauncher() }
         binding.imgAddEstateBack.setOnClickListener {
             Navigation.findNavController(binding.root).popBackStack()
         }
-
-        binding.btnAddEstateCreate.setOnClickListener {
-            insertEstateData()
-        }
-
+        binding.btnAddEstateCreate.setOnClickListener { insertEstateData() }
         binding.addEstateBtnSale.setOnClickListener {
-            if (!estate.isSold()) DatePickerDialog(
-                requireContext(),
-                this,
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-            ).show()
-            else {
-                estate.dateOfSale = ""
-                binding.addEstateBtnSale.setText(R.string.estate_sold)
+            when {
+                estate.isSold() -> {
+                    estate.dateOfSale = ""
+                    binding.addEstateBtnSale.setText(R.string.estate_sold)
+                }
+                else -> {
+                    DatePickerDialog(
+                        requireContext(),
+                        this,
+                        calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.MONTH),
+                        calendar.get(Calendar.DAY_OF_MONTH)
+                    ).show()
+                }
             }
         }
-
         binding.imgImageClose.setOnClickListener {
             binding.layoutMainAdd.visibility = View.VISIBLE
             binding.layoutImage.visibility = View.GONE
         }
-
         binding.dialIvDelete.setOnClickListener {
             images.remove(image)
             adapter.setData(images)

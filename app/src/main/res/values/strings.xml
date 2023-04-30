@@ -74,4 +74,7 @@
     <string name="display_estates_filtered">display estates filtered</string>
     <string name="_0">0</string>
     <string name="map">map</string>
+    <string name="please_enter_all_information">please enter all information</string>
+    <string name="you_need_to_be_logged_in_for_create_an_estate">You need to be logged in for create an estate</string>
+    <string name="you_need_to_be_logged_in_for_edit_an_estate">You need to be logged in for edit an estate</string>
 </resources>

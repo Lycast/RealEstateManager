@@ -86,7 +86,7 @@ class FilterFragment : Fragment() {
 
             ivFilterFragBack.setOnClickListener {
                 viewModel.updateSortListEstate(sortListEstate)
-                Navigation.findNavController(root).popBackStack()
+                Navigation.findNavController(binding.root).popBackStack()
             }
 
             etDateOfSale

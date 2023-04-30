@@ -23,35 +23,33 @@ import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.RealEstateManagerApp
 import anthony.brenon.realestatemanager.callback.CallbackLocation
 import anthony.brenon.realestatemanager.databinding.ActivityMainBinding
-import anthony.brenon.realestatemanager.utils.EstateStatus
 import com.google.android.material.snackbar.Snackbar
 import com.vmadalin.easypermissions.EasyPermissions
 
 class MainActivity : AppCompatActivity(), CallbackLocation {
 
     private lateinit var binding: ActivityMainBinding
-    private val viewModel: MainViewModel by viewModels {
-        MainViewModelFactory((application as RealEstateManagerApp).agentRepository, (application as RealEstateManagerApp).estateRepository)
-    }
-    private lateinit var drawerLayout: DrawerLayout
-    private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
-
-    // Declare the LocationManager and LocationListener
     private lateinit var locationManager: LocationManager
     private lateinit var locationListener: LocationListener
-
-    //TODO implement content provider
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
+    private val viewModel: MainViewModel by viewModels {
+        MainViewModelFactory(
+            (application as RealEstateManagerApp).agentRepository,
+            (application as RealEstateManagerApp).estateRepository)
+    }
+    //TODO implement content provider and loan simulator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        val view = binding.root
+        setContentView(binding.root)
 
         initializeLocationManger()
         if (!hasPermissionLocation()) requestLocationPermissions()
 
-        setContentView(view)
         viewModel.allEstates.observe(this) { viewModel.updateSortListEstate(it) }
+
         initDrawer()
         requestLocationPermissions()
     }
@@ -101,10 +99,9 @@ class MainActivity : AppCompatActivity(), CallbackLocation {
 
             R.id.item_add -> {
                 if (viewModel.agentIsConnected()) {
-                    viewModel.selectThisEstateStatus(EstateStatus.ADD_NEWS_ESTATE)
-                    Navigation.findNavController(binding.root.findViewById(R.id.nav_host_fragment))
-                        .navigate(R.id.item_add_fragment)
-                } else Snackbar.make(binding.root, "You need to be logged in for create an estate", Snackbar.LENGTH_SHORT).show()
+                    viewModel.isNewEstate = true
+                    Navigation.findNavController(binding.root.findViewById(R.id.nav_host_fragment)).navigate(R.id.item_add_fragment)
+                } else Snackbar.make(binding.root, getString(R.string.you_need_to_be_logged_in_for_create_an_estate), Snackbar.LENGTH_SHORT).show()
                 return true
             }
 

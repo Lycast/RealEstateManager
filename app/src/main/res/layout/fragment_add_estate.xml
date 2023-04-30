@@ -78,7 +78,7 @@
             app:layout_constraintBottom_toBottomOf="@id/img_add_estate_back"/>
 
         <Button
-            android:id="@+id/btn_add_estate_address"
+            android:id="@+id/btn_add_address"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/transparent"
@@ -99,9 +99,9 @@
             android:text="@string/add_picture"
             android:textAllCaps="false"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/btn_add_estate_address"
-            app:layout_constraintTop_toTopOf="@id/btn_add_estate_address"
-            app:layout_constraintBottom_toBottomOf="@id/btn_add_estate_address"
+            app:layout_constraintLeft_toRightOf="@id/btn_add_address"
+            app:layout_constraintTop_toTopOf="@id/btn_add_address"
+            app:layout_constraintBottom_toBottomOf="@id/btn_add_address"
             android:contentDescription="@string/add_picture" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -113,7 +113,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_add_estate_address" />
+            app:layout_constraintTop_toBottomOf="@id/btn_add_address" />
 
         <EditText
             android:id="@+id/add_estate_et_type"
