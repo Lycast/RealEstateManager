@@ -7,6 +7,8 @@ import android.graphics.Bitmap
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import anthony.brenon.realestatemanager.utils.Utils
+import java.text.DecimalFormat
 
 
 /**
@@ -35,5 +37,11 @@ data class Estate(
     var picture: Bitmap,
     var numberOfPicture: Int = 0
     ) {
+
     fun isSold() = dateOfSale.isNotEmpty()
+    fun getPrice(monetary: Boolean) : String {
+        val dec = DecimalFormat("#,###")
+        return if (monetary) "\u20AC ${dec.format(price.toInt())}"
+        else "$ ${dec.format(Utils.convertDollarToEuro(price.toInt()))}"
+    }
 }

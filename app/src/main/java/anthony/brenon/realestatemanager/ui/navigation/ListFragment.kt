@@ -46,21 +46,20 @@ class ListFragment : Fragment() {
 
     private fun setRecyclerViewEstates() {
 
-        adapter = RecyclerViewEstate {
+        adapter = RecyclerViewEstate(onSelect = {
             viewModel.selectThisEstate(it!!)
             if (binding.navHostFragment == null) Navigation.findNavController(binding.root).navigate(R.id.item_detail_fragment)
-        }
+        }, viewModel.monetarySwitch)
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         binding.recyclerView.adapter = adapter
 
         viewModel.sortListEstate.observe(activity) {
-            adapter.setData(it)
+            if (it.isEmpty()) binding.ivListFragment.visibility = View.VISIBLE
+            else {
+                adapter.setData(it)
+                binding.ivListFragment.visibility = View.GONE
+            }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

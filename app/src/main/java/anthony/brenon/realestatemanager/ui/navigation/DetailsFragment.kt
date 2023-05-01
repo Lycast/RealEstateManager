@@ -22,7 +22,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import java.text.DecimalFormat
 
 class DetailsFragment : Fragment(), OnMapReadyCallback {
 
@@ -57,8 +56,8 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
         setListeners()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onDestroy() {
+        super.onDestroy()
         binding.recyclerViewImage.adapter = null
     }
 
@@ -69,11 +68,9 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
 
     private fun populateView(estate: Estate ) {
         with(binding) {
-            val dec = DecimalFormat("#,###")
-            val newPrice = if (estate.price.isNotEmpty()) "${dec.format(estate.price.toInt())}$" else ""
             detailsActivityTvDescription.text = estate.description
             detailsActivityTvType.text = estate.type
-            detailsActivityTvPrice.text = newPrice
+            detailsActivityTvPrice.text = estate.getPrice(viewModel.monetarySwitch)
             detailsActivityTvSurface.text = estate.surface
             detailsActivityTvRoom.text = estate.roomsNumber
             detailsActivityTvInteresting.text = estate.interestingPoint

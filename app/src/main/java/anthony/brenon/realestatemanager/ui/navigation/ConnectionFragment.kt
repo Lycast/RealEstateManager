@@ -47,12 +47,6 @@ class ConnectionFragment : Fragment(), AdapterView.OnItemSelectedListener {
         setSpinnerAgents()
         binding.btnDeleteAgent.isEnabled = false
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     private fun setSpinnerAgents() {
         val adapter = ArrayAdapter(activity, android.R.layout.simple_spinner_item, agentsData )
         viewModel.allAgents.observe(activity) { agents ->

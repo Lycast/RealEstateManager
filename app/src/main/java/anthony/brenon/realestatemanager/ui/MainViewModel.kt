@@ -8,15 +8,14 @@ import anthony.brenon.realestatemanager.models.Estate
 import anthony.brenon.realestatemanager.models.Picture
 import anthony.brenon.realestatemanager.repository.AgentRepository
 import anthony.brenon.realestatemanager.repository.EstateRepository
-import anthony.brenon.realestatemanager.utils.MonetaryUnit
 import kotlinx.coroutines.launch
 
 class MainViewModel(private val agentRepository : AgentRepository, private val estateRepository : EstateRepository) : ViewModel() {
 
     var isNewEstate: Boolean = true
+    var monetarySwitch: Boolean = false
     var estateSelected = MutableLiveData<Estate>()
     var agentSelected = MutableLiveData<Agent>()
-    var monetaryUnit = MutableLiveData<MonetaryUnit>()
     var sortListEstate = MutableLiveData<List<Estate>>()
     var locationLivedata = MutableLiveData<Location>()
 
@@ -25,7 +24,6 @@ class MainViewModel(private val agentRepository : AgentRepository, private val e
 
     fun selectThisEstate(estate: Estate) { estateSelected.value = estate }
     fun selectThisAgent(agent: Agent) { agentSelected.value = agent }
-    fun selectThisMonetaryUnit(unity: MonetaryUnit) { monetaryUnit.value = unity }
     fun updateSortListEstate(list: List<Estate>) { sortListEstate.value = list }
     fun updateLocation(location: Location) { locationLivedata.value = location }
 

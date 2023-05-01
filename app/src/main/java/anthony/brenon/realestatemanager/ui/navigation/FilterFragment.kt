@@ -16,16 +16,6 @@ import java.text.Normalizer
 
 
 class FilterFragment : Fragment() {
-    /*
-    L’agent immobilier peut effectuer une recherche multi-critères sur l’ensemble des biens immobiliers de la base.
-    Par exemple :
-    - Afficher les appartements d’une surface comprise entre 200 et 300m2, proches d’une école et des commerces,
-    mis sur le marché depuis moins d’une semaine.
-    - Afficher les maisons vendues au cours des trois derniers mois, dans le secteur de Long Island,
-    avec au moins trois photos, pour un prix compris entre $1,500,000 et $2,000,000.
-    */
-
-    //TODO ajouter message si list vide + ajouter carte (tab layout?)
 
     //TODO implement filter fragment
 
@@ -35,7 +25,6 @@ class FilterFragment : Fragment() {
     private val viewModel by activityViewModels<MainViewModel>()
 
     private var sortListEstate = listOf<Estate>()
-
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -55,12 +44,6 @@ class FilterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setListenerView()
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
 
     private fun observerEstates() {
         viewModel.allEstates.observe(activity) {

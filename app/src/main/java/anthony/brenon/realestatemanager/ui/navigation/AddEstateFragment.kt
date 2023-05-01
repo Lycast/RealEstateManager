@@ -40,7 +40,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @Suppress("DEPRECATION")
-class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
+class AddEstateFragment : Fragment(),
+    DatePickerDialog.OnDateSetListener,
     EasyPermissions.PermissionCallbacks {
 
     companion object {
@@ -67,11 +68,6 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         activity = context as MainActivity
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        set()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -83,17 +79,19 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observe(); initRecyclerViewImage(); listenerClickView()
+        observe()
+        initRecyclerViewImage()
+        listenerClickView()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    init {
+        set()
     }
 
     private fun set() {
         isNewEstate = viewModel.isNewEstate
-        estate = Estate(picture = BitmapFactory.decodeResource(resources, R.drawable.img_estate_test_1))
+        estate =
+            Estate(picture = BitmapFactory.decodeResource(resources, R.drawable.img_estate_test_1))
 
         if (!hasPermission()) requestPermissions()
         if (!Places.isInitialized()) Places.initialize(requireContext(), BuildConfig.MAPS_API_KEY)
@@ -108,7 +106,10 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
                     binding.agentNameTv.text = it.nameAgent
                 }
             }
-            else -> viewModel.estateSelected.observe(viewLifecycleOwner) { estate = it; populateView(); initRecyclerViewImage() }
+
+            else -> viewModel.estateSelected.observe(viewLifecycleOwner) {
+                estate = it; populateView(); initRecyclerViewImage()
+            }
         }
     }
 
@@ -118,7 +119,6 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         binding.apply {
             agentNameTv.text = estate.agentInChargeName
             btnAddAddress.text = estate.addressCity
-
             addEstateEtType.setText(estate.type)
             addEstateEtSurface.setText(estate.surface)
             addEstateEtPrice.setText(estate.price)
@@ -133,19 +133,13 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
     // insert new date when click on create/update estate
     private fun insertEstateData() {
         binding.apply {
-            val type = addEstateEtType.text.toString()
-            val price = addEstateEtPrice.text.toString()
-            val surface = addEstateEtSurface.text.toString()
-            val roomNb = addEstateEtNbRoom.text.toString()
-            val description = addEstateEtDescription.text.toString()
-            val interesting = addEstateEtInterestingPoint.text.toString()
             if (images.isNotEmpty()) estate.picture = images[0]
-            estate.type = type
-            estate.price = price
-            estate.surface = surface
-            estate.roomsNumber = roomNb
-            estate.description = description
-            estate.interestingPoint = interesting
+            estate.type = addEstateEtType.text.toString()
+            estate.price = addEstateEtPrice.text.toString()
+            estate.surface = addEstateEtSurface.text.toString()
+            estate.roomsNumber = addEstateEtNbRoom.text.toString()
+            estate.description = addEstateEtDescription.text.toString()
+            estate.interestingPoint = addEstateEtInterestingPoint.text.toString()
             estate.numberOfPicture = images.size
         }
         // Condition for create or update estate
@@ -186,7 +180,9 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
 
         viewModel.getPicturesByEstate(estate.id).observe(viewLifecycleOwner) { pictures ->
             images.clear()
-            for (picture in pictures) { images.add(picture.picture) }
+            for (picture in pictures) {
+                images.add(picture.picture)
+            }
             adapter.setData(images)
         }
     }
@@ -243,6 +239,7 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
                     requireActivity().contentResolver,
                     data?.data
                 )
+
                 else -> null
             }
             newImage?.let {
@@ -262,28 +259,30 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         val btnCamera = customView.findViewById<ImageButton>(R.id.dialog_btn_picture_from_camera)
         val btnFolder = customView.findViewById<ImageButton>(R.id.dialog_btn_picture_from_folder)
         btnCamera.setOnClickListener {
-            addImageFromCamera()
+            if (hasPermission()) onSelectAddPictureSource("camera")
+            else requestPermissions()
             dialog.dismiss()
         }
         btnFolder.setOnClickListener {
-            addImageFromFolder()
+            if (hasPermission()) onSelectAddPictureSource("folder")
+            else requestPermissions()
             dialog.dismiss()
         }
         dialog.show()
     }
 
-    private fun addImageFromCamera() {
-        if (hasPermission()) {
-            val i = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            startActivityForResult(i, RESULT_CODE_CAMERA)
-        }
-    }
+    private fun onSelectAddPictureSource(source: String) {
+        when (source) {
+            "camera" -> {
+                val i = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                startActivityForResult(i, RESULT_CODE_CAMERA)
+            }
 
-    private fun addImageFromFolder() {
-        if (hasPermission()) {
-            val i = Intent(Intent.ACTION_PICK)
-            i.type = "image/*"
-            startActivityForResult(i, RESULT_CODE_FOLDER)
+            "folder" -> {
+                val i = Intent(Intent.ACTION_PICK)
+                i.type = "image/*"
+                startActivityForResult(i, RESULT_CODE_FOLDER)
+            }
         }
     }
     // ADD PICTURE DIALOG END
@@ -331,17 +330,14 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
     private fun listenerClickView() {
         binding.addEstateBtnPicture.setOnClickListener { showCustomBuilder() }
         binding.btnAddAddress.setOnClickListener { autoCompleteLauncher() }
-        binding.imgAddEstateBack.setOnClickListener {
-            Navigation.findNavController(binding.root).popBackStack()
-        }
+        binding.imgAddEstateBack.setOnClickListener { Navigation.findNavController(binding.root).popBackStack() }
         binding.btnAddEstateCreate.setOnClickListener { insertEstateData() }
+
         binding.addEstateBtnSale.setOnClickListener {
-            when {
-                estate.isSold() -> {
+            if (estate.isSold()) {
                     estate.dateOfSale = ""
                     binding.addEstateBtnSale.setText(R.string.estate_sold)
-                }
-                else -> {
+                } else {
                     DatePickerDialog(
                         requireContext(),
                         this,
@@ -351,11 +347,12 @@ class AddEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener,
                     ).show()
                 }
             }
-        }
+
         binding.imgImageClose.setOnClickListener {
             binding.layoutMainAdd.visibility = View.VISIBLE
             binding.layoutImage.visibility = View.GONE
         }
+
         binding.dialIvDelete.setOnClickListener {
             images.remove(image)
             adapter.setData(images)

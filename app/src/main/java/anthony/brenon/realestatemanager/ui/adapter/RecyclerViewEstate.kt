@@ -7,13 +7,13 @@ import androidx.recyclerview.widget.RecyclerView
 import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.databinding.ItemEstateBinding
 import anthony.brenon.realestatemanager.models.Estate
-import java.text.DecimalFormat
 
 /**
  * Created by Lycast on 28/07/2022.
  */
 class RecyclerViewEstate (
     private val onSelect: (Estate?) -> Unit,
+    private val monetary: Boolean
     ): RecyclerView.Adapter<RecyclerViewEstate.ViewHolder>() {
 
     private lateinit var binding: ItemEstateBinding
@@ -42,18 +42,11 @@ class RecyclerViewEstate (
 
         fun bind(estate: Estate, onSelect: (Estate?) -> Unit) {
 
-            var price = ""
-            val dec = DecimalFormat("#,###")
-            if (estate.price.isNotEmpty()) {
-                price = "${dec.format(estate.price.toInt())}$"
-            }
-
-
             itemBinding.apply {
                 if (estate.isSold()) cardLayoutImageView.setImageResource(R.drawable.sold)
                 else cardLayoutImageView.setImageBitmap(estate.picture)
                 cardLayoutTextView1.text = estate.type
-                cardLayoutTextView3.text = price
+                cardLayoutTextView3.text = estate.getPrice(monetary)
                 cardLayoutTextView2.text = estate.addressCity
                 // bind your view here
                 binding.root.setOnClickListener {
