@@ -1,7 +1,6 @@
 package anthony.brenon.realestatemanager.ui.navigation
 
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
@@ -35,7 +34,6 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.android.material.snackbar.Snackbar
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.dialogs.SettingsDialog
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -79,15 +77,11 @@ class AddEstateFragment : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        set()
         observe()
         initRecyclerViewImage()
         listenerClickView()
     }
-
-    init {
-        set()
-    }
-
     private fun set() {
         isNewEstate = viewModel.isNewEstate
         estate =
@@ -100,7 +94,7 @@ class AddEstateFragment : Fragment(),
     private fun observe() {
         when {
             isNewEstate -> {
-                estate.onSaleDate = Utils.todayDate
+                estate.saleDate = Utils.todayDate
                 viewModel.agentSelected.observe(viewLifecycleOwner) {
                     estate.agentInChargeName = it.nameAgent
                     binding.agentNameTv.text = it.nameAgent
@@ -126,7 +120,7 @@ class AddEstateFragment : Fragment(),
             addEstateEtInterestingPoint.setText(estate.interestingPoint)
             addEstateEtDescription.setText(estate.description)
             addEstateBtnSale.visibility = View.VISIBLE
-            if (estate.isSold()) addEstateBtnSale.text = estate.dateOfSale
+            if (estate.isSold()) addEstateBtnSale.text = estate.soldDate
         }
     }
 
@@ -203,12 +197,11 @@ class AddEstateFragment : Fragment(),
     }
 
     // picker date result
-    @SuppressLint("SimpleDateFormat")
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
         calendar.set(year, month, dayOfMonth)
-        val dateFormat: DateFormat = SimpleDateFormat("dd/MM/yyyy")
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val text = dateFormat.format(calendar.time)
-        estate.dateOfSale = text
+        estate.soldDate = text
         binding.addEstateBtnSale.text = text
     }
 
@@ -335,18 +328,18 @@ class AddEstateFragment : Fragment(),
 
         binding.addEstateBtnSale.setOnClickListener {
             if (estate.isSold()) {
-                    estate.dateOfSale = ""
-                    binding.addEstateBtnSale.setText(R.string.estate_sold)
-                } else {
-                    DatePickerDialog(
-                        requireContext(),
-                        this,
-                        calendar.get(Calendar.YEAR),
-                        calendar.get(Calendar.MONTH),
-                        calendar.get(Calendar.DAY_OF_MONTH)
-                    ).show()
-                }
+                estate.soldDate = ""
+                binding.addEstateBtnSale.setText(R.string.estate_sold)
+            } else {
+                DatePickerDialog(
+                    requireContext(),
+                    this,
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH)
+                ).show()
             }
+        }
 
         binding.imgImageClose.setOnClickListener {
             binding.layoutMainAdd.visibility = View.VISIBLE

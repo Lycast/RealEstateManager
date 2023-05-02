@@ -30,18 +30,27 @@ data class Estate(
     var lng: Double = 0.00,
     var lat: Double = 0.00,
     var interestingPoint: String = "",
-    var onSaleDate: String = "",
-    var dateOfSale: String = "",
+    var saleDate: String = "",
+    var soldDate: String = "",
     var agentInChargeName: String = "",
     @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
     var picture: Bitmap,
     var numberOfPicture: Int = 0
     ) {
 
-    fun isSold() = dateOfSale.isNotEmpty()
+    fun isSold() = soldDate.isNotEmpty()
+
     fun getPrice(monetary: Boolean) : String {
         val dec = DecimalFormat("#,###")
         return if (monetary) "\u20AC ${dec.format(price.toInt())}"
         else "$ ${dec.format(Utils.convertDollarToEuro(price.toInt()))}"
+    }
+
+    fun getAddressFormat() : String {
+        return "$addressStreet\n$addressCode $addressCity\n$addressCountry"
+    }
+
+    fun getAddressFormatFilter() : String {
+        return "$addressStreet $addressCode $addressCity $addressCountry"
     }
 }

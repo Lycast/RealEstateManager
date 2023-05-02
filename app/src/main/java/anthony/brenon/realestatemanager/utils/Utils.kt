@@ -44,4 +44,10 @@ object Utils {
         val wifi = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
         return wifi.isWifiEnabled
     }
+
+    fun convertStringToListOfWord(text: String) : List<String> {
+        val cleanedText = text.lowercase().replace(Regex("[^\\w\\s]"), " ")
+        val delimiter = " " // Change this to the delimiter used in your input
+        return cleanedText.split(delimiter).map { it.trim() }.filter { it.isNotEmpty() }
+    }
 }

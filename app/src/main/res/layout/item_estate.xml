@@ -40,7 +40,7 @@
                     android:id="@+id/card_layout_text_view_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/address"
+                    android:text="@string/address_"
                     android:textSize="6pt"
                     android:layout_marginHorizontal="10dp"
                     app:layout_constraintLeft_toRightOf="@id/card_layout_image_view"

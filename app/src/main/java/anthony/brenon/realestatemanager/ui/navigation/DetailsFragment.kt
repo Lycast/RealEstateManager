@@ -74,13 +74,14 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
             detailsActivityTvSurface.text = estate.surface
             detailsActivityTvRoom.text = estate.roomsNumber
             detailsActivityTvInteresting.text = estate.interestingPoint
-            detailsActivityTvOnSaleDate.text = estate.onSaleDate
-            detailsActivityTvSold.text = estate.dateOfSale
+            detailsActivityTvOnSaleDate.text = estate.saleDate
+            detailsActivityTvSold.text = estate.soldDate
             detailsActivityTvAgent.text = estate.agentInChargeName
-            detailsActivityTvLoc1.text = estate.addressStreet
-            val textLoc2 = "${estate.addressCode} ${estate.addressCity}"
-            detailsActivityTvLoc2.text = textLoc2
-            detailsActivityTvLoc3.text = estate.addressCountry
+            detailsActivityTvLoc1.text = estate.getAddressFormat()
+        }
+        if (estate.isSold()) {
+            binding.tvSold.visibility = View.VISIBLE
+            binding.detailsActivityTvSold.visibility = View.VISIBLE
         }
     }
 

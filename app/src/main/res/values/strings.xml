@@ -28,7 +28,8 @@
     <string name="type">type *</string>
     <string name="price">price *</string>
     <string name="room">room *</string>
-    <string name="address">address *</string>
+    <string name="address_">address *</string>
+    <string name="address">address</string>
     <string name="interesting_point">interesting point *</string>
     <string name="estate_sold">estate sold</string>
     <string name="start_sale">start sale</string>
@@ -68,7 +69,7 @@
     <string name="date_of_sale">date of sale :</string>
     <string name="date">date</string>
     <string name="sold_date">sold date :</string>
-    <string name="town_details">town :</string>
+    <string name="address_details">address :</string>
     <string name="number_of_picture_min">min number of picture</string>
     <string name="town">town</string>
     <string name="display_estates_filtered">display estates filtered</string>
@@ -78,4 +79,15 @@
     <string name="you_need_to_be_logged_in_for_create_an_estate">You need to be logged in for create an estate</string>
     <string name="you_need_to_be_logged_in_for_edit_an_estate">You need to be logged in for edit an estate</string>
     <string name="real_estate_list_is_empty">real estate list is empty</string>
+    <string name="start">start</string>
+    <string name="end">end</string>
+    <string name="enter_type">enter type</string>
+    <string name="loan_simulator">Loan simulator</string>
+    <string name="calculate">Calculate</string>
+    <string name="enter_loan_term">Enter loan term</string>
+    <string name="loan_term_years">Loan term (years):</string>
+    <string name="enter_interest_rate">Enter interest rate</string>
+    <string name="interest_rate">Interest rate:</string>
+    <string name="enter_loan_amount">Enter loan amount</string>
+    <string name="loan_amount">Loan amount:</string>
 </resources>

@@ -15,16 +15,31 @@
     <group
         android:id="@+id/group2"
         android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/item_simulator"
+            android:icon="@drawable/baseline_calculate_24"
+            android:title="@string/loan_simulator"
+            android:checkable="false"/>
+
         <item
             android:id="@+id/item_settings"
             android:icon="@drawable/ic_settings_24"
             android:title="@string/settings"
             android:checkable="false"/>
+
+    </group>
+
+    <group
+        android:id="@+id/group3"
+        android:checkableBehavior="single">
+
         <item
             android:id="@+id/item_exit"
             android:icon="@drawable/ic_power_settings_new_24"
             android:title="@string/exit"
             android:checkable="false"/>
+
     </group>
 
 </menu>

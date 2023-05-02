@@ -43,6 +43,14 @@
     </fragment>
 
     <fragment
+        android:id="@+id/item_loan_simulator_fragment"
+        android:name="anthony.brenon.realestatemanager.ui.navigation.LoanSimulatorFragment">
+        <action
+            android:id="@+id/show_item_list"
+            app:destination="@id/item_list_fragment" />
+    </fragment>
+
+    <fragment
         android:id="@+id/item_connect_fragment"
         android:name="anthony.brenon.realestatemanager.ui.navigation.ConnectionFragment">
         <action

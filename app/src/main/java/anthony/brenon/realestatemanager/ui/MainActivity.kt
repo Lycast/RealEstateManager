@@ -38,7 +38,8 @@ class MainActivity : AppCompatActivity(), CallbackLocation {
             (application as RealEstateManagerApp).agentRepository,
             (application as RealEstateManagerApp).estateRepository)
     }
-    //TODO implement content provider and loan simulator
+
+    //TODO implement content provider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -114,6 +115,10 @@ class MainActivity : AppCompatActivity(), CallbackLocation {
     private fun drawerMenuListener() {
         binding.headerNavigationView.setNavigationItemSelectedListener {
             when (it.itemId) {
+                R.id.item_simulator -> {
+                    Navigation.findNavController(binding.root.findViewById(R.id.nav_host_fragment)).navigate(R.id.item_loan_simulator_fragment)
+                    drawerLayout.close()
+                }
                 R.id.item_settings -> {
                     Navigation.findNavController(binding.root.findViewById(R.id.nav_host_fragment)).navigate(R.id.item_settings_fragment)
                     drawerLayout.close()
