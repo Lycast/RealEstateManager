@@ -90,7 +90,5 @@
     <string name="interest_rate">Interest rate:</string>
     <string name="enter_loan_amount">Enter loan amount</string>
     <string name="loan_amount">Loan amount:</string>
-    <string name="generate_data_agent_for_example">Generate data agent for example</string>
-    <string name="generate_data_estate_for_example">Generate data estate for example</string>
-    <string name="generate_data_picture_for_example">Generate data picture for example</string>
+    <string name="generate_data_for_example">Generate data for example</string>
 </resources>

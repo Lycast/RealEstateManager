@@ -7,7 +7,6 @@ import android.database.Cursor
 import android.net.Uri
 import anthony.brenon.realestatemanager.database.dao.AgentDAO
 import anthony.brenon.realestatemanager.database.dao.EstateDAO
-import anthony.brenon.realestatemanager.database.dao.PictureDAO
 
 class REMContentProvider : ContentProvider() {
     // Define constants for the URIs used in the content provider
@@ -53,7 +52,6 @@ class REMContentProvider : ContentProvider() {
     private lateinit var database: REMRoomDatabase
     private lateinit var agentDao: AgentDAO
     private lateinit var estateDao: EstateDAO
-    private lateinit var pictureDao: PictureDAO
 
     // Initialize the provider
     override fun onCreate(): Boolean {

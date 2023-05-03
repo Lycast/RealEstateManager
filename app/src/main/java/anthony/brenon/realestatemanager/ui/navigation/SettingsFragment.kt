@@ -12,6 +12,9 @@ import androidx.navigation.Navigation
 import anthony.brenon.realestatemanager.databinding.FragmentSettingsBinding
 import anthony.brenon.realestatemanager.inject.DataGenerator
 import anthony.brenon.realestatemanager.ui.MainViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class SettingsFragment : Fragment() {
 
@@ -30,9 +33,7 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (!viewModel.hasAllPermissions) {
-            binding.btnGenerateDataAgent.isEnabled = false
-            binding.btnGenerateDataEstate.isEnabled = false
-            binding.btnGenerateDataPicture.isEnabled = false
+            binding.btnGenerateData.isEnabled = false
         }
         listenerView()
         set()
@@ -51,22 +52,14 @@ class SettingsFragment : Fragment() {
             viewModel.monetarySwitch = isChecked
         }
 
-        binding.btnGenerateDataAgent.setOnClickListener {
-            for (agent in DataGenerator.generateAgentData()) viewModel.insertAgent(agent)
-        }
-
-        binding.btnGenerateDataEstate.setOnClickListener {
-            for (estate in DataGenerator.generateEstateData(requireContext())) {
-                Log.i("MYTAG", "DataGenerator.generateEstateData(requireActivity()) for all estate")
-                viewModel.insertEstate(requireContext(), estate).observe(viewLifecycleOwner) {}
+        binding.btnGenerateData.setOnClickListener {
+            CoroutineScope(Dispatchers.Main).launch {
+                for (agent in DataGenerator.generateAgentData()) viewModel.insertAgent(agent)
+                for (estate in DataGenerator.generateEstateData(requireContext())) {
+                    Log.i("MYTAG", "DataGenerator.generateEstateData(requireActivity()) is call")
+                    viewModel.insertEstate(estate)
+                }
             }
-        }
-
-        binding.btnGenerateDataPicture.setOnClickListener {
-            for (picture in DataGenerator.getPictureData1()) viewModel.insertPicture(picture)
-            for (picture in DataGenerator.getPictureData2()) viewModel.insertPicture(picture)
-            for (picture in DataGenerator.getPictureData3()) viewModel.insertPicture(picture)
-            for (picture in DataGenerator.getPictureData4()) viewModel.insertPicture(picture)
         }
     }
 }

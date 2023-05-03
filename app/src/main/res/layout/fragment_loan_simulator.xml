@@ -5,14 +5,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="10dp">
 
+    <ImageView
+        android:id="@+id/img_simulator_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/desc_close_details"
+        android:src="@drawable/baseline_arrow_back_ios_24"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/textViewLoanAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="5dp"
         android:layout_marginStart="3dp"
         android:text="@string/loan_amount"
         android:textSize="16sp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/img_simulator_back"
         app:layout_constraintLeft_toLeftOf="parent"/>
 
     <EditText

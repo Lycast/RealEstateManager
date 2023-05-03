@@ -1,14 +1,12 @@
 package anthony.brenon.realestatemanager.ui.navigation
 
 
-
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -24,24 +22,29 @@ import anthony.brenon.realestatemanager.BuildConfig
 import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.databinding.FragmentAddEstateBinding
 import anthony.brenon.realestatemanager.models.Estate
-import anthony.brenon.realestatemanager.models.Picture
 import anthony.brenon.realestatemanager.ui.MainActivity
 import anthony.brenon.realestatemanager.ui.MainViewModel
 import anthony.brenon.realestatemanager.ui.adapter.RecyclerViewImage
 import anthony.brenon.realestatemanager.utils.Code
 import anthony.brenon.realestatemanager.utils.Utils
+import anthony.brenon.realestatemanager.utils.Utils.bitmapsToByteArrayList
+import anthony.brenon.realestatemanager.utils.Utils.stringsToByteArrayList
+import anthony.brenon.realestatemanager.utils.Utils.toBase64List
+import anthony.brenon.realestatemanager.utils.Utils.toBitmapList
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
 @Suppress("DEPRECATION")
 class AddEstateFragment : Fragment(),
-    DatePickerDialog.OnDateSetListener
-{
+    DatePickerDialog.OnDateSetListener {
 
     private var _binding: FragmentAddEstateBinding? = null
     private val binding get() = _binding!!
@@ -53,7 +56,14 @@ class AddEstateFragment : Fragment(),
     private lateinit var image: Bitmap
     private val calendar = Calendar.getInstance()
     private var isNewEstate = true
+
     private val images = mutableListOf<Bitmap>()
+    private var addressStreet = ""
+    private var addressCode = ""
+    private var addressCity = ""
+    private var addressCountry = ""
+    private var lat = 0.00
+    private var lng = 0.00
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -79,7 +89,8 @@ class AddEstateFragment : Fragment(),
 
     private fun set() {
         isNewEstate = viewModel.isNewEstate
-        estate = Estate(picture = BitmapFactory.decodeResource(resources, R.drawable.no_image))
+
+        estate = Estate(pictures = listOf())
 
         if (!Places.isInitialized()) Places.initialize(requireContext(), BuildConfig.MAPS_API_KEY)
     }
@@ -87,15 +98,14 @@ class AddEstateFragment : Fragment(),
     private fun observe() {
         when {
             isNewEstate -> {
-                estate.saleDate = Utils.todayDate
-                viewModel.agentSelected.observe(viewLifecycleOwner) {
-                    estate.agentInChargeName = it.nameAgent
-                    binding.agentNameTv.text = it.nameAgent
-                }
+                estate.agentInChargeName = viewModel.agentSelected.nameAgent
+                binding.agentNameTv.text = viewModel.agentSelected.nameAgent
             }
 
             else -> viewModel.estateSelected.observe(viewLifecycleOwner) {
-                estate = it; populateView(); initRecyclerViewImage()
+                estate = it
+                populateView()
+                initRecyclerViewImage()
             }
         }
     }
@@ -104,6 +114,10 @@ class AddEstateFragment : Fragment(),
     private fun populateView() {
         binding.btnAddEstateCreate.setText(R.string.update)
         binding.apply {
+            val imagesByte = estate.pictures.stringsToByteArrayList()
+            CoroutineScope(Dispatchers.Main).launch {
+                images.addAll(imagesByte.toBitmapList())
+            }
             agentNameTv.text = estate.agentInChargeName
             btnAddAddress.text = estate.addressCity
             addEstateEtType.setText(estate.type)
@@ -112,47 +126,60 @@ class AddEstateFragment : Fragment(),
             addEstateEtNbRoom.setText(estate.roomsNumber)
             addEstateEtInterestingPoint.setText(estate.interestingPoint)
             addEstateEtDescription.setText(estate.description)
-            addEstateBtnSale.visibility = View.VISIBLE
-            if (estate.isSold()) addEstateBtnSale.text = estate.soldDate
+            addEstateBtnSold.visibility = View.VISIBLE
+            if (estate.isSold()) addEstateBtnSold.text = estate.soldDate
         }
     }
 
     // insert new date when click on create/update estate
     private fun insertEstateData() {
+
         binding.apply {
-            if (images.isNotEmpty()) estate.picture = images[0]
-            estate.type = addEstateEtType.text.toString()
-            estate.price = addEstateEtPrice.text.toString()
-            estate.surface = addEstateEtSurface.text.toString()
-            estate.roomsNumber = addEstateEtNbRoom.text.toString()
-            estate.description = addEstateEtDescription.text.toString()
-            estate.interestingPoint = addEstateEtInterestingPoint.text.toString()
-            estate.numberOfPicture = images.size
-        }
-        // Condition for create or update estate
-        if (listOf(
-                estate.type,
-                estate.price,
-                estate.surface,
-                estate.roomsNumber,
-                estate.description,
-                estate.interestingPoint
-            ).any { it.isNotEmpty() } || images.isNotEmpty()
-        ) {
-            viewModel.insertEstate(requireContext(), estate).observe(viewLifecycleOwner) {
-                estate.id = it
-                for (image in images) {
-                    viewModel.insertPicture(Picture(image, it))
+            CoroutineScope(Dispatchers.Main).launch {
+                val imagesByte = images.bitmapsToByteArrayList()
+                // Condition for create or update estate
+                if (listOf(
+                        addEstateEtType.text.toString(),
+                        addEstateEtPrice.text.toString(),
+                        addEstateEtSurface.text.toString(),
+                        addEstateEtNbRoom.text.toString(),
+                        addEstateEtDescription.text.toString(),
+                        addressStreet,
+                        addEstateEtInterestingPoint.text.toString(),
+                        Utils.todayDate,
+                        viewModel.agentSelected.nameAgent,
+                    ).any { it.isNotEmpty() } || images.isNotEmpty()
+                ) {
+                    estate = Estate(
+                        id = 0,
+                        type = addEstateEtType.text.toString(),
+                        price = addEstateEtPrice.text.toString(),
+                        surface = addEstateEtSurface.text.toString(),
+                        roomsNumber = addEstateEtNbRoom.text.toString(),
+                        description = addEstateEtDescription.text.toString(),
+                        addressStreet = addressStreet,
+                        addressCity = addressCity,
+                        addressCode = addressCode,
+                        addressCountry = addressCountry,
+                        lat = lat,
+                        lng = lng,
+                        interestingPoint = addEstateEtInterestingPoint.text.toString(),
+                        saleDate = Utils.todayDate,
+                        agentInChargeName = viewModel.agentSelected.nameAgent,
+                        pictures = imagesByte.toBase64List(),
+                        numberOfPicture = images.size
+                    )
+                    viewModel.insertEstate(estate)
+                    Navigation.findNavController(binding.root).popBackStack()
+                } else {
+                    Snackbar.make(
+                        binding.root,
+                        getString(R.string.please_enter_all_information),
+                        Snackbar.LENGTH_SHORT
+                    )
+                        .show()
                 }
-                Navigation.findNavController(binding.root).popBackStack()
             }
-        } else {
-            Snackbar.make(
-                binding.root,
-                getString(R.string.please_enter_all_information),
-                Snackbar.LENGTH_SHORT
-            )
-                .show()
         }
     }
 
@@ -164,14 +191,7 @@ class AddEstateFragment : Fragment(),
             binding.ivDetails.setImageBitmap(it)
         }
         binding.recyclerViewImage.adapter = adapter
-
-        viewModel.getPicturesByEstate(estate.id).observe(viewLifecycleOwner) { pictures ->
-            images.clear()
-            for (picture in pictures) {
-                images.add(picture.picture)
-            }
-            adapter.setData(images)
-        }
+        adapter.setData(images)
     }
 
     private fun autoCompleteLauncher() {
@@ -195,7 +215,7 @@ class AddEstateFragment : Fragment(),
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val text = dateFormat.format(calendar.time)
         estate.soldDate = text
-        binding.addEstateBtnSale.text = text
+        binding.addEstateBtnSold.text = text
     }
 
     @Deprecated("Deprecated in Java")
@@ -207,14 +227,14 @@ class AddEstateFragment : Fragment(),
                 Code.AUTOCOMPLETE_REQUEST_CODE -> {
                     data?.let {
                         val place = Autocomplete.getPlaceFromIntent(data)
-                        estate.lat = place.latLng?.latitude ?: 0.00
-                        estate.lng = place.latLng?.longitude ?: 0.00
+                        lat = place.latLng?.latitude ?: 0.00
+                        lng = place.latLng?.longitude ?: 0.00
                         place.addressComponents?.let {
                             binding.btnAddAddress.text = it.asList()[1].name
-                            estate.addressStreet = it.asList()[0].name
-                            estate.addressCity = it.asList()[1].name
-                            estate.addressCode = it.asList()[5].name
-                            estate.addressCountry = it.asList()[4].name
+                            addressStreet = it.asList()[0].name
+                            addressCity = it.asList()[1].name
+                            addressCode = it.asList()[5].name
+                            addressCountry = it.asList()[4].name
                         }
                     }
                 }
@@ -283,10 +303,10 @@ class AddEstateFragment : Fragment(),
         binding.imgAddEstateBack.setOnClickListener { Navigation.findNavController(binding.root).popBackStack() }
         binding.btnAddEstateCreate.setOnClickListener { insertEstateData() }
 
-        binding.addEstateBtnSale.setOnClickListener {
+        binding.addEstateBtnSold.setOnClickListener {
             if (estate.isSold()) {
                 estate.soldDate = ""
-                binding.addEstateBtnSale.setText(R.string.estate_sold)
+                binding.addEstateBtnSold.setText(R.string.estate_sold)
             } else {
                 DatePickerDialog(
                     requireContext(),

@@ -2,12 +2,12 @@ package anthony.brenon.realestatemanager.inject
 
 import android.content.Context
 import android.graphics.BitmapFactory
-import android.os.Environment
 import android.util.Log
 import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.models.Agent
 import anthony.brenon.realestatemanager.models.Estate
-import anthony.brenon.realestatemanager.models.Picture
+import anthony.brenon.realestatemanager.utils.Utils.toBase64List
+import anthony.brenon.realestatemanager.utils.Utils.toByteArray
 
 object DataGenerator {
 
@@ -41,11 +41,11 @@ object DataGenerator {
                 "France",
                 -1.1251437376514695,
                 47.096144025682285,
-                "",
+                "ecole, transport, commerces, banque, piscine",
                 "01/05/2023",
                 "",
                 "Paul",
-                BitmapFactory.decodeResource(context.resources, R.drawable.no_image),
+                getImagesEstate1(context),
                 0
             )
         )
@@ -75,11 +75,11 @@ object DataGenerator {
                 "France",
                 -1.1283940510749164,
                 47.09494492378816,
-                "",
+                "ecole, transport, commerces",
                 "02/05/2023",
                 "",
                 "Paul",
-                BitmapFactory.decodeResource(context.resources, R.drawable.no_image),
+                getImagesEstate2(context),
                 0
             )
         )
@@ -103,11 +103,11 @@ object DataGenerator {
                 "France",
                 -1.1383424510761884,
                 47.0834592079444,
-                "",
+                "transport, commerces",
                 "25/04/2023",
                 "",
                 "Paul",
-                BitmapFactory.decodeResource(context.resources, R.drawable.no_image),
+                getImagesEstate3(context),
                 0
             )
         )
@@ -131,74 +131,90 @@ object DataGenerator {
                 "France",
                 -1.1297809492269064,
                 47.098375055349145,
-                "",
+                "commerces, banque, piscine",
                 "20/04/2023",
                 "",
                 "Paul",
-                BitmapFactory.decodeResource(context.resources, R.drawable.no_image),
+                getImagesEstate4(context),
                 0
             )
         )
         return estateList
     }
 
-    fun getPictureData1(): List<Picture> {
-        val pictures = mutableListOf<Picture>()
-        val dcimDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)
-        val estateFiles = dcimDir.listFiles { file -> file.name.startsWith("estate1_") }
-        estateFiles?.forEach { file ->
-            val bitmap = BitmapFactory.decodeFile(file.absolutePath)
+    private fun getImagesEstate1(context: Context): List<String> {
+        val images = mutableListOf<String>()
+        val imagesByte = mutableListOf<ByteArray>()
+        val resources = context.resources
+        val imageIds = arrayOf(R.drawable.estate1_img01, R.drawable.estate1_img02, R.drawable.estate1_img03, R.drawable.estate1_img04,
+            R.drawable.estate1_img05, R.drawable.estate1_img06, R.drawable.estate1_img07, R.drawable.estate1_img08)
+        imageIds.forEach { imageId ->
+            val bitmap = BitmapFactory.decodeResource(resources, imageId)
             if (bitmap != null) {
-                pictures.add(Picture(bitmap, 1))
+                imagesByte.add(bitmap.toByteArray())
             } else {
-                Log.i("MY_TAG", "bitmap is null for file: ${file.absolutePath}")
+                Log.i("MY_TAG", "bitmap is null for image: $imageId")
             }
         }
-        return pictures
+        images.addAll(imagesByte.toBase64List())
+        return images
     }
 
-    fun getPictureData2(): List<Picture> {
-        val pictures = mutableListOf<Picture>()
-        val dcimDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)
-        val estateFiles = dcimDir.listFiles { file -> file.name.startsWith("estate2_") }
-        estateFiles?.forEach { file ->
-            val bitmap = BitmapFactory.decodeFile(file.absolutePath)
+    private fun getImagesEstate2(context: Context): List<String> {
+        val images = mutableListOf<String>()
+        val imagesByte = mutableListOf<ByteArray>()
+        val resources = context.resources
+        val imageIds = arrayOf(R.drawable.estate2_img01, R.drawable.estate2_img03, R.drawable.estate2_img04, R.drawable.estate2_img05
+            , R.drawable.estate2_img06, R.drawable.estate2_img07, R.drawable.estate2_img08, R.drawable.estate2_img09,
+            R.drawable.estate2_img10, R.drawable.estate2_img11, R.drawable.estate2_img12, R.drawable.estate2_img13)
+        imageIds.forEach { imageId ->
+            val bitmap = BitmapFactory.decodeResource(resources, imageId)
             if (bitmap != null) {
-                pictures.add(Picture(bitmap, 2))
+                imagesByte.add(bitmap.toByteArray())
             } else {
-                Log.i("MY_TAG", "bitmap is null for file: ${file.absolutePath}")
+                Log.i("MY_TAG", "bitmap is null for image: $imageId")
             }
         }
-        return pictures
+        images.addAll(imagesByte.toBase64List())
+        return images
     }
 
-    fun getPictureData3(): List<Picture> {
-        val pictures = mutableListOf<Picture>()
-        val dcimDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)
-        val estateFiles = dcimDir.listFiles { file -> file.name.startsWith("estate3_") }
-        estateFiles?.forEach { file ->
-            val bitmap = BitmapFactory.decodeFile(file.absolutePath)
+    private fun getImagesEstate3(context: Context): List<String> {
+        val images = mutableListOf<String>()
+        val imagesByte = mutableListOf<ByteArray>()
+        val resources = context.resources
+        val imageIds = arrayOf(R.drawable.estate3_img01, R.drawable.estate3_img03, R.drawable.estate3_img04, R.drawable.estate3_img05
+            , R.drawable.estate3_img06, R.drawable.estate3_img07, R.drawable.estate3_img08, R.drawable.estate3_img09,
+            R.drawable.estate3_img10, R.drawable.estate3_img11, R.drawable.estate3_img12, R.drawable.estate3_img13, R.drawable.estate3_img14)
+        imageIds.forEach { imageId ->
+            val bitmap = BitmapFactory.decodeResource(resources, imageId)
             if (bitmap != null) {
-                pictures.add(Picture(bitmap, 3))
+                imagesByte.add(bitmap.toByteArray())
             } else {
-                Log.i("MY_TAG", "bitmap is null for file: ${file.absolutePath}")
+                Log.i("MY_TAG", "bitmap is null for image: $imageId")
             }
         }
-        return pictures
+        images.addAll(imagesByte.toBase64List())
+        return images
     }
 
-    fun getPictureData4(): List<Picture> {
-        val pictures = mutableListOf<Picture>()
-        val dcimDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)
-        val estateFiles = dcimDir.listFiles { file -> file.name.startsWith("estate4_") }
-        estateFiles?.forEach { file ->
-            val bitmap = BitmapFactory.decodeFile(file.absolutePath)
+    private fun getImagesEstate4(context: Context): List<String> {
+        val images = mutableListOf<String>()
+        val imagesByte = mutableListOf<ByteArray>()
+        val resources = context.resources
+        val imageIds = arrayOf(R.drawable.estate4_img01, R.drawable.estate4_img03, R.drawable.estate4_img04, R.drawable.estate4_img05
+            , R.drawable.estate4_img06, R.drawable.estate4_img07, R.drawable.estate4_img08, R.drawable.estate4_img09,
+            R.drawable.estate4_img10, R.drawable.estate4_img11, R.drawable.estate4_img12, R.drawable.estate4_img13, R.drawable.estate4_img14,
+            R.drawable.estate4_img15)
+        imageIds.forEach { imageId ->
+            val bitmap = BitmapFactory.decodeResource(resources, imageId)
             if (bitmap != null) {
-                pictures.add(Picture( bitmap, 4))
+                imagesByte.add(bitmap.toByteArray())
             } else {
-                Log.i("MY_TAG", "bitmap is null for file: ${file.absolutePath}")
+                Log.i("MY_TAG", "bitmap is null for image: $imageId")
             }
         }
-        return pictures
+        images.addAll(imagesByte.toBase64List())
+        return images
     }
 }

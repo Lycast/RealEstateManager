@@ -1,20 +1,17 @@
 package anthony.brenon.realestatemanager.models
 
-
-
-
-import android.graphics.Bitmap
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import anthony.brenon.realestatemanager.utils.Converters
 import anthony.brenon.realestatemanager.utils.Utils
 import java.text.DecimalFormat
-
 
 /**
  * Created by Lycast on 28/07/2022.
  */
 @Entity(tableName = "estate_table")
+@TypeConverters(Converters::class)
 data class Estate(
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0,
@@ -33,8 +30,7 @@ data class Estate(
     var saleDate: String = "",
     var soldDate: String = "",
     var agentInChargeName: String = "",
-    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
-    var picture: Bitmap,
+    var pictures: List<String> = emptyList(),
     var numberOfPicture: Int = 0
     ) {
 

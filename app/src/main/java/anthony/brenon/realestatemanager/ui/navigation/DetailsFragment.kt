@@ -1,6 +1,7 @@
 package anthony.brenon.realestatemanager.ui.navigation
 
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,12 +17,17 @@ import anthony.brenon.realestatemanager.databinding.FragmentDetailsBinding
 import anthony.brenon.realestatemanager.models.Estate
 import anthony.brenon.realestatemanager.ui.MainViewModel
 import anthony.brenon.realestatemanager.ui.adapter.RecyclerViewImage
+import anthony.brenon.realestatemanager.utils.Utils.stringsToByteArrayList
+import anthony.brenon.realestatemanager.utils.Utils.toBitmapList
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class DetailsFragment : Fragment(), OnMapReadyCallback {
 
@@ -33,12 +39,18 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
     private lateinit var googleMap: GoogleMap
 
     private val estateObserver = Observer<Estate> {
+
+        val pictureByte = it.pictures.stringsToByteArrayList()
+
         binding.layoutDetails.isVisible = true
         estate = it
         populateView(it)
-        initRVImage(it.id)
+        CoroutineScope(Dispatchers.Main).launch {
+            val pictures = pictureByte.toBitmapList()
+            initRVImage(pictures)
+        }
         googleMap.addMarker(MarkerOptions().position(LatLng(it.lat, it.lng)).title(it.addressStreet))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it.lat, it.lng), 11.0f))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it.lat, it.lng), 14.0f))
     }
 
     override fun onCreateView(
@@ -85,7 +97,7 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    private fun initRVImage(estateId : Long) {
+    private fun initRVImage(images: List<Bitmap>) {
         adapter = RecyclerViewImage { image ->
             binding.layoutDetails.isVisible = false
             binding.layoutImage.isVisible = true
@@ -93,10 +105,7 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
         }
         binding.recyclerViewImage.adapter = adapter
 
-        viewModel.getPicturesByEstate(estateId).observe(viewLifecycleOwner) { pictures ->
-            val images = pictures.map { it.picture }
-            adapter.setData(images)
-        }
+        adapter.setData(images)
     }
 
     private fun setListeners() {

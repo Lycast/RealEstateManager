@@ -4,19 +4,14 @@ import android.content.Context
 import androidx.room.*
 import anthony.brenon.realestatemanager.models.Agent
 import anthony.brenon.realestatemanager.models.Estate
-import anthony.brenon.realestatemanager.models.Picture
 import anthony.brenon.realestatemanager.database.dao.AgentDAO
 import anthony.brenon.realestatemanager.database.dao.EstateDAO
-import anthony.brenon.realestatemanager.database.dao.PictureDAO
-import anthony.brenon.realestatemanager.utils.PictureConverter
 
-@Database(entities = [Agent::class, Estate::class, Picture::class], version = 1, exportSchema = false)
-@TypeConverters(PictureConverter::class)
+@Database(entities = [Agent::class, Estate::class], version = 1, exportSchema = false)
 abstract class REMRoomDatabase : RoomDatabase() {
 
     abstract fun agentDao() : AgentDAO
     abstract fun estateDao() : EstateDAO
-    abstract fun pictureDao() : PictureDAO
 
     companion object {
         @Volatile

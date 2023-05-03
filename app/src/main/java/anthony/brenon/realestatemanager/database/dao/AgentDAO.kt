@@ -16,6 +16,4 @@ interface AgentDAO {
     @Delete
     suspend fun delete(agent: Agent) : Int
 
-    @Query("DELETE FROM agent_table")
-    suspend fun deleteAll()
 }

@@ -17,7 +17,7 @@
             android:id="@+id/img_image_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="15dp"
+            android:padding="10dp"
             android:contentDescription="@string/desc_close_details"
             android:src="@drawable/ic_close_24"
             app:layout_constraintTop_toTopOf="parent"
@@ -25,12 +25,12 @@
 
         <ImageView
             android:id="@+id/iv_details"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_image_close"
             tools:ignore="ContentDescription" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -62,9 +62,9 @@
             android:id="@+id/tv_media"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:text="@string/media"
-            android:textSize="16sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/img_add_estate_back" />
@@ -83,7 +83,7 @@
         <com.google.android.material.divider.MaterialDivider
             android:id="@+id/divider"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             app:dividerColor="@color/colorPrimary"
             android:layout_marginTop="3dp"
             app:layout_constraintTop_toBottomOf="@id/recyclerView_image"
@@ -98,27 +98,33 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:text="@string/description_details"
-            android:textSize="16sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider" />
 
-        <TextView
-            android:id="@+id/details_activity_tv_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
+        <ScrollView
+            android:id="@+id/sv_description"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_description" />
+            app:layout_constraintTop_toBottomOf="@id/tv_description">
+
+            <TextView
+                android:id="@+id/details_activity_tv_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="11sp" />
+        </ScrollView>
 
         <!-- divider -->
         <com.google.android.material.divider.MaterialDivider
             android:id="@+id/divider_1"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             app:dividerColor="@color/colorPrimary"
             android:layout_marginTop="3dp"
-            app:layout_constraintTop_toBottomOf="@id/details_activity_tv_description"
+            app:layout_constraintTop_toBottomOf="@id/sv_description"
             app:layout_constraintBottom_toTopOf="@id/tv_type"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
@@ -130,7 +136,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:text="@string/type_details"
-            android:textSize="16sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider_1" />
@@ -140,7 +146,7 @@
             android:id="@+id/details_activity_tv_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="11sp"
             android:layout_marginHorizontal="5dp"
             app:layout_constraintLeft_toRightOf="@id/tv_type"
             app:layout_constraintBottom_toBottomOf="@id/tv_type"/>
@@ -152,7 +158,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="5dp"
             android:text="@string/price_details"
-            android:textSize="16sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintRight_toLeftOf="@id/details_activity_tv_price"
             app:layout_constraintTop_toTopOf="@id/tv_type"
@@ -162,7 +168,7 @@
             android:id="@+id/details_activity_tv_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="11sp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="@id/tv_price"
             app:layout_constraintTop_toTopOf="@id/tv_price"/>
@@ -173,7 +179,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/surface_details"
-            android:textSize="16sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_type" />
@@ -182,7 +188,7 @@
             android:id="@+id/details_activity_tv_surface"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="11sp"
             android:layout_marginHorizontal="5dp"
             app:layout_constraintLeft_toRightOf="@id/tv_surface"
             app:layout_constraintBottom_toBottomOf="@id/tv_surface"/>
@@ -193,7 +199,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/room_details"
-            android:textSize="16sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_surface" />
@@ -202,7 +208,7 @@
             android:id="@+id/details_activity_tv_room"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="11sp"
             android:layout_marginHorizontal="5dp"
             app:layout_constraintLeft_toRightOf="@id/tv_room"
             app:layout_constraintBottom_toBottomOf="@id/tv_room"/>
@@ -213,7 +219,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/interesting_point_details"
-            android:textSize="16sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_room" />
@@ -222,7 +228,7 @@
             android:id="@+id/details_activity_tv_interesting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="11sp"
             android:layout_marginHorizontal="5dp"
             app:layout_constraintLeft_toRightOf="@id/tv_interesting"
             app:layout_constraintTop_toTopOf="@id/tv_interesting"
@@ -234,7 +240,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/on_sale_date_details"
-            android:textSize="16sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/details_activity_tv_interesting" />
@@ -243,7 +249,7 @@
             android:id="@+id/details_activity_tv_on_sale_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="11sp"
             android:layout_marginHorizontal="5dp"
             app:layout_constraintLeft_toRightOf="@id/tv_on_sale_date"
             app:layout_constraintBottom_toBottomOf="@id/tv_on_sale_date"/>
@@ -255,7 +261,7 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             android:text="@string/sold_details"
-            android:textSize="16sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/details_activity_tv_on_sale_date" />
@@ -265,7 +271,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            android:textSize="16sp"
+            android:textSize="11sp"
             android:layout_marginHorizontal="5dp"
             app:layout_constraintLeft_toRightOf="@id/tv_sold"
             app:layout_constraintBottom_toBottomOf="@id/tv_sold"/>
@@ -276,7 +282,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/agent_in_charge_details"
-            android:textSize="16sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/details_activity_tv_sold" />
@@ -285,7 +291,7 @@
             android:id="@+id/details_activity_tv_agent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="11sp"
             android:layout_marginHorizontal="5dp"
             app:layout_constraintLeft_toRightOf="@id/tv_agent"
             app:layout_constraintBottom_toBottomOf="@id/tv_agent"/>
@@ -298,7 +304,7 @@
             android:paddingVertical="5dp"
             android:drawablePadding="10dp"
             android:text="@string/location"
-            android:textSize="16sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             app:drawableStartCompat="@drawable/ic_location_on_18"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -310,7 +316,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="10dp"
-            android:textSize="12sp"
+            android:textSize="11sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/map_details"
             app:layout_constraintTop_toTopOf="@id/map_details"
@@ -318,8 +324,8 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/map_details"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             tools:layout="@layout/item_image"
             app:layout_constraintBottom_toBottomOf="parent"
