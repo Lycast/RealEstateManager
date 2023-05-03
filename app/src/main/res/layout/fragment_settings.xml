@@ -37,4 +37,37 @@
         app:layout_constraintBottom_toBottomOf="@id/tv_title_switcher"
         app:layout_constraintRight_toRightOf="parent"/>
 
+    <Button
+        android:id="@+id/btn_generate_data_agent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/transparent"
+        android:text="@string/generate_data_agent_for_example"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toTopOf="@id/btn_generate_data_estate"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <Button
+        android:id="@+id/btn_generate_data_estate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/transparent"
+        android:text="@string/generate_data_estate_for_example"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toTopOf="@id/btn_generate_data_picture"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <Button
+        android:id="@+id/btn_generate_data_picture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/transparent"
+        android:text="@string/generate_data_picture_for_example"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

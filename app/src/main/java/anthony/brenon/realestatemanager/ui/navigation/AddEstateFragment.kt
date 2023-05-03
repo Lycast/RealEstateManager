@@ -1,6 +1,7 @@
 package anthony.brenon.realestatemanager.ui.navigation
 
 
+
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
@@ -10,6 +11,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,28 +28,20 @@ import anthony.brenon.realestatemanager.models.Picture
 import anthony.brenon.realestatemanager.ui.MainActivity
 import anthony.brenon.realestatemanager.ui.MainViewModel
 import anthony.brenon.realestatemanager.ui.adapter.RecyclerViewImage
+import anthony.brenon.realestatemanager.utils.Code
 import anthony.brenon.realestatemanager.utils.Utils
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.android.material.snackbar.Snackbar
-import com.vmadalin.easypermissions.EasyPermissions
-import com.vmadalin.easypermissions.dialogs.SettingsDialog
 import java.text.SimpleDateFormat
 import java.util.*
 
 @Suppress("DEPRECATION")
 class AddEstateFragment : Fragment(),
-    DatePickerDialog.OnDateSetListener,
-    EasyPermissions.PermissionCallbacks {
-
-    companion object {
-        const val AUTOCOMPLETE_REQUEST_CODE = 1
-        const val PERMISSIONS_REQUEST_CODE = 101
-        const val RESULT_CODE_CAMERA = 21
-        const val RESULT_CODE_FOLDER = 22
-    }
+    DatePickerDialog.OnDateSetListener
+{
 
     private var _binding: FragmentAddEstateBinding? = null
     private val binding get() = _binding!!
@@ -82,12 +76,11 @@ class AddEstateFragment : Fragment(),
         initRecyclerViewImage()
         listenerClickView()
     }
+
     private fun set() {
         isNewEstate = viewModel.isNewEstate
-        estate =
-            Estate(picture = BitmapFactory.decodeResource(resources, R.drawable.img_estate_test_1))
+        estate = Estate(picture = BitmapFactory.decodeResource(resources, R.drawable.no_image))
 
-        if (!hasPermission()) requestPermissions()
         if (!Places.isInitialized()) Places.initialize(requireContext(), BuildConfig.MAPS_API_KEY)
     }
 
@@ -191,7 +184,7 @@ class AddEstateFragment : Fragment(),
                 .setHint(getString(R.string.autocomplete_hint))
                 .setCountry("FR")
                 .build(requireContext())
-            startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
+            startActivityForResult(intent, Code.AUTOCOMPLETE_REQUEST_CODE)
             binding.layoutMainAdd.visibility = View.GONE
         }
     }
@@ -211,7 +204,7 @@ class AddEstateFragment : Fragment(),
         binding.layoutMainAdd.visibility = View.VISIBLE
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
-                AUTOCOMPLETE_REQUEST_CODE -> {
+                Code.AUTOCOMPLETE_REQUEST_CODE -> {
                     data?.let {
                         val place = Autocomplete.getPlaceFromIntent(data)
                         estate.lat = place.latLng?.latitude ?: 0.00
@@ -227,11 +220,14 @@ class AddEstateFragment : Fragment(),
                 }
             }
             val newImage: Bitmap? = when (requestCode) {
-                RESULT_CODE_CAMERA -> data?.getParcelableExtra("data")
-                RESULT_CODE_FOLDER -> MediaStore.Images.Media.getBitmap(
-                    requireActivity().contentResolver,
-                    data?.data
-                )
+                Code.RESULT_CODE_CAMERA -> data?.getParcelableExtra("data")
+                Code.RESULT_CODE_FOLDER -> {
+                    MediaStore.Images.Media.getBitmap(
+                        requireActivity().contentResolver,
+                        data?.data
+                    )
+
+                }
 
                 else -> null
             }
@@ -244,6 +240,7 @@ class AddEstateFragment : Fragment(),
 
     // ADD PICTURE DIALOG START
     private fun showCustomBuilder() {
+        Log.i("MYTAG", "viewmodel permission = ${viewModel.hasAllPermissions}")
         val builder = AlertDialog.Builder(activity)
         val customView = LayoutInflater.from(activity)
             .inflate(R.layout.dialog_select_image_ressource, null)
@@ -252,13 +249,11 @@ class AddEstateFragment : Fragment(),
         val btnCamera = customView.findViewById<ImageButton>(R.id.dialog_btn_picture_from_camera)
         val btnFolder = customView.findViewById<ImageButton>(R.id.dialog_btn_picture_from_folder)
         btnCamera.setOnClickListener {
-            if (hasPermission()) onSelectAddPictureSource("camera")
-            else requestPermissions()
+            if (viewModel.hasAllPermissions) onSelectAddPictureSource("camera")
             dialog.dismiss()
         }
         btnFolder.setOnClickListener {
-            if (hasPermission()) onSelectAddPictureSource("folder")
-            else requestPermissions()
+            if (viewModel.hasAllPermissions) onSelectAddPictureSource("folder")
             dialog.dismiss()
         }
         dialog.show()
@@ -267,61 +262,23 @@ class AddEstateFragment : Fragment(),
     private fun onSelectAddPictureSource(source: String) {
         when (source) {
             "camera" -> {
+                Log.i("MYTAG", "onSelectAddPictureSource = camera")
                 val i = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                startActivityForResult(i, RESULT_CODE_CAMERA)
+                startActivityForResult(i, Code.RESULT_CODE_CAMERA)
             }
 
             "folder" -> {
+                Log.i("MYTAG", "onSelectAddPictureSource = folder")
                 val i = Intent(Intent.ACTION_PICK)
                 i.type = "image/*"
-                startActivityForResult(i, RESULT_CODE_FOLDER)
+                startActivityForResult(i, Code.RESULT_CODE_FOLDER)
             }
         }
     }
     // ADD PICTURE DIALOG END
 
-    // PERMISSIONS START
-    private fun hasPermission() =
-        EasyPermissions.hasPermissions(
-            activity,
-            android.Manifest.permission.CAMERA,
-            android.Manifest.permission.READ_EXTERNAL_STORAGE
-        )
-
-    private fun requestPermissions() {
-        EasyPermissions.requestPermissions(
-            activity,
-            "These permission are required for this application",
-            PERMISSIONS_REQUEST_CODE,
-            android.Manifest.permission.CAMERA,
-            android.Manifest.permission.READ_EXTERNAL_STORAGE
-        )
-    }
-
-    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
-        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            SettingsDialog.Builder(requireContext()).build().show()
-        } else {
-            requestPermissions()
-        }
-    }
-
-    override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
-        binding.addEstateBtnPicture.isEnabled = true
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
-    }
-    // PERMISSIONS END
-
     private fun listenerClickView() {
-        binding.addEstateBtnPicture.setOnClickListener { showCustomBuilder() }
+        binding.addEstateBtnPicture.setOnClickListener { if (viewModel.hasAllPermissions) showCustomBuilder() }
         binding.btnAddAddress.setOnClickListener { autoCompleteLauncher() }
         binding.imgAddEstateBack.setOnClickListener { Navigation.findNavController(binding.root).popBackStack() }
         binding.btnAddEstateCreate.setOnClickListener { insertEstateData() }

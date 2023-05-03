@@ -22,6 +22,8 @@ import com.google.android.gms.maps.model.LatLng
 
 class MapsFragment : Fragment(), OnMapReadyCallback {
 
+    //TODO implement display estates in map / zoom in - zoom out
+
     private var _binding: FragmentMapsBinding? = null
     private val binding get() = _binding!!
     private val viewModel by activityViewModels<MainViewModel>()

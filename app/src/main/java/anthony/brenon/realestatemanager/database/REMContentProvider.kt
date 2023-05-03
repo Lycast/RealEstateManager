@@ -57,10 +57,10 @@ class REMContentProvider : ContentProvider() {
 
     // Initialize the provider
     override fun onCreate(): Boolean {
-        database = REMRoomDatabase.getDatabase(context!!)
-        agentDao = database.agentDao()
-        estateDao = database.estateDao()
-        pictureDao = database.pictureDao()
+//        database = REMRoomDatabase.getDatabase(context!!)
+//        agentDao = database.agentDao()
+//        estateDao = database.estateDao()
+//        pictureDao = database.pictureDao()
         return true
     }
 

@@ -2,6 +2,7 @@ package anthony.brenon.realestatemanager.ui
 
 import android.content.Context
 import android.location.Location
+import android.util.Log
 import androidx.lifecycle.*
 import anthony.brenon.realestatemanager.models.Agent
 import anthony.brenon.realestatemanager.models.Estate
@@ -12,6 +13,7 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(private val agentRepository : AgentRepository, private val estateRepository : EstateRepository) : ViewModel() {
 
+    var hasAllPermissions: Boolean = false
     var isNewEstate: Boolean = true
     var monetarySwitch: Boolean = false
     var estateSelected = MutableLiveData<Estate>()
@@ -39,9 +41,10 @@ class MainViewModel(private val agentRepository : AgentRepository, private val e
     }
 
     // ESTATES ROOM
-    fun insertEstate(context: Context,estate: Estate) = liveData {
+    fun insertEstate(context: Context, estate: Estate) = liveData {
+        Log.i("MYTAG", "insert estate is call")
         try {
-            val response = estateRepository.insertEstate(context, estate)
+            val response = estateRepository.insertEstate(context,estate)
             emit(response)
         } catch (e: Exception) { e.printStackTrace() }
     }

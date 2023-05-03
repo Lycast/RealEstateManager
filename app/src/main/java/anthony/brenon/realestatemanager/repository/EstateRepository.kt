@@ -14,7 +14,6 @@ class EstateRepository(private val estateDAO: EstateDAO, private val pictureDAO:
     // ESTATES
     val allEstates: Flow<List<Estate>> = estateDAO.getAllEstates()
 
-    @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun insertEstate(context: Context, estate: Estate) : Long {
         val db = REMRoomDatabase.getDatabase(context)
@@ -22,21 +21,13 @@ class EstateRepository(private val estateDAO: EstateDAO, private val pictureDAO:
         return dao.insert(estate)
     }
 
-    @Suppress("RedundantSuspendModifier")
-    @WorkerThread
-    suspend fun updateEstate(estate: Estate) {
-        estateDAO.update(estate)
-    }
-
 
     // PICTURES
-    @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun insertPicture(picture: Picture) {
         pictureDAO.insert(picture)
     }
 
-    @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun deletePicture(picture: Picture) {
         pictureDAO.delete(picture)
