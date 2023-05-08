@@ -64,7 +64,7 @@ class ConnectionFragment : Fragment(), AdapterView.OnItemSelectedListener {
             btnDeleteAgent.setOnClickListener { deleteAgent() }
             ivBack.setOnClickListener { Navigation.findNavController(root).popBackStack() }
             btnConnectAgent.setOnClickListener {
-                viewModel.agentSelected = agentSelected
+                viewModel.selectThisAgent(agentSelected)
                 Navigation.findNavController(root).popBackStack()
             }
             btnCreateAgent.setOnClickListener {
@@ -101,6 +101,6 @@ class ConnectionFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     private fun deleteAgent() {
         viewModel.deleteAgent(agentSelected)
-        viewModel.agentSelected = Agent("", "")
+        viewModel.selectThisAgent(null)
     }
 }

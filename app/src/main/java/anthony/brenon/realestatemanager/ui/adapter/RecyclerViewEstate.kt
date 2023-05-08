@@ -7,19 +7,14 @@ import androidx.recyclerview.widget.RecyclerView
 import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.databinding.ItemEstateBinding
 import anthony.brenon.realestatemanager.models.Estate
-import anthony.brenon.realestatemanager.utils.Utils.stringsToByteArrayList
-import anthony.brenon.realestatemanager.utils.Utils.toBitmapList
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 /**
  * Created by Lycast on 28/07/2022.
  */
-class RecyclerViewEstate (
+class RecyclerViewEstate(
     private val onSelect: (Estate?) -> Unit,
     private val monetary: Boolean
-    ): RecyclerView.Adapter<RecyclerViewEstate.ViewHolder>() {
+) : RecyclerView.Adapter<RecyclerViewEstate.ViewHolder>() {
 
     private lateinit var binding: ItemEstateBinding
     private var estates: List<Estate> = arrayListOf()
@@ -43,24 +38,19 @@ class RecyclerViewEstate (
 
     inner class ViewHolder(
         private val itemBinding: ItemEstateBinding,
-        ): RecyclerView.ViewHolder(itemBinding.root) {
+    ) : RecyclerView.ViewHolder(itemBinding.root) {
 
         fun bind(estate: Estate, onSelect: (Estate?) -> Unit) {
 
-            val pictureByte = estate.pictures.stringsToByteArrayList()
-            CoroutineScope(Dispatchers.Main).launch {
-                val pictures = pictureByte.toBitmapList()
-
-                itemBinding.apply {
-                    if (estate.isSold()) cardLayoutImageView.setImageResource(R.drawable.sold)
-                    else cardLayoutImageView.setImageBitmap(pictures[0])
-                    cardLayoutTextView1.text = estate.type
-                    cardLayoutTextView3.text = estate.getPrice(monetary)
-                    cardLayoutTextView2.text = estate.addressCity
-                    // bind your view here
-                    binding.root.setOnClickListener {
-                        onSelect(estate)
-                    }
+            itemBinding.apply {
+                if (estate.isSold()) cardLayoutImageView.setImageResource(R.drawable.sold)
+                else cardLayoutImageView.setImageBitmap(estate.picture)
+                cardLayoutTextView1.text = estate.type
+                cardLayoutTextView3.text = estate.getPrice(monetary)
+                cardLayoutTextView2.text = estate.addressCity
+                // bind your view here
+                binding.root.setOnClickListener {
+                    onSelect(estate)
                 }
             }
         }

@@ -13,16 +13,17 @@ class MainViewModel(private val agentRepository : AgentRepository, private val e
     var isNewEstate: Boolean = true
     var monetarySwitch: Boolean = false
     var estateSelected = MutableLiveData<Estate>()
-    var agentSelected: Agent = Agent("","")
+    var agentSelected = MutableLiveData<Agent?>()
     var sortListEstate = MutableLiveData<List<Estate>>()
 
     val allAgents: LiveData<List<Agent>> = agentRepository.allAgents.asLiveData()
     val allEstates: LiveData<List<Estate>> = estateRepository.allEstates.asLiveData()
 
     fun selectThisEstate(estate: Estate) { estateSelected.value = estate }
+    fun selectThisAgent(agent: Agent?) { agentSelected.value = agent }
     fun updateSortListEstate(list: List<Estate>) { sortListEstate.value = list }
 
-    fun agentIsConnected() : Boolean { return agentSelected.nameAgent.isNotEmpty() }
+    fun agentIsConnected() : Boolean { return agentSelected.value != null }
 
     // AGENT ROOM
     fun insertAgent(agent: Agent) = viewModelScope.launch {

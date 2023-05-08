@@ -7,6 +7,7 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -27,10 +28,10 @@ import anthony.brenon.realestatemanager.ui.MainViewModel
 import anthony.brenon.realestatemanager.ui.adapter.RecyclerViewImage
 import anthony.brenon.realestatemanager.utils.Code
 import anthony.brenon.realestatemanager.utils.Utils
-import anthony.brenon.realestatemanager.utils.Utils.bitmapsToByteArrayList
-import anthony.brenon.realestatemanager.utils.Utils.stringsToByteArrayList
-import anthony.brenon.realestatemanager.utils.Utils.toBase64List
-import anthony.brenon.realestatemanager.utils.Utils.toBitmapList
+import anthony.brenon.realestatemanager.utils.DataConverters.bitmapsToByteArrayList
+import anthony.brenon.realestatemanager.utils.DataConverters.stringsToByteArrayList
+import anthony.brenon.realestatemanager.utils.DataConverters.toBase64List
+import anthony.brenon.realestatemanager.utils.DataConverters.toBitmapList
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
@@ -58,6 +59,7 @@ class AddEstateFragment : Fragment(),
     private var isNewEstate = true
 
     private val images = mutableListOf<Bitmap>()
+    private var agent = ""
     private var addressStreet = ""
     private var addressCode = ""
     private var addressCity = ""
@@ -90,7 +92,7 @@ class AddEstateFragment : Fragment(),
     private fun set() {
         isNewEstate = viewModel.isNewEstate
 
-        estate = Estate(pictures = listOf())
+        estate = Estate(picture = BitmapFactory.decodeResource(resources, R.drawable.no_image))
 
         if (!Places.isInitialized()) Places.initialize(requireContext(), BuildConfig.MAPS_API_KEY)
     }
@@ -98,8 +100,11 @@ class AddEstateFragment : Fragment(),
     private fun observe() {
         when {
             isNewEstate -> {
-                estate.agentInChargeName = viewModel.agentSelected.nameAgent
-                binding.agentNameTv.text = viewModel.agentSelected.nameAgent
+                viewModel.agentSelected.observe(viewLifecycleOwner) {
+                    if (it != null) agent = it.nameAgent
+                }
+                estate.agentInChargeName = agent
+                binding.agentNameTv.text = agent
             }
 
             else -> viewModel.estateSelected.observe(viewLifecycleOwner) {
@@ -147,7 +152,7 @@ class AddEstateFragment : Fragment(),
                         addressStreet,
                         addEstateEtInterestingPoint.text.toString(),
                         Utils.todayDate,
-                        viewModel.agentSelected.nameAgent,
+                        agent,
                     ).any { it.isNotEmpty() } || images.isNotEmpty()
                 ) {
                     estate = Estate(
@@ -165,8 +170,9 @@ class AddEstateFragment : Fragment(),
                         lng = lng,
                         interestingPoint = addEstateEtInterestingPoint.text.toString(),
                         saleDate = Utils.todayDate,
-                        agentInChargeName = viewModel.agentSelected.nameAgent,
+                        agentInChargeName = agent,
                         pictures = imagesByte.toBase64List(),
+                        picture = images[0],
                         numberOfPicture = images.size
                     )
                     viewModel.insertEstate(estate)

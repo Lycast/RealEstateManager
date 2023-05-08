@@ -1,13 +1,14 @@
 package anthony.brenon.realestatemanager.inject
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
 import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.models.Agent
 import anthony.brenon.realestatemanager.models.Estate
-import anthony.brenon.realestatemanager.utils.Utils.toBase64List
-import anthony.brenon.realestatemanager.utils.Utils.toByteArray
+import anthony.brenon.realestatemanager.utils.DataConverters.toBase64List
+import anthony.brenon.realestatemanager.utils.DataConverters.toByteArray
 
 object DataGenerator {
 
@@ -45,7 +46,8 @@ object DataGenerator {
                 "01/05/2023",
                 "",
                 "Paul",
-                getImagesEstate1(context),
+                getPicturesEstate1(context),
+                getPicture1(context),
                 0
             )
         )
@@ -79,7 +81,8 @@ object DataGenerator {
                 "02/05/2023",
                 "",
                 "Paul",
-                getImagesEstate2(context),
+                getPicturesEstate2(context),
+                getPicture2(context),
                 0
             )
         )
@@ -107,7 +110,8 @@ object DataGenerator {
                 "25/04/2023",
                 "",
                 "Paul",
-                getImagesEstate3(context),
+                getPicturesEstate3(context),
+                getPicture3(context),
                 0
             )
         )
@@ -135,19 +139,20 @@ object DataGenerator {
                 "20/04/2023",
                 "",
                 "Paul",
-                getImagesEstate4(context),
+                getPicturesEstate4(context),
+                getPicture4(context),
                 0
             )
         )
         return estateList
     }
 
-    private fun getImagesEstate1(context: Context): List<String> {
+    private fun getPicturesEstate1(context: Context): List<String> {
         val images = mutableListOf<String>()
         val imagesByte = mutableListOf<ByteArray>()
         val resources = context.resources
         val imageIds = arrayOf(R.drawable.estate1_img01, R.drawable.estate1_img02, R.drawable.estate1_img03, R.drawable.estate1_img04,
-            R.drawable.estate1_img05, R.drawable.estate1_img06, R.drawable.estate1_img07, R.drawable.estate1_img08)
+            R.drawable.estate1_img05, R.drawable.estate1_img06)
         imageIds.forEach { imageId ->
             val bitmap = BitmapFactory.decodeResource(resources, imageId)
             if (bitmap != null) {
@@ -160,13 +165,17 @@ object DataGenerator {
         return images
     }
 
-    private fun getImagesEstate2(context: Context): List<String> {
+    private fun getPicture1(context: Context): Bitmap {
+        val resources = context.resources
+        return BitmapFactory.decodeResource(resources, R.drawable.estate1_img01)
+    }
+
+    private fun getPicturesEstate2(context: Context): List<String> {
         val images = mutableListOf<String>()
         val imagesByte = mutableListOf<ByteArray>()
         val resources = context.resources
         val imageIds = arrayOf(R.drawable.estate2_img01, R.drawable.estate2_img03, R.drawable.estate2_img04, R.drawable.estate2_img05
-            , R.drawable.estate2_img06, R.drawable.estate2_img07, R.drawable.estate2_img08, R.drawable.estate2_img09,
-            R.drawable.estate2_img10, R.drawable.estate2_img11, R.drawable.estate2_img12, R.drawable.estate2_img13)
+            , R.drawable.estate2_img06, R.drawable.estate2_img07, R.drawable.estate2_img08, R.drawable.estate2_img09)
         imageIds.forEach { imageId ->
             val bitmap = BitmapFactory.decodeResource(resources, imageId)
             if (bitmap != null) {
@@ -179,13 +188,18 @@ object DataGenerator {
         return images
     }
 
-    private fun getImagesEstate3(context: Context): List<String> {
+    private fun getPicture2(context: Context): Bitmap {
+        val resources = context.resources
+        return BitmapFactory.decodeResource(resources, R.drawable.estate2_img01)
+    }
+
+    private fun getPicturesEstate3(context: Context): List<String> {
         val images = mutableListOf<String>()
         val imagesByte = mutableListOf<ByteArray>()
         val resources = context.resources
         val imageIds = arrayOf(R.drawable.estate3_img01, R.drawable.estate3_img03, R.drawable.estate3_img04, R.drawable.estate3_img05
             , R.drawable.estate3_img06, R.drawable.estate3_img07, R.drawable.estate3_img08, R.drawable.estate3_img09,
-            R.drawable.estate3_img10, R.drawable.estate3_img11, R.drawable.estate3_img12, R.drawable.estate3_img13, R.drawable.estate3_img14)
+            R.drawable.estate3_img10)
         imageIds.forEach { imageId ->
             val bitmap = BitmapFactory.decodeResource(resources, imageId)
             if (bitmap != null) {
@@ -198,14 +212,18 @@ object DataGenerator {
         return images
     }
 
-    private fun getImagesEstate4(context: Context): List<String> {
+    private fun getPicture3(context: Context): Bitmap {
+        val resources = context.resources
+        return BitmapFactory.decodeResource(resources, R.drawable.estate3_img01)
+    }
+
+    private fun getPicturesEstate4(context: Context): List<String> {
         val images = mutableListOf<String>()
         val imagesByte = mutableListOf<ByteArray>()
         val resources = context.resources
         val imageIds = arrayOf(R.drawable.estate4_img01, R.drawable.estate4_img03, R.drawable.estate4_img04, R.drawable.estate4_img05
             , R.drawable.estate4_img06, R.drawable.estate4_img07, R.drawable.estate4_img08, R.drawable.estate4_img09,
-            R.drawable.estate4_img10, R.drawable.estate4_img11, R.drawable.estate4_img12, R.drawable.estate4_img13, R.drawable.estate4_img14,
-            R.drawable.estate4_img15)
+            R.drawable.estate4_img10, R.drawable.estate4_img11)
         imageIds.forEach { imageId ->
             val bitmap = BitmapFactory.decodeResource(resources, imageId)
             if (bitmap != null) {
@@ -216,5 +234,10 @@ object DataGenerator {
         }
         images.addAll(imagesByte.toBase64List())
         return images
+    }
+
+    private fun getPicture4(context: Context): Bitmap {
+        val resources = context.resources
+        return BitmapFactory.decodeResource(resources, R.drawable.estate4_img01)
     }
 }

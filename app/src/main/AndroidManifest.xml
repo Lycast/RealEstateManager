@@ -24,6 +24,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <provider
+            android:name=".provider.REMContentProvider"
+            android:authorities="com.example.realestatemanager.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+        <grant-uri-permission android:pathPattern=".*" />
+        </provider>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />

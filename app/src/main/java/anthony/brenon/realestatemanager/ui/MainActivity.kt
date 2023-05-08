@@ -45,10 +45,10 @@ class MainActivity : AppCompatActivity(),
 
         viewModel.allEstates.observe(this) { viewModel.updateSortListEstate(it) }
 
-        initDrawer()
+        initializeDrawer()
     }
 
-    private fun initDrawer() {
+    private fun initializeDrawer() {
         drawerLayout = binding.myDrawerLayout
         actionBarDrawerToggle =
             ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close)
@@ -57,8 +57,10 @@ class MainActivity : AppCompatActivity(),
         val name: TextView = header.findViewById(R.id.name_header)
         val email: TextView = header.findViewById(R.id.email_header)
 
-        name.text = viewModel.agentSelected.nameAgent
-        email.text = viewModel.agentSelected.emailAgent
+        viewModel.agentSelected.observe(this) {
+            name.text = it?.nameAgent
+            email.text = it?.emailAgent
+        }
 
         drawerLayout.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.syncState()
@@ -110,6 +112,7 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
+    // drawer listener
     private fun drawerMenuListener() {
         binding.headerNavigationView.setNavigationItemSelectedListener {
             when (it.itemId) {

@@ -48,9 +48,4 @@ class LoanSimulatorFragment : Fragment() {
         val formatter = NumberFormat.getCurrencyInstance(Locale.getDefault())
         binding.textViewResult.text = formatter.format(monthlyPayment)
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }

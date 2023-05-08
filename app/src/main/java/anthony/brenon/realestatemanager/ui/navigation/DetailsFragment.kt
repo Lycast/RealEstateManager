@@ -17,8 +17,8 @@ import anthony.brenon.realestatemanager.databinding.FragmentDetailsBinding
 import anthony.brenon.realestatemanager.models.Estate
 import anthony.brenon.realestatemanager.ui.MainViewModel
 import anthony.brenon.realestatemanager.ui.adapter.RecyclerViewImage
-import anthony.brenon.realestatemanager.utils.Utils.stringsToByteArrayList
-import anthony.brenon.realestatemanager.utils.Utils.toBitmapList
+import anthony.brenon.realestatemanager.utils.DataConverters.stringsToByteArrayList
+import anthony.brenon.realestatemanager.utils.DataConverters.toBitmapList
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback

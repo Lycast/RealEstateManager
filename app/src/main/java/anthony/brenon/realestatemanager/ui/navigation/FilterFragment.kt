@@ -12,7 +12,7 @@ import androidx.navigation.Navigation
 import anthony.brenon.realestatemanager.databinding.FragmentFilterBinding
 import anthony.brenon.realestatemanager.models.Estate
 import anthony.brenon.realestatemanager.ui.MainViewModel
-import anthony.brenon.realestatemanager.utils.Utils
+import anthony.brenon.realestatemanager.utils.DataConverters.convertStringToListOfWord
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -90,13 +90,13 @@ class FilterFragment : Fragment(),
 
     private fun filterByContainsTextValue(textValue: String, filteredAttribute: String) {
         val newSortListEstate = mutableListOf<Estate>()
-        val listWordTextValue = Utils.convertStringToListOfWord(textValue)
+        val listWordTextValue = convertStringToListOfWord(textValue)
 
         for (estate in sortListEstate) {
             val wordsToMatch = when (filteredAttribute) {
-                "interesting" -> Utils.convertStringToListOfWord(estate.interestingPoint)
-                "address" -> Utils.convertStringToListOfWord(estate.getAddressFormatFilter())
-                "type" -> Utils.convertStringToListOfWord(estate.type)
+                "interesting" -> convertStringToListOfWord(estate.interestingPoint)
+                "address" -> convertStringToListOfWord(estate.getAddressFormatFilter())
+                "type" -> convertStringToListOfWord(estate.type)
                 else -> emptyList()
             }
 
