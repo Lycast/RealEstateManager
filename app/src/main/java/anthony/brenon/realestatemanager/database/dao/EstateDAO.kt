@@ -1,5 +1,6 @@
 package anthony.brenon.realestatemanager.database.dao
 
+import android.database.Cursor
 import androidx.room.*
 import anthony.brenon.realestatemanager.models.Estate
 import kotlinx.coroutines.flow.Flow
@@ -12,5 +13,8 @@ interface EstateDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(estate: Estate)
+
+    @Query("SELECT * FROM estate_table")
+    fun getEstatesWithCursor() : Cursor
 
 }

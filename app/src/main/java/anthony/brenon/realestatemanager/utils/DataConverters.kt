@@ -34,13 +34,17 @@ object DataConverters {
         return compressImage(stream.toByteArray())
     }
 
+    fun ByteArray.toBitmap(): Bitmap {
+        return BitmapFactory.decodeByteArray(this, 0, this.size)
+    }
+
     fun List<ByteArray>.toBase64List(): List<String> =
         map { Base64.encodeToString(it, Base64.DEFAULT) }
 
     fun List<String>.stringsToByteArrayList(): List<ByteArray> =
         map { Base64.decode(it, Base64.DEFAULT) }
 
-    fun compressImage(imageCompressed: ByteArray): ByteArray {
+    private fun compressImage(imageCompressed: ByteArray): ByteArray {
         var compressImage = imageCompressed
         while (compressImage.size > 200000) {
             val bitmap = BitmapFactory.decodeByteArray(compressImage, 0, compressImage.size)

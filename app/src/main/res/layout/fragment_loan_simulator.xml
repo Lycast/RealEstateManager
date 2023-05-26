@@ -36,7 +36,7 @@
         android:autofillHints="" />
 
     <TextView
-        android:id="@+id/textViewInterestRate"
+        android:id="@+id/textInterestRate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="3dp"
@@ -46,34 +46,52 @@
         app:layout_constraintTop_toBottomOf="@id/editTextLoanAmount"
         app:layout_constraintLeft_toLeftOf="parent" />
 
-    <EditText
-        android:id="@+id/editTextInterestRate"
+    <TextView
+        android:id="@+id/textViewInterestRate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text=""
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/textInterestRate"
+        app:layout_constraintLeft_toRightOf="@id/textInterestRate"/>
+
+    <androidx.appcompat.widget.AppCompatSeekBar
+        android:id="@+id/seekbarInterestRate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/enter_interest_rate"
-        android:inputType="numberDecimal"
-        app:layout_constraintTop_toBottomOf="@id/textViewInterestRate"
+        android:max="100"
+        app:layout_constraintTop_toBottomOf="@id/textInterestRate"
         app:layout_constraintLeft_toLeftOf="parent"
         android:autofillHints="" />
 
     <TextView
-        android:id="@+id/textViewLoanTerm"
+        android:id="@+id/textLoanTerm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="3dp"
         android:layout_marginTop="16dp"
         android:text="@string/loan_term_years"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/editTextInterestRate"
+        app:layout_constraintTop_toBottomOf="@id/seekbarInterestRate"
         app:layout_constraintLeft_toLeftOf="parent" />
 
-    <EditText
-        android:id="@+id/editTextLoanTerm"
+    <TextView
+        android:id="@+id/textViewLoanTerm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text=""
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/textLoanTerm"
+        app:layout_constraintLeft_toRightOf="@id/textLoanTerm"/>
+
+    <androidx.appcompat.widget.AppCompatSeekBar
+        android:id="@+id/seekbarLoanTerm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/enter_loan_term"
-        android:inputType="number"
-        app:layout_constraintTop_toBottomOf="@id/textViewLoanTerm"
+        android:max="30"
+        app:layout_constraintTop_toBottomOf="@id/textLoanTerm"
         app:layout_constraintLeft_toLeftOf="parent"
         android:autofillHints="" />
 
@@ -85,7 +103,7 @@
         android:paddingHorizontal="24dp"
         android:layout_marginTop="16dp"
         android:text="@string/calculate"
-        app:layout_constraintTop_toBottomOf="@id/editTextLoanTerm"
+        app:layout_constraintTop_toBottomOf="@id/seekbarLoanTerm"
         app:layout_constraintLeft_toLeftOf="parent"/>
 
     <TextView
@@ -98,8 +116,5 @@
         android:textColor="@android:color/black"
         app:layout_constraintTop_toBottomOf="@id/buttonCalculate"
         app:layout_constraintLeft_toLeftOf="parent"/>
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

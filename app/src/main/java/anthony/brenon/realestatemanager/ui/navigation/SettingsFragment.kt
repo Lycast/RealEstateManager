@@ -2,7 +2,6 @@ package anthony.brenon.realestatemanager.ui.navigation
 
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +14,7 @@ import anthony.brenon.realestatemanager.ui.MainViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SettingsFragment : Fragment() {
 
@@ -53,13 +53,23 @@ class SettingsFragment : Fragment() {
         }
 
         binding.btnGenerateData.setOnClickListener {
-            CoroutineScope(Dispatchers.Main).launch {
+            viewEnable(false)
+            CoroutineScope(Dispatchers.IO).launch {
                 for (agent in DataGenerator.generateAgentData()) viewModel.insertAgent(agent)
                 for (estate in DataGenerator.generateEstateData(requireContext())) {
-                    Log.i("MYTAG", "DataGenerator.generateEstateData(requireActivity()) is call")
                     viewModel.insertEstate(estate)
+                }
+                withContext(Dispatchers.Main) {
+                    viewEnable(true)
                 }
             }
         }
+    }
+
+    private fun viewEnable(boolean: Boolean) {
+        binding.btnGenerateData.isEnabled = boolean
+        binding.toggleBtnMonetary.isEnabled = boolean
+        binding.loadProgressBar.visibility = if (boolean) View.GONE else View.VISIBLE
+        binding.ivSettingsFragBack.visibility = if (boolean) View.VISIBLE else View.GONE
     }
 }

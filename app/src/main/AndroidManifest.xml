@@ -9,7 +9,8 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -24,6 +25,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+
         <provider
             android:name=".provider.REMContentProvider"
             android:authorities="com.example.realestatemanager.provider"
@@ -31,6 +33,7 @@
             android:grantUriPermissions="true">
         <grant-uri-permission android:pathPattern=".*" />
         </provider>
+
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

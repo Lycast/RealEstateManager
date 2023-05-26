@@ -15,7 +15,7 @@ import androidx.navigation.Navigation
 import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.RealEstateManagerApp
 import anthony.brenon.realestatemanager.databinding.ActivityMainBinding
-import anthony.brenon.realestatemanager.utils.Code
+import anthony.brenon.realestatemanager.utils.RequestCodes
 import com.google.android.material.snackbar.Snackbar
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.dialogs.SettingsDialog
@@ -32,8 +32,6 @@ class MainActivity : AppCompatActivity(),
             (application as RealEstateManagerApp).estateRepository
         )
     }
-
-    //TODO implement content provider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -152,7 +150,7 @@ class MainActivity : AppCompatActivity(),
         EasyPermissions.requestPermissions(
             this,
             "These permission are required for this application",
-            Code.PERMISSIONS_REQUEST_CODE,
+            RequestCodes.PERMISSIONS_REQUEST_CODE,
             Manifest.permission.CAMERA,
             Manifest.permission.READ_EXTERNAL_STORAGE
         )

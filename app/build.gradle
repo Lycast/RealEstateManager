@@ -45,9 +45,9 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.10.0'
+    implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.activity:activity-ktx:1.7.1'
+    implementation 'androidx.activity:activity-ktx:1.7.2'
 
     // Kotlin components
     //noinspection GradleDependency
@@ -67,7 +67,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.5.3'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.fragment:fragment-ktx:1.5.7'
-    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'com.google.android.material:material:1.9.0'
 
     //GOOGLE MAPS
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
@@ -82,8 +82,11 @@ dependencies {
     implementation 'com.vmadalin:easypermissions-ktx:1.0.0'
 
     // TESTS
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     testImplementation "androidx.test:core:1.5.0"
     testImplementation "androidx.test:monitor:1.6.1"
-    testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'junit:junit:4.13.2'
+    testImplementation  'junit:junit:4.13.2'
+    androidTestImplementation  'androidx.test:runner:1.5.2'
+    androidTestImplementation  'androidx.test.espresso:espresso-core:3.5.1'
 }

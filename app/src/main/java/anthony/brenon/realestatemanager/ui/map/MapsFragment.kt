@@ -74,7 +74,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     private fun listenerClickView() {
         binding.imgMapBack.setOnClickListener {
-            Navigation.findNavController(binding.root).popBackStack()
+            Navigation.findNavController(binding.root).navigate(R.id.item_list_fragment)
+            Navigation.findNavController(binding.root).popBackStack(Navigation.findNavController(binding.root).graph.startDestinationId, false)
         }
     }
 

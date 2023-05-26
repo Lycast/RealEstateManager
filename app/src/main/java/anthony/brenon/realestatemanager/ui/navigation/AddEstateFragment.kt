@@ -26,7 +26,7 @@ import anthony.brenon.realestatemanager.models.Estate
 import anthony.brenon.realestatemanager.ui.MainActivity
 import anthony.brenon.realestatemanager.ui.MainViewModel
 import anthony.brenon.realestatemanager.ui.adapter.RecyclerViewImage
-import anthony.brenon.realestatemanager.utils.Code
+import anthony.brenon.realestatemanager.utils.RequestCodes
 import anthony.brenon.realestatemanager.utils.Utils
 import anthony.brenon.realestatemanager.utils.DataConverters.bitmapsToByteArrayList
 import anthony.brenon.realestatemanager.utils.DataConverters.stringsToByteArrayList
@@ -210,7 +210,7 @@ class AddEstateFragment : Fragment(),
                 .setHint(getString(R.string.autocomplete_hint))
                 .setCountry("FR")
                 .build(requireContext())
-            startActivityForResult(intent, Code.AUTOCOMPLETE_REQUEST_CODE)
+            startActivityForResult(intent, RequestCodes.AUTOCOMPLETE_REQUEST_CODE)
             binding.layoutMainAdd.visibility = View.GONE
         }
     }
@@ -230,7 +230,7 @@ class AddEstateFragment : Fragment(),
         binding.layoutMainAdd.visibility = View.VISIBLE
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
-                Code.AUTOCOMPLETE_REQUEST_CODE -> {
+                RequestCodes.AUTOCOMPLETE_REQUEST_CODE -> {
                     data?.let {
                         val place = Autocomplete.getPlaceFromIntent(data)
                         lat = place.latLng?.latitude ?: 0.00
@@ -246,8 +246,8 @@ class AddEstateFragment : Fragment(),
                 }
             }
             val newImage: Bitmap? = when (requestCode) {
-                Code.RESULT_CODE_CAMERA -> data?.getParcelableExtra("data")
-                Code.RESULT_CODE_FOLDER -> {
+                RequestCodes.RESULT_CODE_CAMERA -> data?.getParcelableExtra("data")
+                RequestCodes.RESULT_CODE_FOLDER -> {
                     MediaStore.Images.Media.getBitmap(
                         requireActivity().contentResolver,
                         data?.data
@@ -290,14 +290,14 @@ class AddEstateFragment : Fragment(),
             "camera" -> {
                 Log.i("MYTAG", "onSelectAddPictureSource = camera")
                 val i = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                startActivityForResult(i, Code.RESULT_CODE_CAMERA)
+                startActivityForResult(i, RequestCodes.RESULT_CODE_CAMERA)
             }
 
             "folder" -> {
                 Log.i("MYTAG", "onSelectAddPictureSource = folder")
                 val i = Intent(Intent.ACTION_PICK)
                 i.type = "image/*"
-                startActivityForResult(i, Code.RESULT_CODE_FOLDER)
+                startActivityForResult(i, RequestCodes.RESULT_CODE_FOLDER)
             }
         }
     }
