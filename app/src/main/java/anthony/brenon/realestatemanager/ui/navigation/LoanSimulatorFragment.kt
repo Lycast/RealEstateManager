@@ -16,14 +16,13 @@ import kotlin.math.pow
 class LoanSimulatorFragment : Fragment() {
 
     private var _binding: FragmentLoanSimulatorBinding? = null
-    private val binding get() = _binding!!
+    val binding get() = _binding!!
     private val viewModel by activityViewModels<MainViewModel>()
 
     private var monetary: Boolean = false
 
     private var interestRate = 0.0
     private var loanTermYears = 0
-    private var monthlyPayment = 0.0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,21 +35,29 @@ class LoanSimulatorFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        monetary = viewModel.monetarySwitch
+        viewModel.monetarySwitch.observe(viewLifecycleOwner) { monetary = it }
 
         // Set the SeekBar listeners
         binding.seekbarInterestRate.setOnSeekBarChangeListener(createSeekBarListener())
         binding.seekbarLoanTerm.setOnSeekBarChangeListener(createSeekBarListener())
 
-
-        binding.imgSimulatorBack.setOnClickListener {
-            Navigation.findNavController(binding.root).popBackStack()
-        }
-
-        binding.buttonCalculate.setOnClickListener { calculateLoan() }
+        binding.imgSimulatorBack.setOnClickListener { Navigation.findNavController(binding.root).popBackStack() }
+        binding.buttonCalculate.setOnClickListener { getAndDisplayLoan() }
 
         displaySeekbarValue()
+    }
+
+    fun calculateLoan(loanAmount: Int, interestRate: Double, loanTermYears: Int): Double {
+        // Check if any of the input values is zero
+        if (loanAmount == 0 || interestRate == 0.0 || loanTermYears == 0) {
+            // If any input value is zero, return 0 as the loan amount
+            return 0.0
+        }
+
+        // Calculate the loan amount by month
+        val loanTermMonths = loanTermYears * 12
+        val monthlyInterestRate = interestRate / 12 / 100.0
+        return loanAmount * monthlyInterestRate / (1 - (1 + monthlyInterestRate).pow(-loanTermMonths))
     }
 
     private fun getSeekbarValue() {
@@ -65,19 +72,18 @@ class LoanSimulatorFragment : Fragment() {
         binding.textViewInterestRate.text = interestRate.toString()
     }
 
-    private fun calculateLoan() {
-        // Get the edit text values
-        val loanAmount = binding.editTextLoanAmount.text.toString().toDoubleOrNull() ?: return
+    private fun displayLoanResult(monthlyPayment: Double, monetary: Boolean) {
+        val dec = DecimalFormat("#,###.##")
+        val resultText = if (monetary) "\u20AC ${dec.format(monthlyPayment)}" else "$ ${dec.format(monthlyPayment)}"
+        binding.textViewResult.text = resultText
+    }
+
+    private fun getAndDisplayLoan() {
+        val loanAmount = binding.editTextLoanAmount.text.toString().toInt()
 
         if (interestRate > 0 && loanTermYears > 0) {
-            // Calculate the loan
-            val loanTermMonths = loanTermYears * 12
-            val monthlyInterestRate = interestRate / 12 / 100
-            monthlyPayment = loanAmount * monthlyInterestRate / (1 - (1 + monthlyInterestRate).pow(-loanTermMonths))
-
-            // Display the result
-            val dec = DecimalFormat("#,###.##")
-            binding.textViewResult.text = if (monetary) "\u20AC ${dec.format(monthlyPayment)}" else "$ ${dec.format(monthlyPayment)}"
+            val monthlyPayment = calculateLoan(loanAmount, interestRate, loanTermYears)
+            displayLoanResult(monthlyPayment, monetary)
         }
     }
 

@@ -39,11 +39,9 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
     private lateinit var googleMap: GoogleMap
 
     private val estateObserver = Observer<Estate> {
-
         val pictureByte = it.pictures.stringsToByteArrayList()
-
-        binding.layoutDetails.isVisible = true
         estate = it
+        binding.layoutDetails.isVisible = true
         populateView(it)
         CoroutineScope(Dispatchers.Main).launch {
             val pictures = pictureByte.toBitmapList()
@@ -64,6 +62,7 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.layoutDetails.isVisible = false
         setupMap()
         setListeners()
     }
@@ -82,7 +81,9 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
         with(binding) {
             detailsActivityTvDescription.text = estate.description
             detailsActivityTvType.text = estate.type
-            detailsActivityTvPrice.text = estate.getPrice(viewModel.monetarySwitch)
+            viewModel.monetarySwitch.observe(viewLifecycleOwner) {
+                detailsActivityTvPrice.text = estate.getPrice(it)
+            }
             detailsActivityTvSurface.text = estate.surface
             detailsActivityTvRoom.text = estate.roomsNumber
             detailsActivityTvInteresting.text = estate.interestingPoint

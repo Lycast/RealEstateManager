@@ -28,6 +28,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     private val binding get() = _binding!!
     private val viewModel by activityViewModels<MainViewModel>()
     private lateinit var googleMap: GoogleMap
+    private var markers: ArrayList<Marker> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,26 +57,35 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setObservers() {
-        viewModel.allEstates.observe(viewLifecycleOwner) { estates ->
-            val pos =
-                if (estates.isNotEmpty()) LatLng(estates[0].lat,estates[0].lng)
-                else LatLng(47.06072250587188, -0.8897286371775496)
+        viewModel.sortListEstate.observe(viewLifecycleOwner) { setView(it) }
+    }
 
-            for (i in estates.indices){
-                val latitude : Double = estates[i].lat
-                val longitude : Double = estates[i].lng
-                val locations = LatLng(latitude, longitude)
-                val marker: Marker? =  googleMap.addMarker(MarkerOptions().position(locations).title(estates[i].addressStreet))
-                marker?.tag = estates[i]
-            }
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos,13.0f))
+    private fun setView(estates :List<Estate>) {
+
+        // Remove existing markers
+        for (marker in markers) {
+            marker.remove()
         }
+        markers.clear()
+
+        val pos = if (estates.isNotEmpty()) LatLng(estates[0].lat, estates[0].lng)
+        else LatLng(47.06072250587188, -0.8897286371775496)
+
+        for (i in estates.indices) {
+            val latitude: Double = estates[i].lat
+            val longitude: Double = estates[i].lng
+            val locations = LatLng(latitude, longitude)
+            val marker: Marker? = googleMap.addMarker(MarkerOptions().position(locations).title(estates[i].addressStreet))
+            marker?.tag = estates[i]
+            marker?.let { markers.add(it) }
+        }
+
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 13.0f))
     }
 
     private fun listenerClickView() {
         binding.imgMapBack.setOnClickListener {
-            Navigation.findNavController(binding.root).navigate(R.id.item_list_fragment)
-            Navigation.findNavController(binding.root).popBackStack(Navigation.findNavController(binding.root).graph.startDestinationId, false)
+            Navigation.findNavController(binding.root).popBackStack()
         }
     }
 

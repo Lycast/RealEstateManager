@@ -40,17 +40,17 @@ class ListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        setRecyclerViewEstates()
+        viewModel.monetarySwitch.observe(viewLifecycleOwner) {
+            setRecyclerViewEstates(it)
+        }
     }
 
-    private fun setRecyclerViewEstates() {
+    private fun setRecyclerViewEstates(monetary :Boolean) {
 
         adapter = RecyclerViewEstate(onSelect = {
             viewModel.selectThisEstate(it!!)
             if (binding.navHostFragment == null) Navigation.findNavController(binding.root).navigate(R.id.item_detail_fragment)
-        }, viewModel.monetarySwitch)
-
+        }, monetary)
         binding.recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         binding.recyclerView.adapter = adapter
 

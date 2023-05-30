@@ -17,8 +17,8 @@ object Utils {
      * @param dollars
      * @return
      */
-    fun convertDollarToEuro(dollars: Double): Double {
-        return (dollars * 0.812)
+    fun convertDollarToEuro(dollars: Int): Int {
+        return (dollars * 0.93).toInt()
     }
 
     /**

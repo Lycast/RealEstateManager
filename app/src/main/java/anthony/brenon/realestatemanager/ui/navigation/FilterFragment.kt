@@ -13,6 +13,7 @@ import anthony.brenon.realestatemanager.databinding.FragmentFilterBinding
 import anthony.brenon.realestatemanager.models.Estate
 import anthony.brenon.realestatemanager.ui.MainViewModel
 import anthony.brenon.realestatemanager.utils.DataConverters.convertStringToListOfWord
+import anthony.brenon.realestatemanager.utils.Utils
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -25,6 +26,7 @@ class FilterFragment : Fragment(),
     private var _binding: FragmentFilterBinding? = null
     private val binding get() = _binding!!
     private val viewModel by activityViewModels<MainViewModel>()
+    private var monetary = false
 
     private var sortListEstate = listOf<Estate>()
     private val calendar = Calendar.getInstance()
@@ -51,9 +53,8 @@ class FilterFragment : Fragment(),
     }
 
     private fun observerEstates() {
-        viewModel.allEstates.observe(viewLifecycleOwner) {
-            sortListEstate = it
-        }
+        viewModel.allEstates.observe(viewLifecycleOwner) { sortListEstate = it }
+        viewModel.monetarySwitch.observe(viewLifecycleOwner) { monetary = it }
     }
 
     private fun setListenerView() {
@@ -109,7 +110,11 @@ class FilterFragment : Fragment(),
 
     private fun filterByMinIntegerValue(minValue: Int, filteredAttribute: String) {
         sortListEstate = when (filteredAttribute) {
-            "price" -> sortListEstate.filter { it.price.toInt() >= minValue }
+            "price" -> sortListEstate.filter {
+                val price = if (monetary) it.price.toInt()
+                else Utils.convertDollarToEuro(it.price.toInt())
+                price >= minValue
+            }
             "surface" -> sortListEstate.filter { it.surface.toInt() >= minValue }
             "picture" -> sortListEstate.filter { it.numberOfPicture >= minValue }
             else -> sortListEstate
@@ -118,7 +123,13 @@ class FilterFragment : Fragment(),
 
     private fun filterByMaxIntegerValue(maxValue: Int, filteredAttribute: String) {
         sortListEstate = when (filteredAttribute) {
-            "price" -> sortListEstate.filter { it.price.toInt() <= maxValue }
+            "price" -> {
+                sortListEstate.filter {
+                    val price = if (monetary) it.price.toInt()
+                    else Utils.convertDollarToEuro(it.price.toInt())
+                    price <= maxValue
+                }
+            }
             "surface" -> sortListEstate.filter { it.surface.toInt() <= maxValue }
             else -> sortListEstate
         }

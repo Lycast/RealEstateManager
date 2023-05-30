@@ -5,10 +5,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import anthony.brenon.realestatemanager.utils.Converters
+import anthony.brenon.realestatemanager.database.Converters
 import anthony.brenon.realestatemanager.utils.Utils
 import java.text.DecimalFormat
-import kotlin.math.roundToInt
 
 /**
  * Created by Lycast on 28/07/2022.
@@ -44,7 +43,7 @@ data class Estate(
     fun getPrice(monetary: Boolean) : String {
         val dec = DecimalFormat("#,###")
         return if (monetary) "\u20AC ${dec.format(price.toInt())}"
-        else "$ ${dec.format(Utils.convertDollarToEuro(price.toDouble()).roundToInt())}"
+        else "$ ${dec.format(Utils.convertDollarToEuro(price.toInt()))}"
     }
 
     fun getAddressFormat() : String {

@@ -1,4 +1,4 @@
-package anthony.brenon.realestatemanager.utils
+package anthony.brenon.realestatemanager.database
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory

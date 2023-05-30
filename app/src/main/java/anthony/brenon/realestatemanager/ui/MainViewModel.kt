@@ -11,7 +11,7 @@ class MainViewModel(private val agentRepository : AgentRepository, private val e
 
     var hasAllPermissions: Boolean = false
     var isNewEstate: Boolean = true
-    var monetarySwitch: Boolean = false
+    var monetarySwitch = MutableLiveData(false)
     var estateSelected = MutableLiveData<Estate>()
     var agentSelected = MutableLiveData<Agent?>()
     var sortListEstate = MutableLiveData<List<Estate>>()
@@ -20,6 +20,7 @@ class MainViewModel(private val agentRepository : AgentRepository, private val e
     val allEstates: LiveData<List<Estate>> = estateRepository.allEstates.asLiveData()
 
     fun selectThisEstate(estate: Estate) { estateSelected.value = estate }
+    fun selectMonetary(boolean: Boolean) { monetarySwitch.value = boolean }
     fun selectThisAgent(agent: Agent?) { agentSelected.value = agent }
     fun updateSortListEstate(list: List<Estate>) { sortListEstate.value = list }
 

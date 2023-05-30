@@ -40,7 +40,9 @@ class SettingsFragment : Fragment() {
     }
 
     private fun set() {
-        binding.toggleBtnMonetary.isChecked = viewModel.monetarySwitch
+        viewModel.monetarySwitch.observe(viewLifecycleOwner) {
+            binding.toggleBtnMonetary.isChecked = it
+        }
     }
 
     private fun listenerView() {
@@ -49,7 +51,7 @@ class SettingsFragment : Fragment() {
         }
 
         binding.toggleBtnMonetary.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.monetarySwitch = isChecked
+            viewModel.selectMonetary(isChecked)
         }
 
         binding.btnGenerateData.setOnClickListener {
