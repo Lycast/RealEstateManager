@@ -7,7 +7,6 @@ import anthony.brenon.realestatemanager.utils.Utils
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
 
-
 class ITestUtils {
 
     @Test
