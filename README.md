@@ -12,7 +12,7 @@ Functionality :
 * Real estate Filter
 * Registration of real estate on an internal database
 * Sharing data with other applications
-* creation and updating of real estate
+* Creation and updating of real estate
 * Loan simulator
 * Euro dollar conversion
 * Multi-support display
@@ -26,8 +26,11 @@ Functionality :
 <img src="https://i.postimg.cc/k5jG6pKp/Screenshot-20230601-105438.png" width="20%" height="20%">&ensp;
 <img src="https://i.postimg.cc/TwpwrJcY/Screenshot-20230601-105505.png" width="20%" height="20%">
 <img src="https://i.postimg.cc/B6kvNPh5/Screenshot-20230601-105619.png" width="20%" height="20%">&ensp;
+<img src="https://i.postimg.cc/g04swmMb/Screenshot-20230601-114430.png" width="20%" height="20%">&ensp;
+<img src="https://i.postimg.cc/yddPct5g/Screenshot-20230601-114643.png" width="20%" height="20%">&ensp;
 
-<img src="https://i.postimg.cc/fydRPWFG/Screenshot-20230601-105912.png" width="20%" height="20%">&ensp;
+<img src="https://i.postimg.cc/BQDdjP2W/Screenshot-20230601-115847.png" width="40%" height="30%">&ensp;
+<img src="https://i.postimg.cc/x12BMjPX/Screenshot-20230601-115857.png" width="40%" height="30%">&ensp;
 
 ## Library
 

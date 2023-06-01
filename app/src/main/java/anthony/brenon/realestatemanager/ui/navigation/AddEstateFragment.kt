@@ -101,10 +101,12 @@ class AddEstateFragment : Fragment(),
         when {
             isNewEstate -> {
                 viewModel.agentSelected.observe(viewLifecycleOwner) {
-                    if (it != null) agent = it.nameAgent
+                    if (it != null) {
+                        agent = it.nameAgent
+                        estate.agentInChargeName = agent
+                        binding.agentNameTv.text = agent
+                    }
                 }
-                estate.agentInChargeName = agent
-                binding.agentNameTv.text = agent
             }
 
             else -> viewModel.estateSelected.observe(viewLifecycleOwner) {

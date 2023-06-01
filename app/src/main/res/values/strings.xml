@@ -54,7 +54,7 @@
     <string name="price_details">price :</string>
     <string name="surface_details">surface :</string>
     <string name="room_details">room :</string>
-    <string name="interesting_point_details">interesting point :</string>
+    <string name="interesting_point_details">interesting :</string>
     <string name="sold_details">Sold on :</string>
     <string name="on_sale_date_details">on-sale date :</string>
     <string name="agent_in_charge_details">agent in charge :</string>

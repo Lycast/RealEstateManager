@@ -73,7 +73,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView_image"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="80dp"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -108,6 +108,7 @@
             android:id="@+id/sv_description"
             android:layout_width="match_parent"
             android:layout_height="80dp"
+            android:fadeScrollbars="false"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_description">
 
