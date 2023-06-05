@@ -5,17 +5,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view_item"
     android:layout_width="match_parent"
-    android:layout_height="75dp"
+    android:layout_height="@dimen/adaptive_image_size"
     app:cardElevation="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/card_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
                 <ImageView
                     android:id="@+id/card_layout_image_view"
-                    android:layout_width="75dp"
+                    android:layout_width="@dimen/adaptive_image_size"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_hide_image_24"
                     android:scaleType="centerCrop"
@@ -29,22 +29,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/type"
-                    android:textSize="6pt"
+                    android:textSize="@dimen/adaptive_small_text_size"
                     android:textStyle="bold"
                     android:layout_marginHorizontal="10dp"
                     android:layout_marginTop="5dp"
                     app:layout_constraintLeft_toRightOf="@id/card_layout_image_view"
-                    app:layout_constraintTop_toTopOf="@id/card_layout_image_view" />
+                    app:layout_constraintTop_toTopOf="@id/card_layout_image_view"
+                    app:layout_constraintBottom_toTopOf="@id/card_layout_text_view_2"/>
 
                 <TextView
                     android:id="@+id/card_layout_text_view_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/address_"
-                    android:textSize="6pt"
+                    android:textSize="@dimen/adaptive_small_text_size"
                     android:layout_marginHorizontal="10dp"
                     app:layout_constraintLeft_toRightOf="@id/card_layout_image_view"
-                    app:layout_constraintTop_toBottomOf="@id/card_layout_text_view_1" />
+                    app:layout_constraintTop_toBottomOf="@id/card_layout_text_view_1"
+                    app:layout_constraintBottom_toTopOf="@id/card_layout_text_view_3"/>
 
                 <TextView
                     android:id="@+id/card_layout_text_view_3"
@@ -54,7 +56,7 @@
                     android:layout_marginBottom="5dp"
                     android:text="@string/price"
                     android:textColor="#AE4471"
-                    android:textSize="10pt"
+                    android:textSize="@dimen/adaptive_big_text_size"
                     app:layout_constraintLeft_toRightOf="@id/card_layout_image_view"
                     app:layout_constraintTop_toBottomOf="@id/card_layout_text_view_2"
                     app:layout_constraintBottom_toBottomOf="@id/card_layout_image_view"/>
@@ -66,14 +68,6 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"/>
-
-                <com.google.android.material.divider.MaterialDivider
-                    android:layout_width="1px"
-                    android:layout_height="match_parent"
-                    app:dividerColor="@color/colorPrimary"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,8 +1,8 @@
 package anthony.brenon.realestatemanager.ui.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.databinding.ItemEstateBinding
@@ -16,10 +16,10 @@ class RecyclerViewEstate(
     private lateinit var binding: ItemEstateBinding
     private var estates: List<Estate> = arrayListOf()
 
-    @SuppressLint("NotifyDataSetChanged")
     fun setData(estatesList: List<Estate>) {
-        this.estates = estatesList
-        notifyDataSetChanged()
+        val diffResult = DiffUtil.calculateDiff(EstateDiffCallback(estates, estatesList))
+        estates = estatesList
+        diffResult.dispatchUpdatesTo(this)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -50,6 +50,21 @@ class RecyclerViewEstate(
                     onSelect(estate)
                 }
             }
+        }
+    }
+
+    class EstateDiffCallback(private val oldList: List<Estate>, private val newList: List<Estate>) : DiffUtil.Callback() {
+
+        override fun getOldListSize(): Int { return oldList.size }
+
+        override fun getNewListSize(): Int { return newList.size }
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldList[oldItemPosition].id == newList[newItemPosition].id
+        }
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldList[oldItemPosition] == newList[newItemPosition]
         }
     }
 }

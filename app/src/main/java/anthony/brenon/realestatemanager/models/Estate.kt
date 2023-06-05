@@ -50,4 +50,11 @@ data class Estate(
     fun getAddressFormatFilter() : String {
         return "$addressStreet $addressCode $addressCity $addressCountry"
     }
+
+    override fun toString(): String {
+        return "\nProperty(id=$id, type='$type', price='$price', surface='$surface', roomsNumber='$roomsNumber', " +
+                "addressStreet='$addressStreet', addressCity='$addressCity', addressCode='$addressCode', addressCountry='$addressCountry', " +
+                "lng=$lng, lat=$lat, interestingPoint='$interestingPoint', saleDate='$saleDate', soldDate='$soldDate', " +
+                "agentInChargeName='$agentInChargeName', numberOfPicture=$numberOfPicture)"
+    }
 }

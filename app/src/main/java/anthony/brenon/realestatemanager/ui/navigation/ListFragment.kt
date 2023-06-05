@@ -45,8 +45,7 @@ class ListFragment : Fragment() {
         }
     }
 
-    private fun setRecyclerViewEstates(monetary :Boolean) {
-
+    private fun setRecyclerViewEstates(monetary: Boolean) {
         adapter = RecyclerViewEstate(onSelect = {
             viewModel.selectThisEstate(it!!)
             if (binding.navHostFragment == null) Navigation.findNavController(binding.root).navigate(R.id.item_detail_fragment)
@@ -54,11 +53,14 @@ class ListFragment : Fragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         binding.recyclerView.adapter = adapter
 
-        viewModel.sortListEstate.observe(activity) {
-            if (it.isEmpty()) binding.ivListFragment.visibility = View.VISIBLE
-            else {
-                adapter.setData(it)
+        viewModel.sortListEstate.observe(activity) { estateList ->
+            if (estateList.isEmpty()) {
+                binding.ivListFragment.visibility = View.VISIBLE
+                binding.recyclerView.visibility = View.INVISIBLE
+            } else {
+                adapter.setData(estateList)
                 binding.ivListFragment.visibility = View.GONE
+                binding.recyclerView.visibility = View.VISIBLE
             }
         }
     }
