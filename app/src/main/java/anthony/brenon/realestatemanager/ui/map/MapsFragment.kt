@@ -80,7 +80,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             marker?.let { markers.add(it) }
         }
 
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 13.0f))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 10.0f))
     }
 
     private fun listenerClickView() {

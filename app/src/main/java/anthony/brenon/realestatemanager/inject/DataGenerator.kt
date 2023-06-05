@@ -9,149 +9,201 @@ import anthony.brenon.realestatemanager.models.Agent
 import anthony.brenon.realestatemanager.models.Estate
 import anthony.brenon.realestatemanager.utils.DataConverters.toBase64List
 import anthony.brenon.realestatemanager.utils.DataConverters.toByteArray
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
+import java.util.Random
+import kotlin.math.PI
+import kotlin.math.cos
 
 object DataGenerator {
 
+    private val random = Random()
+
+    private const val centerLatitude = 47.06081759974417
+    private const val centerLongitude = -0.882213362492633
+    private const val radiusInKm = 18.0
+    private val estateTypes = listOf("House", "Apartment", "Villa", "Condo", "Cottage")
+    private val estateImageIds = arrayOf(
+        arrayOf(
+            R.drawable.estate1_img01, R.drawable.estate1_img02, R.drawable.estate1_img03,
+            R.drawable.estate1_img04, R.drawable.estate1_img05),
+        arrayOf(
+            R.drawable.estate1_img01, R.drawable.estate1_img02, R.drawable.estate1_img03),
+        arrayOf(
+            R.drawable.estate2_img01, R.drawable.estate2_img02, R.drawable.estate2_img03,
+            R.drawable.estate2_img04, R.drawable.estate2_img05),
+        arrayOf(
+            R.drawable.estate2_img01, R.drawable.estate2_img02),
+        arrayOf(
+            R.drawable.estate3_img01, R.drawable.estate3_img02, R.drawable.estate3_img03,
+            R.drawable.estate3_img04, R.drawable.estate3_img05, R.drawable.estate3_img06),
+        arrayOf(
+            R.drawable.estate3_img01, R.drawable.estate3_img02, R.drawable.estate3_img03),
+        arrayOf(
+            R.drawable.estate4_img01, R.drawable.estate4_img02, R.drawable.estate4_img03,
+            R.drawable.estate4_img04, R.drawable.estate4_img05, R.drawable.estate4_img06,
+            R.drawable.estate4_img07),
+        arrayOf(
+            R.drawable.estate4_img01, R.drawable.estate4_img02, R.drawable.estate4_img03,
+            R.drawable.estate4_img04)
+    )
+
+
     fun generateAgentData(): List<Agent> {
-        val agents = mutableListOf<Agent>()
-        agents.add(Agent("Paul","paul@mail.com"))
-        agents.add(Agent("Thierry","thierry@mail.com"))
-        agents.add(Agent("Simon","simon@mail.com"))
+        val agents = ArrayList<Agent>()
+        agents.add(Agent("Paul", "paul@mail.com"))
+        agents.add(Agent("Thierry", "thierry@mail.com"))
+        agents.add(Agent("Simon", "simon@mail.com"))
         return agents
     }
 
     fun generateEstateData(context: Context): List<Estate> {
-        val estateList = mutableListOf<Estate>()
-        estateList.add(
-            Estate(
+        val estateList = ArrayList<Estate>()
+        for (i in 1..3) {
+            val estate = Estate(
                 0,
-                "Maison",
-                "156000",
-                "147",
-                "7",
-                "Une MAISON D'HABITATION comprenant :\n" +
-                        "Au rez-de-chaussée : entrée sur séjour avec cheminée, cuisine, salle à manger, " +
-                        "A l'étage : palier, trois chambres, un bureau, salle de bains, wc, débarras, partie de grenier, " +
-                        "Grenier au dessus, " +
-                        "Dépendances, " +
-                        "Garage.",
-                "16 Rue Saint-Maurice",
-                "Sèvremoine",
-                "49230",
+                getRandomEstateType(),
+                getRandomPrice(),
+                getRandomArea(),
+                getRandomNumberOfRooms(),
+                getRandomDescription(),
+                getRandomAddress(),
+                "Cholet",
+                "49600",
                 "France",
-                -1.1251437376514695,
-                47.096144025682285,
-                "ecole, transport, commerces, banque, piscine",
-                "01/05/2023",
-                "",
-                "Paul",
-                getPicturesEstate1(context),
-                getPicture1(context),
+                getRandomLongitude(),
+                getRandomLatitude(),
+                getRandomAmenities(),
+                getRandomDate(),
+                getRandomEndDate(),
+                getRandomAgentName(),
+                getRandomPictures(context),
+                getRandomPicture(context),
                 0
             )
-        )
-        estateList.add(
-            Estate(
-                0,
-                "Maison",
-                "126800",
-                "67",
-                "3",
-                "Maison de bourg rénovée en 2020.\n" +
-                        "De 67 m² habitables environ. " +
-                        "Rdc: Salon avec pierres apparentes. " +
-                        "Cuisine aménagée wc – lingerie. " +
-                        "Cour extérieur sans vis à vis (17). " +
-                        "Etage: Palier débarras 2 chambres. " +
-                        "Avec placards salle d’eau – wc" +
-                        "Travaux effectués: Ouvertures, Isolation," +
-                        "Placo-cloisons, Plomberie, salle d’eau, cuisine," +
-                        "Electricité, Chauffage, Ravalement. " +
-                        "Raccordement au tout à l’égout conforme. " +
-                        "MAISON LOUEE AVEC LOCATAIRES EN PLACE. " +
-                        "Fin du bail le 6 Décembre 2024",
-                "30 Rue du Collège",
-                "Sèvremoine",
-                "49230",
-                "France",
-                -1.1283940510749164,
-                47.09494492378816,
-                "ecole, transport, commerces",
-                "02/05/2023",
-                "",
-                "Paul",
-                getPicturesEstate2(context),
-                getPicture2(context),
-                0
-            )
-        )
-        estateList.add(
-            Estate(
-                0,
-                "Maison",
-                "179600",
-                "89",
-                "5",
-                "Agréable maison des Années 50 de 89 m² habitables;\n" +
-                        "Rdc: hall d’entrée séjour avec cheminée et insert; " +
-                        "Salon Cuisine aménagée 1 chambre salle d’eau (à refaire). " +
-                        "Chaufferie (chauffage fuel) lingerie wc. Etage: palier 2 chambres avec placards débarras. " +
-                        "Garage (1 voiture) cave grande terrasse bois. Jardin avec puits. Terrain de 750 m² environ.Travaux effectués: " +
-                        "Isolation (2012) Porte d’entrée (2012).Bardages pignon (2013/2016) Aménagement étage (2014). " +
-                        "Assainissement tout à l’égout (prévoir travaux de mise en conformité)",
-                "6 Rue de la Gabelle",
-                "Sèvremoine",
-                "49230",
-                "France",
-                -1.1383424510761884,
-                47.0834592079444,
-                "transport, commerces",
-                "25/04/2023",
-                "",
-                "Paul",
-                getPicturesEstate3(context),
-                getPicture3(context),
-                0
-            )
-        )
-        estateList.add(
-            Estate(
-                0,
-                "Maison",
-                "250140",
-                "120",
-                "6",
-                "A 25 minutes de CHOLET et 15 minutes de CLISSON, dans son bourg, maison de 120m² habitables de plain-pied entourée de son terrain de 1820m² avec garage, " +
-                        "local de 180m² et deux puits. La maison bien entretenue, avec une décoration intérieure entièrement refaite en 2013, " +
-                        "se compose d'une entrée, une pièce de vie traversante donnant sur une terrasse abritée exposée Est, une cuisine ouverte entièrement aménagée et équipée, " +
-                        "une arrière-cuisine également aménagée, une chaufferie, trois chambres, un bureau (ou 4ème chambre), dressing, salle d'eau et wc. " +
-                        "Le local de 180m² possède un grand portail coulissant, un quai de chargement et une cave (réhabilitable). Un garage supplémentaire complète cet ensemble. " +
-                        "Possibilité de divisions (terrains à bâtir) et terrain piscinable. " +
-                        "Les informations sur les risques auxquels ce bien est exposé sont disponibles sur le site Géorisques : www.georisques.gouv.fr.",
-                "0 La Verdrie",
-                "Sèvremoine",
-                "49230",
-                "France",
-                -1.1297809492269064,
-                47.098375055349145,
-                "commerces, banque, piscine",
-                "20/04/2023",
-                "02/05/2023",
-                "Paul",
-                getPicturesEstate4(context),
-                getPicture4(context),
-                0
-            )
-        )
+            estateList.add(estate)
+        }
         return estateList
     }
 
-    private fun getPicturesEstate1(context: Context): List<String> {
+    private fun getRandomEstateType(): String { return estateTypes.random() }
+
+    private fun getRandomPrice(): String {
+        val price = random.nextInt(2500000) + 50000
+        return price.toString()
+    }
+
+    private fun getRandomArea(): String {
+        val area = random.nextInt(300) + 50
+        return area.toString()
+    }
+
+    private fun getRandomNumberOfRooms(): String {
+        val rooms = random.nextInt(12) + 1
+        return rooms.toString()
+    }
+
+    private fun getRandomDescription(): String {
+        val descriptions = listOf(
+            "Spacious and modern apartment with open floor plan and high ceilings",
+            "Cozy and charming cottage with a fireplace and a private garden",
+            "Luxurious and elegant penthouse offering panoramic views of the city skyline",
+            "Immaculate waterfront villa with panoramic ocean views, situated on a private sandy beach. " +
+                    "This architectural masterpiece boasts an open-concept design with floor-to-ceiling windows, showcasing the picturesque coastline from every room. " +
+                    "Indulge in the luxury of a gourmet chef's kitchen, a private home spa with a sauna and steam room, " +
+                    "a home gym overlooking the ocean, and an outdoor entertainment area with a pool, cabana, and built-in BBQ grill.",
+            "Historic mansion with timeless elegance, meticulously restored to its original grandeur. This exceptional residence features exquisite craftsmanship, " +
+                    "including intricate woodwork, hand-painted ceilings, and stained glass windows. Enjoy the opulence of multiple living rooms, " +
+                    "a formal dining room with a crystal chandelier, a library with a fireplace, " +
+                    "a private wine cellar, and a sprawling landscaped garden with a fountain, rose garden, and a pergola-covered outdoor dining area.",
+            "Contemporary urban penthouse offering the pinnacle of luxury living. With sleek, modern design and premium finishes, " +
+                    "this extraordinary residence showcases an open floor plan with high ceilings and expansive floor-to-ceiling windows, " +
+                    "allowing for abundant natural light and sweeping city skyline views. The gourmet kitchen is equipped with top-of-the-line appliances and a central island, " +
+                    "while the master suite boasts a spa-like bathroom with a soaking tub, a walk-in rain shower, and a private terrace with a hot tub.",
+            "Rustic yet luxurious log cabin retreat nestled in a secluded forest setting, offering a stone fireplace, exposed timber beams, a gourmet kitchen with a farmhouse sink, " +
+                    "a wrap-around porch with a hot tub, and direct access to hiking trails and a private fishing lake.",
+            "Elegant colonial-style estate located in an exclusive gated community, featuring a sweeping curved staircase, a wood-paneled library, a wine cellar, " +
+                    "a resort-style pool with a cabana, and a private guesthouse with its own kitchen and living area."
+        )
+        return descriptions.random()
+    }
+
+    private fun getRandomAddress(): String {
+        val addresses = listOf(
+            "Rue de la Paix",
+            "Avenue Anatole France",
+            "Place de la Concorde",
+            "Boulevard Carnot",
+            "Rue du Faubourg Saint-Honoré",
+            "Rue de la Liberté",
+            "Avenue des Champs-Élysées",
+            "Boulevard Saint-Germain",
+            "Place de l'Étoile",
+            "Rue de Rivoli",
+            "Avenue de la République",
+            "Boulevard Haussmann",
+            "Place de la Bastille",
+            "Rue du Faubourg Saint-Antoine",
+            "Avenue Montaigne")
+        return addresses.random()
+    }
+
+    private fun getRandomLongitude(): Double {
+        val maxLongitudeOffset = radiusInKm / (111.320 * cos(centerLatitude * PI / 180.0))
+        return centerLongitude + random.nextDouble() * 2 * maxLongitudeOffset - maxLongitudeOffset
+    }
+
+    private fun getRandomLatitude(): Double {
+        val maxLatitudeOffset = radiusInKm / 110.574
+        return centerLatitude + random.nextDouble() * 2 * maxLatitudeOffset - maxLatitudeOffset
+    }
+
+    private fun getRandomAmenities(): String {
+        val amenities = listOf("Swimming pool", "Garden", "Garage", "Gym", "Fireplace")
+        val numAmenities = random.nextInt(amenities.size) + 1
+        return amenities.shuffled().take(numAmenities).joinToString(", ")
+    }
+
+    private fun getRandomDate(): String {
+        val startDate = Calendar.getInstance()
+        startDate.add(Calendar.MONTH, -12)
+        val endDate = Calendar.getInstance()
+
+        val randomDate = startDate.timeInMillis + (Math.random() * (endDate.timeInMillis - startDate.timeInMillis)).toLong()
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        return dateFormat.format(Date(randomDate))
+    }
+
+    private fun getRandomEndDate(): String {
+        val random = Random()
+        return if (random.nextInt(10) > 7) {
+            val startDate = Calendar.getInstance()
+            startDate.add(Calendar.MONTH, 1)
+            val endDate = Calendar.getInstance()
+
+            val randomDate = startDate.timeInMillis + (Math.random() * (endDate.timeInMillis - startDate.timeInMillis)).toLong()
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
+            dateFormat.format(Date(randomDate))
+        } else { "" }
+    }
+
+    private fun getRandomAgentName(): String {
+        val randomIndex = (Math.random() * generateAgentData().size).toInt()
+        return generateAgentData()[randomIndex].nameAgent
+    }
+
+    private fun getRandomPictures(context: Context): List<String> {
+        val randomIndex = (Math.random() * estateImageIds.size).toInt()
+        val imageIds = estateImageIds[randomIndex]
+        return getPictures(context, imageIds)
+    }
+
+    private fun getPictures(context: Context, imageIds: Array<Int>): List<String> {
         val images = mutableListOf<String>()
         val imagesByte = mutableListOf<ByteArray>()
         val resources = context.resources
-        val imageIds = arrayOf(R.drawable.estate1_img01, R.drawable.estate1_img02, R.drawable.estate1_img03, R.drawable.estate1_img04,
-            R.drawable.estate1_img05, R.drawable.estate1_img06)
         imageIds.forEach { imageId ->
             val bitmap = BitmapFactory.decodeResource(resources, imageId)
             if (bitmap != null) {
@@ -164,79 +216,14 @@ object DataGenerator {
         return images
     }
 
-    private fun getPicture1(context: Context): Bitmap {
-        val resources = context.resources
-        return BitmapFactory.decodeResource(resources, R.drawable.estate1_img01)
+    private fun getRandomPicture(context: Context): Bitmap {
+        val randomIndex = (Math.random() * estateImageIds.size).toInt()
+        val imageIds = estateImageIds[randomIndex]
+        return getPicture(context, imageIds[0])
     }
 
-    private fun getPicturesEstate2(context: Context): List<String> {
-        val images = mutableListOf<String>()
-        val imagesByte = mutableListOf<ByteArray>()
+    private fun getPicture(context: Context, imageId: Int): Bitmap {
         val resources = context.resources
-        val imageIds = arrayOf(R.drawable.estate2_img01, R.drawable.estate2_img03, R.drawable.estate2_img04, R.drawable.estate2_img05
-            , R.drawable.estate2_img06, R.drawable.estate2_img07, R.drawable.estate2_img08, R.drawable.estate2_img09)
-        imageIds.forEach { imageId ->
-            val bitmap = BitmapFactory.decodeResource(resources, imageId)
-            if (bitmap != null) {
-                imagesByte.add(bitmap.toByteArray())
-            } else {
-                Log.i("TAG", "bitmap is null for image: $imageId")
-            }
-        }
-        images.addAll(imagesByte.toBase64List())
-        return images
-    }
-
-    private fun getPicture2(context: Context): Bitmap {
-        val resources = context.resources
-        return BitmapFactory.decodeResource(resources, R.drawable.estate2_img01)
-    }
-
-    private fun getPicturesEstate3(context: Context): List<String> {
-        val images = mutableListOf<String>()
-        val imagesByte = mutableListOf<ByteArray>()
-        val resources = context.resources
-        val imageIds = arrayOf(R.drawable.estate3_img01, R.drawable.estate3_img03, R.drawable.estate3_img04, R.drawable.estate3_img05
-            , R.drawable.estate3_img06, R.drawable.estate3_img07, R.drawable.estate3_img08, R.drawable.estate3_img09,
-            R.drawable.estate3_img10)
-        imageIds.forEach { imageId ->
-            val bitmap = BitmapFactory.decodeResource(resources, imageId)
-            if (bitmap != null) {
-                imagesByte.add(bitmap.toByteArray())
-            } else {
-                Log.i("TAG", "bitmap is null for image: $imageId")
-            }
-        }
-        images.addAll(imagesByte.toBase64List())
-        return images
-    }
-
-    private fun getPicture3(context: Context): Bitmap {
-        val resources = context.resources
-        return BitmapFactory.decodeResource(resources, R.drawable.estate3_img01)
-    }
-
-    private fun getPicturesEstate4(context: Context): List<String> {
-        val images = mutableListOf<String>()
-        val imagesByte = mutableListOf<ByteArray>()
-        val resources = context.resources
-        val imageIds = arrayOf(R.drawable.estate4_img01, R.drawable.estate4_img03, R.drawable.estate4_img04, R.drawable.estate4_img05
-            , R.drawable.estate4_img06, R.drawable.estate4_img07, R.drawable.estate4_img08, R.drawable.estate4_img09,
-            R.drawable.estate4_img10, R.drawable.estate4_img11)
-        imageIds.forEach { imageId ->
-            val bitmap = BitmapFactory.decodeResource(resources, imageId)
-            if (bitmap != null) {
-                imagesByte.add(bitmap.toByteArray())
-            } else {
-                Log.i("TAG", "bitmap is null for image: $imageId")
-            }
-        }
-        images.addAll(imagesByte.toBase64List())
-        return images
-    }
-
-    private fun getPicture4(context: Context): Bitmap {
-        val resources = context.resources
-        return BitmapFactory.decodeResource(resources, R.drawable.estate4_img01)
+        return BitmapFactory.decodeResource(resources, imageId)
     }
 }

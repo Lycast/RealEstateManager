@@ -66,6 +66,17 @@ class SettingsFragment : Fragment() {
                 }
             }
         }
+        binding.btnGenerateMoreEstates.setOnClickListener {
+            viewEnable(false)
+            CoroutineScope(Dispatchers.IO).launch {
+                for (estate in DataGenerator.generateEstateData(requireContext())) {
+                    viewModel.insertEstate(estate)
+                }
+                withContext(Dispatchers.Main) {
+                    viewEnable(true)
+                }
+            }
+        }
     }
 
     private fun viewEnable(boolean: Boolean) {
