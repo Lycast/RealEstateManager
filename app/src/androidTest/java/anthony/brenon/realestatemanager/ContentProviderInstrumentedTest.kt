@@ -20,7 +20,7 @@ import org.junit.runners.JUnit4
 
 @Suppress("DEPRECATION")
 @RunWith(JUnit4::class)
-class ITestContentProvider {
+class ContentProviderInstrumentedTest {
 
     // For data
     private var mContentResolver: ContentResolver? = null

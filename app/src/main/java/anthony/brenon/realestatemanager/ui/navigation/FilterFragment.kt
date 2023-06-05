@@ -19,7 +19,6 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
-
 class FilterFragment : Fragment(),
     DatePickerDialog.OnDateSetListener {
 

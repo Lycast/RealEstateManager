@@ -1,7 +1,5 @@
 package anthony.brenon.realestatemanager.ui.navigation
 
-
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -45,7 +43,7 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
         populateView(it)
         CoroutineScope(Dispatchers.Main).launch {
             val pictures = pictureByte.toBitmapList()
-            initRVImage(pictures)
+            adapter.setData(pictures)
         }
         googleMap.addMarker(MarkerOptions().position(LatLng(it.lat, it.lng)).title(it.addressStreet))
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it.lat, it.lng), 14.0f))
@@ -64,12 +62,8 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
         super.onViewCreated(view, savedInstanceState)
         binding.layoutDetails.isVisible = false
         setupMap()
+        initRVImage()
         setListeners()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        binding.recyclerViewImage.adapter = null
     }
 
     private fun setupMap() {
@@ -98,15 +92,13 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    private fun initRVImage(images: List<Bitmap>) {
+    private fun initRVImage() {
         adapter = RecyclerViewImage { image ->
             binding.layoutDetails.isVisible = false
             binding.layoutImage.isVisible = true
             binding.ivDetails.setImageBitmap(image)
         }
         binding.recyclerViewImage.adapter = adapter
-
-        adapter.setData(images)
     }
 
     private fun setListeners() {

@@ -8,9 +8,6 @@ import anthony.brenon.realestatemanager.R
 import anthony.brenon.realestatemanager.databinding.ItemEstateBinding
 import anthony.brenon.realestatemanager.models.Estate
 
-/**
- * Created by Lycast on 28/07/2022.
- */
 class RecyclerViewEstate(
     private val onSelect: (Estate?) -> Unit,
     private val monetary: Boolean

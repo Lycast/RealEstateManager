@@ -21,7 +21,6 @@ object DataGenerator {
     }
 
     fun generateEstateData(context: Context): List<Estate> {
-        Log.i("MYTAG", "generateEstateData is call")
         val estateList = mutableListOf<Estate>()
         estateList.add(
             Estate(
@@ -137,7 +136,7 @@ object DataGenerator {
                 47.098375055349145,
                 "commerces, banque, piscine",
                 "20/04/2023",
-                "",
+                "02/05/2023",
                 "Paul",
                 getPicturesEstate4(context),
                 getPicture4(context),
@@ -158,7 +157,7 @@ object DataGenerator {
             if (bitmap != null) {
                 imagesByte.add(bitmap.toByteArray())
             } else {
-                Log.i("MY_TAG", "bitmap is null for image: $imageId")
+                Log.i("TAG", "bitmap is null for image: $imageId")
             }
         }
         images.addAll(imagesByte.toBase64List())
@@ -181,7 +180,7 @@ object DataGenerator {
             if (bitmap != null) {
                 imagesByte.add(bitmap.toByteArray())
             } else {
-                Log.i("MY_TAG", "bitmap is null for image: $imageId")
+                Log.i("TAG", "bitmap is null for image: $imageId")
             }
         }
         images.addAll(imagesByte.toBase64List())
@@ -205,7 +204,7 @@ object DataGenerator {
             if (bitmap != null) {
                 imagesByte.add(bitmap.toByteArray())
             } else {
-                Log.i("MY_TAG", "bitmap is null for image: $imageId")
+                Log.i("TAG", "bitmap is null for image: $imageId")
             }
         }
         images.addAll(imagesByte.toBase64List())
@@ -229,7 +228,7 @@ object DataGenerator {
             if (bitmap != null) {
                 imagesByte.add(bitmap.toByteArray())
             } else {
-                Log.i("MY_TAG", "bitmap is null for image: $imageId")
+                Log.i("TAG", "bitmap is null for image: $imageId")
             }
         }
         images.addAll(imagesByte.toBase64List())

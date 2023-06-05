@@ -7,9 +7,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import anthony.brenon.realestatemanager.databinding.ItemImageBinding
 
-/**
- * Created by Lycast on 28/07/2022.
- */
 class RecyclerViewImage (
     private val onSelect: (Bitmap?) -> Unit,
     ): RecyclerView.Adapter<RecyclerViewImage.ViewHolder>() {

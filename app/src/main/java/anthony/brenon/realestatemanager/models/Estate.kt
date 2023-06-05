@@ -9,9 +9,6 @@ import anthony.brenon.realestatemanager.database.Converters
 import anthony.brenon.realestatemanager.utils.Utils
 import java.text.DecimalFormat
 
-/**
- * Created by Lycast on 28/07/2022.
- */
 @Entity(tableName = "estate_table")
 @TypeConverters(Converters::class)
 data class Estate(

@@ -56,7 +56,6 @@ class AddEstateFragment : Fragment(),
     private lateinit var estate: Estate
     private lateinit var image: Bitmap
     private val calendar = Calendar.getInstance()
-    private var isNewEstate = true
 
     private val images = mutableListOf<Bitmap>()
     private var agent = ""
@@ -84,22 +83,15 @@ class AddEstateFragment : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         set()
-        observe()
-        initRecyclerViewImage()
         listenerClickView()
     }
 
     private fun set() {
-        isNewEstate = viewModel.isNewEstate
-
-        estate = Estate(picture = BitmapFactory.decodeResource(resources, R.drawable.no_image))
-
+        initRecyclerViewImage()
+        estate = Estate(picture = BitmapFactory.decodeResource(resources, R.drawable.no_image), saleDate = Utils.todayDate)
         if (!Places.isInitialized()) Places.initialize(requireContext(), BuildConfig.MAPS_API_KEY)
-    }
-
-    private fun observe() {
         when {
-            isNewEstate -> {
+            viewModel.isNewEstate -> {
                 viewModel.agentSelected.observe(viewLifecycleOwner) {
                     if (it != null) {
                         agent = it.nameAgent
@@ -108,11 +100,9 @@ class AddEstateFragment : Fragment(),
                     }
                 }
             }
-
             else -> viewModel.estateSelected.observe(viewLifecycleOwner) {
                 estate = it
                 populateView()
-                initRecyclerViewImage()
             }
         }
     }
@@ -124,6 +114,7 @@ class AddEstateFragment : Fragment(),
             val imagesByte = estate.pictures.stringsToByteArrayList()
             CoroutineScope(Dispatchers.Main).launch {
                 images.addAll(imagesByte.toBitmapList())
+                adapter.setData(images)
             }
             agentNameTv.text = estate.agentInChargeName
             btnAddAddress.text = estate.addressCity
@@ -133,6 +124,13 @@ class AddEstateFragment : Fragment(),
             addEstateEtNbRoom.setText(estate.roomsNumber)
             addEstateEtInterestingPoint.setText(estate.interestingPoint)
             addEstateEtDescription.setText(estate.description)
+            addressStreet = estate.addressStreet
+            addressCity = estate.addressCity
+            addressCode = estate.addressCode
+            addressCountry = estate.addressCountry
+            lat = estate.lat
+            lng = estate.lng
+            agent = estate.agentInChargeName
             addEstateBtnSold.visibility = View.VISIBLE
             if (estate.isSold()) addEstateBtnSold.text = estate.soldDate
         }
@@ -158,7 +156,7 @@ class AddEstateFragment : Fragment(),
                     ).any { it.isNotEmpty() } || images.isNotEmpty()
                 ) {
                     estate = Estate(
-                        id = 0,
+                        id = estate.id,
                         type = addEstateEtType.text.toString(),
                         price = addEstateEtPrice.text.toString(),
                         surface = addEstateEtSurface.text.toString(),
@@ -171,7 +169,7 @@ class AddEstateFragment : Fragment(),
                         lat = lat,
                         lng = lng,
                         interestingPoint = addEstateEtInterestingPoint.text.toString(),
-                        saleDate = Utils.todayDate,
+                        saleDate = estate.saleDate,
                         agentInChargeName = agent,
                         pictures = imagesByte.toBase64List(),
                         picture = images[0],
@@ -238,11 +236,15 @@ class AddEstateFragment : Fragment(),
                         lat = place.latLng?.latitude ?: 0.00
                         lng = place.latLng?.longitude ?: 0.00
                         place.addressComponents?.let {
-                            binding.btnAddAddress.text = it.asList()[1].name
-                            addressStreet = it.asList()[0].name
-                            addressCity = it.asList()[1].name
-                            addressCode = it.asList()[5].name
-                            addressCountry = it.asList()[4].name
+                            if (it.asList().size >= 6) {
+                                binding.btnAddAddress.text = it.asList()[1].name
+                                addressStreet = it.asList()[0].name
+                                addressCity = it.asList()[1].name
+                                addressCode = it.asList()[5].name
+                                addressCountry = it.asList()[4].name
+                            } else {
+                                Log.e("TAG", "the size of the activity result address component list is less than 6")
+                            }
                         }
                     }
                 }
@@ -268,7 +270,6 @@ class AddEstateFragment : Fragment(),
 
     // ADD PICTURE DIALOG START
     private fun showCustomBuilder() {
-        Log.i("MYTAG", "viewmodel permission = ${viewModel.hasAllPermissions}")
         val builder = AlertDialog.Builder(activity)
         val customView = LayoutInflater.from(activity)
             .inflate(R.layout.dialog_select_image_ressource, null)
@@ -290,13 +291,11 @@ class AddEstateFragment : Fragment(),
     private fun onSelectAddPictureSource(source: String) {
         when (source) {
             "camera" -> {
-                Log.i("MYTAG", "onSelectAddPictureSource = camera")
                 val i = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                 startActivityForResult(i, RequestCodes.RESULT_CODE_CAMERA)
             }
 
             "folder" -> {
-                Log.i("MYTAG", "onSelectAddPictureSource = folder")
                 val i = Intent(Intent.ACTION_PICK)
                 i.type = "image/*"
                 startActivityForResult(i, RequestCodes.RESULT_CODE_FOLDER)

@@ -8,7 +8,7 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Date
 
-class UnitTestUtils {
+class UtilsUnitTest {
 
     @Before
     fun setUp() {}

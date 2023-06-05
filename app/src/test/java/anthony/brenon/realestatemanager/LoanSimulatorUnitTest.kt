@@ -4,7 +4,7 @@ import anthony.brenon.realestatemanager.ui.navigation.LoanSimulatorFragment
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
 
-class UnitTestLoanSimulator {
+class LoanSimulatorUnitTest {
 
     @Test
     fun calculateLoan_withValidInputs_shouldReturnCorrectResult() {
