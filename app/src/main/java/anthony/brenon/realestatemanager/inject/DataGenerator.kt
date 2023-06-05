@@ -27,29 +27,26 @@ object DataGenerator {
     private val estateTypes = listOf("House", "Apartment", "Villa", "Condo", "Cottage")
     private val estateImageIds = arrayOf(
         arrayOf(
-            R.drawable.estate1_img01, R.drawable.estate1_img02, R.drawable.estate1_img03,
-            R.drawable.estate1_img04, R.drawable.estate1_img05),
+            R.drawable.estate_profil_1, R.drawable.estate1_img01, R.drawable.estate1_img02,
+            R.drawable.estate1_img03, R.drawable.estate1_img04, R.drawable.estate1_img05,
+            R.drawable.estate1_img06),
         arrayOf(
-            R.drawable.estate1_img01, R.drawable.estate1_img02, R.drawable.estate1_img03),
+            R.drawable.estate_profil_2, R.drawable.estate1_img01, R.drawable.estate1_img02),
         arrayOf(
-            R.drawable.estate2_img01, R.drawable.estate2_img02, R.drawable.estate2_img03,
-            R.drawable.estate2_img04, R.drawable.estate2_img05),
+            R.drawable.estate_profil_3, R.drawable.estate1_img01, R.drawable.estate1_img02,
+            R.drawable.estate1_img03),
         arrayOf(
-            R.drawable.estate2_img01, R.drawable.estate2_img02),
-        arrayOf(
-            R.drawable.estate3_img01, R.drawable.estate3_img02, R.drawable.estate3_img03,
-            R.drawable.estate3_img04, R.drawable.estate3_img05, R.drawable.estate3_img06),
-        arrayOf(
-            R.drawable.estate3_img01, R.drawable.estate3_img02, R.drawable.estate3_img03),
-        arrayOf(
-            R.drawable.estate4_img01, R.drawable.estate4_img02, R.drawable.estate4_img03,
+            R.drawable.estate_profil_4, R.drawable.estate4_img02, R.drawable.estate4_img03,
             R.drawable.estate4_img04, R.drawable.estate4_img05, R.drawable.estate4_img06,
-            R.drawable.estate4_img07),
+            R.drawable.estate4_img07, R.drawable.estate4_img08),
         arrayOf(
-            R.drawable.estate4_img01, R.drawable.estate4_img02, R.drawable.estate4_img03,
-            R.drawable.estate4_img04)
+            R.drawable.estate_profil_5, R.drawable.estate4_img02, R.drawable.estate4_img03,
+            R.drawable.estate4_img04, R.drawable.estate4_img05, R.drawable.estate4_img06),
+        arrayOf(
+            R.drawable.estate_profil_6, R.drawable.estate4_img02, R.drawable.estate4_img03),
+        arrayOf(
+            R.drawable.estate_profil_7, R.drawable.estate4_img02, R.drawable.estate4_img03)
     )
-
 
     fun generateAgentData(): List<Agent> {
         val agents = ArrayList<Agent>()

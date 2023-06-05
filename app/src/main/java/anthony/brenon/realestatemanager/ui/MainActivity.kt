@@ -2,6 +2,7 @@ package anthony.brenon.realestatemanager.ui
 
 
 import android.Manifest
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -35,6 +36,7 @@ class MainActivity : AppCompatActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
