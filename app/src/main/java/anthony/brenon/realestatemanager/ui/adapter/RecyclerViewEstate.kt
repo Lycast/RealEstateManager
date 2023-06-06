@@ -1,6 +1,7 @@
 package anthony.brenon.realestatemanager.ui.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +14,6 @@ class RecyclerViewEstate(
     private val monetary: Boolean
 ) : RecyclerView.Adapter<RecyclerViewEstate.ViewHolder>() {
 
-    private lateinit var binding: ItemEstateBinding
     private var estates: List<Estate> = arrayListOf()
 
     fun setData(estatesList: List<Estate>) {
@@ -23,7 +23,7 @@ class RecyclerViewEstate(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        binding = ItemEstateBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemEstateBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -35,20 +35,34 @@ class RecyclerViewEstate(
 
     inner class ViewHolder(
         private val itemBinding: ItemEstateBinding,
-    ) : RecyclerView.ViewHolder(itemBinding.root) {
+    ) : RecyclerView.ViewHolder(itemBinding.root), View.OnClickListener {
+
+        init {
+            // Set the click listener on the root view
+            itemBinding.root.setOnClickListener(this)
+        }
 
         fun bind(estate: Estate, onSelect: (Estate?) -> Unit) {
-
             itemBinding.apply {
                 if (estate.isSold()) cardLayoutImageView.setImageResource(R.drawable.sold)
                 else cardLayoutImageView.setImageBitmap(estate.picture)
                 cardLayoutTextView1.text = estate.type
                 cardLayoutTextView3.text = estate.getPrice(monetary)
                 cardLayoutTextView2.text = estate.addressCity
-                // bind your view here
-                binding.root.setOnClickListener {
-                    onSelect(estate)
-                }
+            }
+
+            // Store the onClick listener in the itemView's tag
+            itemView.tag = onSelect
+        }
+
+        @Suppress("UNCHECKED_CAST")
+        override fun onClick(view: View) {
+            // Retrieve the onClick listener from the itemView's tag and call it with the associated estate
+            val onSelect = itemView.tag as? (Estate?) -> Unit
+            val position = bindingAdapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+                val estate = estates[position]
+                onSelect?.invoke(estate)
             }
         }
     }
