@@ -46,7 +46,7 @@ object DataConverters {
 
     private fun compressImage(imageCompressed: ByteArray): ByteArray {
         var compressImage = imageCompressed
-        while (compressImage.size > 200000) {
+        while (compressImage.size > 120000) {
             val bitmap = BitmapFactory.decodeByteArray(compressImage, 0, compressImage.size)
             val resized = Bitmap.createScaledBitmap(
                 bitmap,

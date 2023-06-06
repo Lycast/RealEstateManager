@@ -37,7 +37,7 @@ data class Estate(
 
     fun isSold() = soldDate.isNotEmpty()
 
-    fun getPrice(monetary: Boolean) : String {
+    fun getPriceFormat(monetary: Boolean) : String {
         val dec = DecimalFormat("#,###")
         return if (monetary) "\u20AC ${dec.format(price.toInt())}"
         else "$ ${dec.format(Utils.convertDollarToEuro(price.toInt()))}"

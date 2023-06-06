@@ -47,7 +47,7 @@ class RecyclerViewEstate(
                 if (estate.isSold()) cardLayoutImageView.setImageResource(R.drawable.sold)
                 else cardLayoutImageView.setImageBitmap(estate.picture)
                 cardLayoutTextView1.text = estate.type
-                cardLayoutTextView3.text = estate.getPrice(monetary)
+                cardLayoutTextView3.text = estate.getPriceFormat(monetary)
                 cardLayoutTextView2.text = estate.addressCity
             }
 

@@ -76,7 +76,7 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
             detailsActivityTvDescription.text = estate.description
             detailsActivityTvType.text = estate.type
             viewModel.monetarySwitch.observe(viewLifecycleOwner) {
-                detailsActivityTvPrice.text = estate.getPrice(it)
+                detailsActivityTvPrice.text = estate.getPriceFormat(it)
             }
             detailsActivityTvSurface.text = estate.surface
             detailsActivityTvRoom.text = estate.roomsNumber
