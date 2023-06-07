@@ -82,12 +82,12 @@ class AddEstateFragment : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initRecyclerViewImage()
         set()
         listenerClickView()
     }
 
     private fun set() {
-        initRecyclerViewImage()
         estate = Estate(picture = BitmapFactory.decodeResource(resources, R.drawable.no_image), saleDate = Utils.todayDate)
         if (!Places.isInitialized()) Places.initialize(requireContext(), BuildConfig.MAPS_API_KEY)
         when {
@@ -331,7 +331,9 @@ class AddEstateFragment : Fragment(),
         }
 
         binding.dialIvDelete.setOnClickListener {
+            Log.i("TAG", "images before = $images")
             images.remove(image)
+            Log.i("TAG", "images after = $images")
             adapter.setData(images)
             binding.layoutMainAdd.visibility = View.VISIBLE
             binding.layoutImage.visibility = View.GONE

@@ -1,9 +1,9 @@
 package anthony.brenon.realestatemanager.ui.adapter
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import anthony.brenon.realestatemanager.databinding.ItemImageBinding
 
@@ -14,10 +14,10 @@ class RecyclerViewImage (
     private lateinit var binding: ItemImageBinding
     private var images: List<Bitmap> = listOf()
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setData(imagesList: List<Bitmap>) {
-        val diffResult = DiffUtil.calculateDiff(BitmapDiffCallback(images, imagesList))
-        images = imagesList
-        diffResult.dispatchUpdatesTo(this)
+        this.images = imagesList
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -43,21 +43,6 @@ class RecyclerViewImage (
             binding.root.setOnClickListener {
                 onSelect(image)
             }
-        }
-    }
-
-    class BitmapDiffCallback(private val oldList: List<Bitmap>, private val newList: List<Bitmap>) : DiffUtil.Callback() {
-
-        override fun getOldListSize(): Int { return oldList.size }
-
-        override fun getNewListSize(): Int { return newList.size }
-
-        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition] == newList[newItemPosition]
-        }
-
-        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition] === newList[newItemPosition]
         }
     }
 }
