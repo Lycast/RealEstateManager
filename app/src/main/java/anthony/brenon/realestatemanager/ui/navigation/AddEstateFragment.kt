@@ -151,7 +151,7 @@ class AddEstateFragment : Fragment(),
                         addEstateEtDescription.text.toString(),
                         addressStreet,
                         addEstateEtInterestingPoint.text.toString(),
-                        Utils.todayDate,
+                        estate.saleDate,
                         agent,
                     ).any { it.isNotEmpty() } || images.isNotEmpty()
                 ) {
@@ -170,12 +170,14 @@ class AddEstateFragment : Fragment(),
                         lng = lng,
                         interestingPoint = addEstateEtInterestingPoint.text.toString(),
                         saleDate = estate.saleDate,
+                        soldDate = estate.soldDate,
                         agentInChargeName = agent,
                         pictures = imagesByte.toBase64List(),
                         picture = images[0],
                         numberOfPicture = images.size
                     )
                     viewModel.insertEstate(estate)
+                    viewModel.selectThisEstate(estate)
                     Navigation.findNavController(binding.root).popBackStack()
                 } else {
                     Snackbar.make(
