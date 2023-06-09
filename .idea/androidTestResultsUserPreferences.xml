@@ -63,6 +63,7 @@
                   <entry key="Duration" value="90" />
                   <entry key="Nexus_5_API_30_Phone_xxhdpi" value="120" />
                   <entry key="Pixel_C_API_22" value="120" />
+                  <entry key="Pixel_C_API_26_Tablet" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
               </option>

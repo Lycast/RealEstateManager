@@ -24,7 +24,7 @@ Functionality :
 <img src="https://i.postimg.cc/mgytRDDR/Screenshot-20230601-105643.png" width="20%" height="20%">&ensp;
 <img src="https://i.postimg.cc/FKF1K4dS/Screenshot-20230601-105319.png" width="20%" height="20%">&ensp;
 <img src="https://i.postimg.cc/k5jG6pKp/Screenshot-20230601-105438.png" width="20%" height="20%">&ensp;
-<img src="https://i.postimg.cc/TwpwrJcY/Screenshot-20230601-105505.png" width="20%" height="20%">
+<img src="https://i.postimg.cc/TwpwrJcY/Screenshot-20230601-105505.png" width="20%" height="20%">&ensp;
 <img src="https://i.postimg.cc/B6kvNPh5/Screenshot-20230601-105619.png" width="20%" height="20%">&ensp;
 <img src="https://i.postimg.cc/g04swmMb/Screenshot-20230601-114430.png" width="20%" height="20%">&ensp;
 <img src="https://i.postimg.cc/yddPct5g/Screenshot-20230601-114643.png" width="20%" height="20%">&ensp;
