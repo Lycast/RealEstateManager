@@ -22,6 +22,7 @@ class NetworkUtilsInstrumentedTest {
 
     @Suppress("DEPRECATION")
     // for api 21 compatibility i can only use deprecated method
+    // activeNetworkInfo and isConnectedOrConnecting
     @Test
     fun isConnected_shouldReturnConnectivityStatus() {
         // Get the application context using InstrumentationRegistry

@@ -72,4 +72,5 @@
     <string name="loan_amount">Loan amount:</string>
     <string name="generate_data_for_example">Generate data for example</string>
     <string name="generate_more_estates_for_example">generate more estates for example</string>
+    <string name="a_new_property_has_been_added">A new property has been added</string>
 </resources>

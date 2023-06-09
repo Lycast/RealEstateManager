@@ -178,6 +178,12 @@ class AddEstateFragment : Fragment(),
                     )
                     viewModel.insertEstate(estate)
                     viewModel.selectThisEstate(estate)
+                    Snackbar.make(
+                        binding.root,
+                        getString(R.string.a_new_property_has_been_added),
+                        Snackbar.LENGTH_SHORT
+                    )
+                        .show()
                     Navigation.findNavController(binding.root).popBackStack()
                 } else {
                     Snackbar.make(
